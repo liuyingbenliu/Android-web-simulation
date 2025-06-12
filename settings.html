@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安卓15设置 - 完全复刻</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root {
+            --primary-color: #6750A4;
+            --primary-light: #EADDFF;
+            --surface-color: #FEF7FF;
+            --on-surface-color: #1D1B20;
+            --surface-variant: #E7E0EC;
+            --on-surface-variant: #49454F;
+            --header-height: 64px;
+            --footer-height: 56px;
+            --border-radius: 16px;
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --ripple-color: rgba(103, 80, 164, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--on-surface-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 顶部应用栏 */
+        .app-bar {
+            background-color: var(--surface-color);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 100;
+            position: relative;
+        }
+        
+        .app-bar .back-button {
+            background: none;
+            border: none;
+            color: var(--on-surface-color);
+            font-size: 24px;
+            margin-right: 16px;
+            cursor: pointer;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .app-bar .title {
+            font-size: 22px;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+        
+        .app-bar .actions {
+            margin-left: auto;
+            display: flex;
+        }
+        
+        .app-bar .action-button {
+            background: none;
+            border: none;
+            color: var(--on-surface-color);
+            font-size: 24px;
+            margin-left: 16px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 波纹效果 */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--ripple-color);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* 内容区域 */
+        .content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 导航抽屉 */
+        .nav-drawer {
+            width: 280px;
+            background-color: var(--surface-color);
+            height: 100%;
+            overflow-y: auto;
+            padding: 16px 0;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            transition: var(--transition);
+            z-index: 10;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 28px;
+            margin: 0 12px 4px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--surface-variant);
+        }
+        
+        .nav-item .icon {
+            font-size: 24px;
+            margin-right: 12px;
+            color: var(--on-surface-variant);
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item.active .icon {
+            color: var(--primary-color);
+        }
+        
+        .nav-item .label {
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item.active .label {
+            color: var(--primary-color);
+        }
+        
+        .nav-divider {
+            height: 1px;
+            background-color: rgba(0,0,0,0.1);
+            margin: 16px 0;
+        }
+        
+        .nav-header {
+            padding: 16px 24px 8px;
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background-color: #f5f5f5;
+            transition: transform 0.3s ease;
+        }
+        
+        .section {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            transform-origin: top center;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-item .icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--surface-variant);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .setting-item:hover .icon {
+            background-color: var(--primary-light);
+        }
+        
+        .setting-item .details {
+            flex: 1;
+        }
+        
+        .setting-item .title {
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+        
+        .setting-item:hover .title {
+            color: var(--primary-color);
+        }
+        
+        .setting-item .subtitle {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+        }
+        
+        .setting-item .action {
+            color: var(--on-surface-variant);
+            transition: transform 0.3s ease;
+        }
+        
+        .setting-item:hover .action {
+            transform: translateX(5px);
+        }
+        
+        /* 开关控件 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+        
+        /* 搜索栏 */
+        .search-container {
+            padding: 16px;
+            background-color: var(--surface-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--surface-variant);
+            border-radius: 28px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        .search-bar .icon {
+            color: var(--on-surface-variant);
+            margin-right: 8px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+        }
+        
+        /* 底部导航 */
+        .bottom-nav {
+            display: flex;
+            background-color: var(--surface-color);
+            height: var(--footer-height);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .nav-tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--on-surface-variant);
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-tab .icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-tab:hover .icon {
+            transform: translateY(-3px);
+        }
+        
+        .nav-tab.active .icon {
+            transform: scale(1.1);
+        }
+        
+        .nav-tab .indicator {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            width: 50%;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-tab.active .indicator {
+            transform: scaleX(1);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-drawer {
+                position: fixed;
+                left: -280px;
+                z-index: 1000;
+            }
+            
+            .nav-drawer.open {
+                left: 0;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            }
+            
+            .app-bar .menu-button {
+                display: block;
+            }
+            
+            .main-content {
+                padding: 8px;
+            }
+            
+            .section {
+                border-radius: 12px;
+            }
+        }
+        
+        /* 子菜单页面 */
+        .submenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--surface-color);
+            z-index: 100;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding-top: var(--header-height);
+            display: none;
+        }
+        
+        .submenu.active {
+            transform: translateX(0);
+            display: block;
+        }
+        
+        .submenu-header {
+            padding: 24px 24px 16px;
+            font-size: 24px;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            background: var(--surface-color);
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        /* 动画效果 */
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'liga';
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(103, 80, 164, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            height: 4px;
+            background-color: var(--surface-variant);
+            border-radius: 2px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        /* 设置组 */
+        .setting-group {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .group-header {
+            padding: 16px;
+            background-color: var(--surface-variant);
+            font-weight: 500;
+        }
+        
+        /* 自定义单选按钮 */
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .radio-option:last-child {
+            border-bottom: none;
+        }
+        
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--on-surface-variant);
+            margin-right: 16px;
+            position: relative;
+        }
+        
+        .radio-option.selected .radio-circle {
+            border-color: var(--primary-color);
+        }
+        
+        .radio-option.selected .radio-circle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        /* 通知指示器 */
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background-color: #f44336;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部应用栏 -->
+    <div class="app-bar">
+        <button class="back-button material-icons" id="backButton">arrow_back</button>
+        <div class="title" id="pageTitle">设置</div>
+        <div class="actions">
+            <button class="action-button material-icons" id="searchButton">search</button>
+            <button class="action-button material-icons" id="moreButton">more_vert</button>
+        </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="content">
+        <!-- 导航抽屉 -->
+        <div class="nav-drawer" id="navDrawer">
+            <div class="search-container" id="searchContainer">
+                <div class="search-bar">
+                    <span class="material-icons icon">search</span>
+                    <input type="text" placeholder="搜索设置" id="searchInput">
+                </div>
+            </div>
+            
+            <div class="nav-item active" data-target="main">
+                <span class="material-icons icon">home</span>
+                <span class="label">首页</span>
+            </div>
+            
+            <div class="nav-divider"></div>
+            
+            <div class="nav-header">设备</div>
+            <div class="nav-item" data-target="network">
+                <span class="material-icons icon">wifi</span>
+                <span class="label">网络和互联网</span>
+                <div class="notification-dot"></div>
+            </div>
+            <div class="nav-item" data-target="devices">
+                <span class="material-icons icon">devices</span>
+                <span class="label">已连接的设备</span>
+            </div>
+            <div class="nav-item" data-target="battery">
+                <span class="material-icons icon">battery_full</span>
+                <span class="label">电池</span>
+            </div>
+            <div class="nav-item" data-target="display">
+                <span class="material-icons icon">display_settings</span>
+                <span class="label">显示</span>
+            </div>
+            <div class="nav-item" data-target="sound">
+                <span class="material-icons icon">volume_up</span>
+                <span class="label">声音</span>
+            </div>
+            <div class="nav-item" data-target="storage">
+                <span class="material-icons icon">storage</span>
+                <span class="label">存储</span>
+                <div class="notification-dot"></div>
+            </div>
+            
+            <div class="nav-divider"></div>
+            
+            <div class="nav-header">个性化</div>
+            <div class="nav-item" data-target="wallpaper">
+                <span class="material-icons icon">wallpaper</span>
+                <span class="label">壁纸与样式</span>
+            </div>
+            <div class="nav-item" data-target="notifications">
+                <span class="material-icons icon">notifications</span>
+                <span class="label">通知</span>
+            </div>
+            <div class="nav-item" data-target="security">
+                <span class="material-icons icon">lock</span>
+                <span class="label">安全与隐私</span>
+            </div>
+            <div class="nav-item" data-target="location">
+                <span class="material-icons icon">location_on</span>
+                <span class="label">位置信息</span>
+            </div>
+            
+            <div class="nav-divider"></div>
+            
+            <div class="nav-header">系统</div>
+            <div class="nav-item" data-target="language">
+                <span class="material-icons icon">language</span>
+                <span class="label">语言与输入法</span>
+            </div>
+            <div class="nav-item" data-target="date">
+                <span class="material-icons icon">date_range</span>
+                <span class="label">日期与时间</span>
+            </div>
+            <div class="nav-item" data-target="accessibility">
+                <span class="material-icons icon">accessibility</span>
+                <span class="label">无障碍</span>
+            </div>
+            <div class="nav-item" data-target="update">
+                <span class="material-icons icon">system_update</span>
+                <span class="label">系统更新</span>
+                <div class="notification-dot"></div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div class="main-content" id="mainContent">
+            <div class="section fade-in">
+                <div class="section-title">推荐设置</div>
+                <div class="setting-item" data-submenu="network">
+                    <div class="icon">
+                        <span class="material-icons">wifi</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">网络和互联网</div>
+                        <div class="subtitle">Wi-Fi, 移动网络, 热点</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="notifications">
+                    <div class="icon">
+                        <span class="material-icons">notifications</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">通知</div>
+                        <div class="subtitle">管理应用通知</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="battery">
+                    <div class="icon">
+                        <span class="material-icons">battery_full</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">电池</div>
+                        <div class="subtitle">86% 剩余 - 约9小时</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section fade-in">
+                <div class="section-title">隐私与安全</div>
+                <div class="setting-item" data-submenu="security">
+                    <div class="icon">
+                        <span class="material-icons">lock</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">安全</div>
+                        <div class="subtitle">屏幕锁定、设备加密</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="location">
+                    <div class="icon">
+                        <span class="material-icons">location_on</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">位置信息</div>
+                        <div class="subtitle">开启</div>
+                    </div>
+                    <div class="action">
+                        <label class="switch">
+                            <input type="checkbox" checked id="locationToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="privacy">
+                    <div class="icon">
+                        <span class="material-icons">privacy_tip</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">隐私</div>
+                        <div class="subtitle">权限管理、广告设置</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section fade-in">
+                <div class="section-title">个性化</div>
+                <div class="setting-item" data-submenu="wallpaper">
+                    <div class="icon">
+                        <span class="material-icons">wallpaper</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">壁纸与样式</div>
+                        <div class="subtitle">更改壁纸、图标和颜色</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="display">
+                    <div class="icon">
+                        <span class="material-icons">display_settings</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">显示</div>
+                        <div class="subtitle">亮度、深色主题、字体大小</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="sound">
+                    <div class="icon">
+                        <span class="material-icons">volume_up</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">声音</div>
+                        <div class="subtitle">铃声、通知、震动</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section fade-in">
+                <div class="section-title">应用</div>
+                <div class="setting-item" data-submenu="apps">
+                    <div class="icon">
+                        <span class="material-icons">apps</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">应用管理</div>
+                        <div class="subtitle">查看所有应用、权限</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="default">
+                    <div class="icon">
+                        <span class="material-icons">settings_applications</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">默认应用</div>
+                        <div class="subtitle">浏览器、电话、短信</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section fade-in">
+                <div class="section-title">系统</div>
+                <div class="setting-item" data-submenu="language">
+                    <div class="icon">
+                        <span class="material-icons">language</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">语言与输入法</div>
+                        <div class="subtitle">中文(简体)</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="update">
+                    <div class="icon">
+                        <span class="material-icons">system_update</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">系统更新</div>
+                        <div class="subtitle">您的系统已是最新版本</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+                <div class="setting-item" data-submenu="about">
+                    <div class="icon">
+                        <span class="material-icons">info</span>
+                    </div>
+                    <div class="details">
+                        <div class="title">关于手机</div>
+                        <div class="subtitle">Android 15 · 设备信息</div>
+                    </div>
+                    <div class="action">
+                        <span class="material-icons">chevron_right</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 网络和互联网子菜单 -->
+    <div class="submenu" id="networkSubmenu">
+        <div class="submenu-header">网络和互联网</div>
+        <div class="section slide-in">
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">wifi</span>
+                </div>
+                <div class="details">
+                    <div class="title">Wi-Fi</div>
+                    <div class="subtitle">已连接到 HomeNetwork</div>
+                </div>
+                <div class="action">
+                    <label class="switch">
+                        <input type="checkbox" checked id="wifiToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">sim_card</span>
+                </div>
+                <div class="details">
+                    <div class="title">SIM 卡和移动网络</div>
+                    <div class="subtitle">中国移动 · 5G</div>
+                </div>
+                <div class="action">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">bluetooth</span>
+                </div>
+                <div class="details">
+                    <div class="title">蓝牙</div>
+                    <div class="subtitle">开启</div>
+                </div>
+                <div class="action">
+                    <label class="switch">
+                        <input type="checkbox" checked id="bluetoothToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">share</span>
+                </div>
+                <div class="details">
+                    <div class="title">热点和网络共享</div>
+                    <div class="subtitle">便携式热点、蓝牙网络共享</div>
+                </div>
+                <div class="action">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">vpn_lock</span>
+                </div>
+                <div class="details">
+                    <div class="title">VPN</div>
+                    <div class="subtitle">未连接</div>
+                </div>
+                <div class="action">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section slide-in">
+            <div class="section-title">已保存的网络</div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">wifi</span>
+                </div>
+                <div class="details">
+                    <div class="title">Office_WiFi</div>
+                    <div class="subtitle">已保存</div>
+                </div>
+                <div class="action">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">wifi</span>
+                </div>
+                <div class="details">
+                    <div class="title">Cafe_Network</div>
+                    <div class="subtitle">已保存</div>
+                </div>
+                <div class="action">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 电池子菜单 -->
+    <div class="submenu" id="batterySubmenu">
+        <div class="submenu-header">电池</div>
+        <div class="section slide-in">
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">battery_full</span>
+                </div>
+                <div class="details">
+                    <div class="title">电池状态</div>
+                    <div class="subtitle">86% - 预计剩余9小时</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" style="width: 86%"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">bolt</span>
+                </div>
+                <div class="details">
+                    <div class="title">省电模式</div>
+                    <div class="subtitle">延长电池使用时间</div>
+                </div>
+                <div class="action">
+                    <label class="switch">
+                        <input type="checkbox" id="batterySaverToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">schedule</span>
+                </div>
+                <div class="details">
+                    <div class="title">自适应电池</div>
+                    <div class="subtitle">根据使用习惯优化电池</div>
+                </div>
+                <div class="action">
+                    <label class="switch">
+                        <input type="checkbox" checked id="adaptiveBatteryToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section slide-in">
+            <div class="section-title">电池用量</div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">phone_android</span>
+                </div>
+                <div class="details">
+                    <div class="title">屏幕</div>
+                    <div class="subtitle">2小时12分钟 - 42%</div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">wifi</span>
+                </div>
+                <div class="details">
+                    <div class="title">Wi-Fi</div>
+                    <div class="subtitle">18%</div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">signal_cellular_alt</span>
+                </div>
+                <div class="details">
+                    <div class="title">移动网络</div>
+                    <div class="subtitle">12%</div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="icon">
+                    <span class="material-icons">apps</span>
+                </div>
+                <div class="details">
+                    <div class="title">应用</div>
+                    <div class="subtitle">查看应用电池用量</div>
+                </div>
+                <div class="action">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+        <div class="nav-tab active" data-tab="home">
+            <span class="material-icons icon">settings</span>
+            <span>设置</span>
+            <div class="indicator"></div>
+        </div>
+        <div class="nav-tab" data-tab="notifications">
+            <span class="material-icons icon">notifications</span>
+            <span>通知</span>
+            <div class="indicator"></div>
+        </div>
+        <div class="nav-tab" data-tab="battery">
+            <span class="material-icons icon">battery_full</span>
+            <span>电池</span>
+            <div class="indicator"></div>
+        </div>
+        <div class="nav-tab" data-tab="storage">
+            <span class="material-icons icon">storage</span>
+            <span>存储</span>
+            <div class="indicator"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建波纹效果
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+                
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+                circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+                circle.classList.add('ripple');
+                
+                const ripple = button.getElementsByClassName('ripple')[0];
+                if (ripple) ripple.remove();
+                
+                button.appendChild(circle);
+            }
+            
+            // 添加波纹效果到所有可点击元素
+            const rippleElements = document.querySelectorAll('.nav-item, .setting-item, .action-button, .back-button, .nav-tab');
+            rippleElements.forEach(el => {
+                el.addEventListener('click', createRipple);
+            });
+            
+            // 菜单按钮
+            const menuButton = document.getElementById('menuButton');
+            const navDrawer = document.getElementById('navDrawer');
+            
+            menuButton.addEventListener('click', function() {
+                navDrawer.classList.toggle('open');
+            });
+            
+            // 返回按钮
+            const backButton = document.getElementById('backButton');
+            const mainContent = document.getElementById('mainContent');
+            const pageTitle = document.getElementById('pageTitle');
+            const submenus = document.querySelectorAll('.submenu');
+            
+            backButton.addEventListener('click', function() {
+                submenus.forEach(submenu => {
+                    submenu.classList.remove('active');
+                });
+                backButton.style.display = 'none';
+                mainContent.style.display = 'block';
+                pageTitle.textContent = '设置';
+            });
+            
+            // 设置项点击打开子菜单
+            const settingItems = document.querySelectorAll('.setting-item');
+            
+            settingItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const submenuId = this.getAttribute('data-submenu');
+                    if (submenuId) {
+                        const submenu = document.getElementById(submenuId + 'Submenu');
+                        if (submenu) {
+                            submenu.classList.add('active');
+                            mainContent.style.display = 'none';
+                            backButton.style.display = 'flex';
+                            pageTitle.textContent = this.querySelector('.title').textContent;
+                        }
+                    }
+                });
+            });
+            
+            // 导航项点击
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    if (target === 'main') {
+                        // 返回主菜单
+                        submenus.forEach(submenu => {
+                            submenu.classList.remove('active');
+                        });
+                        mainContent.style.display = 'block';
+                        backButton.style.display = 'none';
+                        pageTitle.textContent = '设置';
+                    } else {
+                        // 打开对应的子菜单
+                        const submenu = document.getElementById(target + 'Submenu');
+                        if (submenu) {
+                            submenu.classList.add('active');
+                            mainContent.style.display = 'none';
+                            backButton.style.display = 'flex';
+                            pageTitle.textContent = this.querySelector('.label').textContent;
+                        }
+                    }
+                    
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 在移动端点击后关闭抽屉
+                    if (window.innerWidth <= 768) {
+                        navDrawer.classList.remove('open');
+                    }
+                });
+            });
+            
+            // 底部导航切换
+            const navTabs = document.querySelectorAll('.nav-tab');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 模拟切换到不同标签页
+                    pageTitle.textContent = this.querySelector('span:not(.icon)').textContent;
+                });
+            });
+            
+            // 开关状态变化反馈
+            const toggles = document.querySelectorAll('input[type="checkbox"]');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        // 添加视觉反馈
+                        const parent = this.closest('.setting-item');
+                        if (parent) {
+                            parent.style.backgroundColor = 'rgba(103, 80, 164, 0.05)';
+                            setTimeout(() => {
+                                parent.style.backgroundColor = '';
+                            }, 300);
+                        }
+                    }
+                });
+            });
+            
+            // 搜索功能
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('focus', function() {
+                this.closest('.search-bar').style.boxShadow = '0 0 0 2px var(--primary-light)';
+            });
+            
+            searchInput.addEventListener('blur', function() {
+                this.closest('.search-bar').style.boxShadow = '';
+            });
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                if (searchTerm.length > 0) {
+                    // 模拟搜索功能
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // 显示搜索结果
+                    document.querySelectorAll('.setting-item').forEach(item => {
+                        const title = item.querySelector('.title').textContent.toLowerCase();
+                        if (title.includes(searchTerm)) {
+                            item.closest('.section').style.display = 'block';
+                        }
+                    });
+                } else {
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.style.display = 'block';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
