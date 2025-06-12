@@ -18,24 +18,55 @@
             --primary: #6200ee;
             --primary-variant: #3700b3;
             --secondary: #03dac6;
-            --surface: #ffffff;
-            --background: #f5f5f5;
+            --surface: #1e1e1e;
+            --background: #121212;
             --on-primary: #ffffff;
             --on-secondary: #000000;
+            --on-surface: #ffffff;
+            --error: #cf6679;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --elevated-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :root.light-theme {
+            --surface: #ffffff;
+            --background: #f5f5f5;
             --on-surface: #000000;
+            --on-secondary: #000000;
             --error: #b00020;
             --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             --elevated-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         body {
-            background-color: var(--background);
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #0d1b2a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: var(--on-surface);
             height: 100vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.5s ease;
+        }
+
+        body.light-theme {
+            background: linear-gradient(-45deg, #f5f7fa, #e4e7eb, #d1d9e0, #c3cfe2);
+            background-size: 400% 400%;
+            animation: gradientLightBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes gradientLightBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         /* 顶部状态栏 */
@@ -123,6 +154,10 @@
         
         .welcome-subtitle {
             font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .light-theme .welcome-subtitle {
             color: rgba(0, 0, 0, 0.6);
         }
         
@@ -148,6 +183,10 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .light-theme .app-icon {
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
@@ -175,7 +214,7 @@
         .app-icon span {
             font-size: 14px;
             font-weight: 500;
-            color: rgba(0, 0, 0, 0.87);
+            color: var(--on-surface);
         }
         
         .app-icon::after {
@@ -258,25 +297,37 @@
         .setting-section-title {
             font-size: 16px;
             font-weight: 500;
-            color: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+        
+        .light-theme .setting-section-title {
+            color: rgba(0, 0, 0, 0.6);
         }
         
         .setting-item {
             display: flex;
             align-items: center;
             padding: 16px;
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             margin-bottom: 8px;
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
         
+        .light-theme .setting-item {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
         .setting-item:hover {
-            background-color: rgba(0, 0, 0, 0.03);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        
+        .light-theme .setting-item:hover {
+            background-color: rgba(0, 0, 0, 0.06);
         }
         
         .setting-icon {
@@ -303,14 +354,23 @@
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 4px;
+            color: var(--on-surface);
         }
         
         .setting-subtitle {
             font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .light-theme .setting-subtitle {
             color: rgba(0, 0, 0, 0.6);
         }
         
         .setting-arrow {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .light-theme .setting-arrow {
             color: rgba(0, 0, 0, 0.54);
         }
         
@@ -359,12 +419,30 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 8px;
+            color: var(--on-surface);
         }
         
         .device-version {
             font-size: 16px;
-            color: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .device-version:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-theme .device-version {
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .light-theme .device-version:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
         
         .info-grid {
@@ -376,22 +454,31 @@
         }
         
         .info-card {
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 16px;
             box-shadow: var(--shadow);
             text-align: left;
         }
         
+        .light-theme .info-card {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
         .info-label {
             font-size: 14px;
-            color: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 8px;
+        }
+        
+        .light-theme .info-label {
+            color: rgba(0, 0, 0, 0.6);
         }
         
         .info-value {
             font-size: 16px;
             font-weight: 500;
+            color: var(--on-surface);
         }
         
         .developer-message {
@@ -409,6 +496,73 @@
         .developer-message.show {
             opacity: 1;
             transform: translateY(0);
+        }
+        
+        /* 开发者选项 */
+        .developer-options {
+            display: none;
+        }
+        
+        .developer-options.show {
+            display: block;
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+        
+        .toggle-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--on-surface);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
         
         /* 应用页面 */
@@ -471,13 +625,18 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 16px;
+            color: var(--on-surface);
         }
         
         .app-description {
             font-size: 16px;
-            color: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             max-width: 500px;
             line-height: 1.6;
+        }
+        
+        .light-theme .app-description {
+            color: rgba(0, 0, 0, 0.6);
         }
         
         /* 响应式调整 */
@@ -492,6 +651,34 @@
                 grid-template-columns: repeat(4, 1fr);
                 max-width: 800px;
             }
+        }
+        
+        /* 开发者选项提示 */
+        .dev-alert {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dev-alert.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .light-theme .dev-alert {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -644,6 +831,37 @@
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
             </div>
+            
+            <!-- 开发者选项 -->
+            <div class="setting-section developer-options" id="developer-options">
+                <h2 class="setting-section-title">开发者选项</h2>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">developer_mode</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">主题设置</div>
+                        <div class="setting-subtitle">切换暗色/亮色模式</div>
+                    </div>
+                    <div class="toggle-container">
+                        <span class="toggle-label">暗色模式</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">power_settings_new</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">关闭开发者选项</div>
+                        <div class="setting-subtitle">隐藏高级设置选项</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+            </div>
         </div>
         
         <!-- 关于页面 -->
@@ -661,7 +879,7 @@
                 </div>
                 
                 <h2 class="device-name">Pixel Ultra</h2>
-                <p class="device-version">Android 12 | 安全补丁 2023年8月5日</p>
+                <p class="device-version" id="version-text">Android 12 | 安全补丁 2023年8月5日</p>
                 
                 <div class="info-grid">
                     <div class="info-card">
@@ -710,6 +928,12 @@
         <div class="app-content" id="app-content">
             <!-- 应用内容由JS动态生成 -->
         </div>
+    </div>
+    
+    <!-- 开发者选项提示 -->
+    <div class="dev-alert" id="dev-alert">
+        <i class="material-icons">info</i>
+        <span>开发者选项已开启</span>
     </div>
     
     <script>
@@ -878,12 +1102,29 @@
                 settingsPanel.style.display = 'none';
                 aboutPage.style.display = 'flex';
                 setTimeout(() => aboutPage.style.opacity = '1', 10);
-                
-                // 重置开发者消息
-                const message = document.getElementById('developer-message');
-                message.classList.remove('show');
-                clickCount = 0;
             }, 400);
+        }
+        
+        // 显示开发者消息
+        function showDeveloperMessage() {
+            const message = document.getElementById('developer-message');
+            message.classList.add('show');
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 5000);
+        }
+        
+        // 显示底部提示
+        function showDevAlert() {
+            const alert = document.getElementById('dev-alert');
+            alert.classList.add('show');
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 3000);
         }
         
         // 初始化
@@ -936,27 +1177,61 @@
                 }, 400);
             });
             
-            // 关于设置项点击事件
-            let clickCount = 0;
-            document.getElementById('about-setting').addEventListener('click', function() {
-                openAboutPage();
-            });
+            // 打开关于页面
+            document.getElementById('about-setting').addEventListener('click', openAboutPage);
             
-            // 关于页面点击事件（用于开发者选项）
-            document.getElementById('about-page').addEventListener('click', function() {
+            // 开发者选项计数
+            let clickCount = 0;
+            const versionText = document.getElementById('version-text');
+            
+            versionText.addEventListener('click', function() {
+                const developerOptions = document.getElementById('developer-options');
+                
+                if (developerOptions.classList.contains('show')) {
+                    // 如果开发者选项已经开启，显示提示
+                    showDevAlert();
+                    return;
+                }
+                
                 clickCount++;
                 
-                if (clickCount >= 6) {
-                    const message = document.getElementById('developer-message');
-                    message.classList.add('show');
-                    
+                if (clickCount === 6) {
+                    // 显示开发者选项
+                    developerOptions.classList.add('show');
+                    // 显示开发者消息
+                    showDeveloperMessage();
                     // 重置计数
                     clickCount = 0;
+                } else if (clickCount > 0) {
+                    // 显示点击次数提示
+                    const remaining = 6 - clickCount;
+                    versionText.textContent = `再点击 ${remaining} 次开启开发者选项`;
                     
-                    // 10秒后隐藏消息
+                    // 3秒后恢复原文本
                     setTimeout(() => {
-                        message.classList.remove('show');
-                    }, 3000);
+                        if (clickCount < 6) {
+                            versionText.textContent = 'Android 12 | 安全补丁 2023年8月5日';
+                        }
+                    }, 2000);
+                }
+            });
+            
+            // 关闭开发者选项
+            document.querySelector('.developer-options .setting-item:last-child').addEventListener('click', function() {
+                const developerOptions = document.getElementById('developer-options');
+                developerOptions.classList.remove('show');
+                showDevAlert();
+            });
+            
+            // 主题切换
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('light-theme');
+                    document.documentElement.classList.add('light-theme');
+                } else {
+                    document.body.classList.remove('light-theme');
+                    document.documentElement.classList.remove('light-theme');
                 }
             });
         });
