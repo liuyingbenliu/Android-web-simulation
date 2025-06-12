@@ -57,16 +57,40 @@
             animation: gradientLightBG 15s ease infinite;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* 泡泡背景 */
+        .bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
-
-        @keyframes gradientLightBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.2);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
         }
         
         /* 顶部状态栏 */
@@ -520,6 +544,7 @@
             color: var(--on-surface);
         }
         
+        /* Material Design 开关样式 */
         .toggle-switch {
             position: relative;
             display: inline-block;
@@ -563,6 +588,44 @@
         
         input:checked + .slider:before {
             transform: translateX(26px);
+        }
+        
+        /* 应用显示设置 */
+        .app-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-theme .app-toggle-row {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-toggle-row:last-child {
+            border-bottom: none;
+        }
+        
+        .app-toggle-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .app-toggle-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(98, 0, 238, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .app-toggle-icon i {
+            font-size: 18px;
+            color: var(--primary);
         }
         
         /* 应用页面 */
@@ -680,9 +743,46 @@
             color: #333;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+        
+        /* 声音控制 */
+        .sound-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 100;
+        }
+        
+        .sound-control i {
+            color: var(--on-primary);
+            font-size: 24px;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes gradientLightBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
 </head>
 <body>
+    <!-- 泡泡背景 -->
+    <div class="bubbles" id="bubbles"></div>
+    
     <!-- 顶部状态栏 -->
     <div class="status-bar">
         <div class="battery-info">
@@ -851,7 +951,108 @@
                         </label>
                     </div>
                 </div>
+                
+                <!-- 白噪音开关 -->
                 <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">audiotrack</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">白噪音</div>
+                        <div class="setting-subtitle">下雨背景音效</div>
+                    </div>
+                    <div class="toggle-container">
+                        <span class="toggle-label">开启</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="white-noise-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- 应用显示设置 -->
+                <div class="setting-item" style="flex-direction: column; align-items: flex-start; padding: 0;">
+                    <div style="padding: 16px; width: 100%;">
+                        <div class="setting-title">应用显示设置</div>
+                        <div class="setting-subtitle">选择要在主屏幕显示的应用</div>
+                    </div>
+                    <div style="width: 100%; padding: 0 16px 16px;">
+                        <div class="app-toggle-row">
+                            <div class="app-toggle-name">
+                                <div class="app-toggle-icon">
+                                    <i class="material-icons">message</i>
+                                </div>
+                                <span>消息</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="app-toggle" data-app="messages" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="app-toggle-row">
+                            <div class="app-toggle-name">
+                                <div class="app-toggle-icon">
+                                    <i class="material-icons">contacts</i>
+                                </div>
+                                <span>通讯录</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="app-toggle" data-app="contacts" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="app-toggle-row">
+                            <div class="app-toggle-name">
+                                <div class="app-toggle-icon">
+                                    <i class="material-icons">photo_camera</i>
+                                </div>
+                                <span>相机</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="app-toggle" data-app="camera" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="app-toggle-row">
+                            <div class="app-toggle-name">
+                                <div class="app-toggle-icon">
+                                    <i class="material-icons">photo_library</i>
+                                </div>
+                                <span>相册</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="app-toggle" data-app="gallery" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="app-toggle-row">
+                            <div class="app-toggle-name">
+                                <div class="app-toggle-icon">
+                                    <i class="material-icons">music_note</i>
+                                </div>
+                                <span>音乐</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="app-toggle" data-app="music" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="app-toggle-row">
+                            <div class="app-toggle-name">
+                                <div class="app-toggle-icon">
+                                    <i class="material-icons">map</i>
+                                </div>
+                                <span>地图</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="app-toggle" data-app="maps" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setting-item" id="close-dev-options">
                     <div class="setting-icon">
                         <i class="material-icons">power_settings_new</i>
                     </div>
@@ -936,7 +1137,44 @@
         <span>开发者选项已开启</span>
     </div>
     
+    <!-- 声音控制按钮 -->
+    <div class="sound-control" id="sound-control">
+        <i class="material-icons" id="sound-icon">volume_up</i>
+    </div>
+    
+    <!-- 白噪音音频 -->
+    <audio id="rain-audio" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1246.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
+        // 创建泡泡背景
+        function createBubbles() {
+            const bubbles = document.getElementById('bubbles');
+            const bubbleCount = 20;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // 随机大小
+                const size = Math.random() * 80 + 20;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                
+                // 随机位置
+                bubble.style.left = `${Math.random() * 100}%`;
+                
+                // 随机动画延迟
+                bubble.style.animationDelay = `${Math.random() * 15}s`;
+                
+                // 随机动画时长
+                bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                bubbles.appendChild(bubble);
+            }
+        }
+        
         // 更新时间
         function updateTime() {
             const now = new Date();
@@ -963,276 +1201,205 @@
             
             document.getElementById('weather-info').textContent = 
                 `${weatherConditions[randomIndex]} ${temperatures[randomIndex]}`;
-            
-            // 更新天气图标
-            const icons = {
-                '晴': 'wb_sunny',
-                '多云': 'cloud',
-                '小雨': 'grain',
-                '局部阵雨': 'thunderstorm',
-                '晴朗': 'wb_sunny'
-            };
-            
-            const weatherIcon = document.querySelector('.weather-info i');
-            weatherIcon.textContent = icons[weatherConditions[randomIndex]];
-        }
-        
-        // 应用打开处理
-        function openApp(appName) {
-            const appPage = document.getElementById('app-page');
-            const appTitle = document.getElementById('app-title');
-            const appContent = document.getElementById('app-content');
-            
-            // 设置应用标题
-            const appNames = {
-                'messages': '消息',
-                'contacts': '通讯录',
-                'camera': '相机',
-                'gallery': '相册',
-                'music': '音乐',
-                'maps': '地图'
-            };
-            
-            appTitle.textContent = appNames[appName];
-            
-            // 设置应用内容
-            let appHtml = '';
-            let icon = '';
-            
-            switch(appName) {
-                case 'messages':
-                    icon = 'message';
-                    appHtml = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${icon}</i>
-                        </div>
-                        <h2 class="app-name">消息</h2>
-                        <p class="app-description">
-                            您有3条未读消息<br>
-                            最近消息来自：李明、张华和王芳
-                        </p>
-                    `;
-                    break;
-                case 'contacts':
-                    icon = 'contacts';
-                    appHtml = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${icon}</i>
-                        </div>
-                        <h2 class="app-name">通讯录</h2>
-                        <p class="app-description">
-                            您有128个联系人<br>
-                            最近联系：李明、张华和王芳
-                        </p>
-                    `;
-                    break;
-                case 'camera':
-                    icon = 'photo_camera';
-                    appHtml = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${icon}</i>
-                        </div>
-                        <h2 class="app-name">相机</h2>
-                        <p class="app-description">
-                            准备捕捉精彩瞬间<br>
-                            点击拍照按钮开始
-                        </p>
-                    `;
-                    break;
-                case 'gallery':
-                    icon = 'photo_library';
-                    appHtml = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${icon}</i>
-                        </div>
-                        <h2 class="app-name">相册</h2>
-                        <p class="app-description">
-                            您有86张照片<br>
-                            最新照片：08月12日
-                        </p>
-                    `;
-                    break;
-                case 'music':
-                    icon = 'music_note';
-                    appHtml = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${icon}</i>
-                        </div>
-                        <h2 class="app-name">音乐</h2>
-                        <p class="app-description">
-                            正在播放：夏日微风<br>
-                            艺术家：自然之声
-                        </p>
-                    `;
-                    break;
-                case 'maps':
-                    icon = 'map';
-                    appHtml = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${icon}</i>
-                        </div>
-                        <h2 class="app-name">地图</h2>
-                        <p class="app-description">
-                            当前位置：科技园区<br>
-                            搜索目的地开始导航
-                        </p>
-                    `;
-                    break;
-            }
-            
-            appContent.innerHTML = appHtml;
-            appPage.style.display = 'flex';
-            setTimeout(() => appPage.style.opacity = '1', 10);
-        }
-        
-        // 打开设置面板
-        function openSettings() {
-            const settingsPanel = document.getElementById('settings-panel');
-            settingsPanel.style.display = 'flex';
-            setTimeout(() => settingsPanel.style.opacity = '1', 10);
-        }
-        
-        // 打开关于页面
-        function openAboutPage() {
-            const aboutPage = document.getElementById('about-page');
-            const settingsPanel = document.getElementById('settings-panel');
-            
-            settingsPanel.style.opacity = '0';
-            setTimeout(() => {
-                settingsPanel.style.display = 'none';
-                aboutPage.style.display = 'flex';
-                setTimeout(() => aboutPage.style.opacity = '1', 10);
-            }, 400);
-        }
-        
-        // 显示开发者消息
-        function showDeveloperMessage() {
-            const message = document.getElementById('developer-message');
-            message.classList.add('show');
-            
-            // 5秒后自动隐藏
-            setTimeout(() => {
-                message.classList.remove('show');
-            }, 5000);
-        }
-        
-        // 显示底部提示
-        function showDevAlert() {
-            const alert = document.getElementById('dev-alert');
-            alert.classList.add('show');
-            
-            // 3秒后自动隐藏
-            setTimeout(() => {
-                alert.classList.remove('show');
-            }, 3000);
         }
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始化时间和电量
+            // 创建泡泡背景
+            createBubbles();
+            
+            // 初始化时间
             updateTime();
+            setInterval(updateTime, 1000);
+            
+            // 初始化电池状态
             getBatteryStatus();
+            setInterval(getBatteryStatus, 60000);
+            
+            // 初始化天气
             getWeather();
             
-            // 设置时间更新间隔
-            setInterval(updateTime, 1000);
-            setInterval(getBatteryStatus, 30000); // 每30秒更新一次电量
-            setInterval(getWeather, 600000); // 每10分钟更新一次天气
-            
-            // 应用点击事件
+            // 设置面板切换
             document.querySelectorAll('.app-icon').forEach(icon => {
-                icon.addEventListener('click', function() {
-                    const appName = this.getAttribute('data-app');
-                    
-                    if (appName === 'settings') {
-                        openSettings();
-                    } else {
-                        openApp(appName);
-                    }
-                });
+                if (icon.dataset.app === 'settings') {
+                    icon.addEventListener('click', function() {
+                        document.getElementById('settings-panel').style.display = 'flex';
+                        setTimeout(() => {
+                            document.getElementById('settings-panel').style.opacity = '1';
+                        }, 10);
+                    });
+                } else {
+                    icon.addEventListener('click', function() {
+                        const app = this.dataset.app;
+                        const appPage = document.getElementById('app-page');
+                        const appTitle = document.getElementById('app-title');
+                        const appContent = document.getElementById('app-content');
+                        
+                        // 设置应用标题
+                        const appNames = {
+                            'messages': '消息',
+                            'contacts': '通讯录',
+                            'camera': '相机',
+                            'gallery': '相册',
+                            'music': '音乐',
+                            'maps': '地图'
+                        };
+                        
+                        appTitle.textContent = appNames[app];
+                        
+                        // 设置应用内容
+                        const appIcons = {
+                            'messages': 'message',
+                            'contacts': 'contacts',
+                            'camera': 'photo_camera',
+                            'gallery': 'photo_library',
+                            'music': 'music_note',
+                            'maps': 'map'
+                        };
+                        
+                        const appDescriptions = {
+                            'messages': '查看和管理您的消息对话',
+                            'contacts': '管理您的联系人列表',
+                            'camera': '拍摄照片和录制视频',
+                            'gallery': '浏览您的照片和视频',
+                            'music': '播放您的音乐收藏',
+                            'maps': '探索世界和获取导航'
+                        };
+                        
+                        appContent.innerHTML = `
+                            <div class="app-icon-large">
+                                <i class="material-icons">${appIcons[app]}</i>
+                            </div>
+                            <h2 class="app-name">${appNames[app]}</h2>
+                            <p class="app-description">${appDescriptions[app]}</p>
+                        `;
+                        
+                        appPage.style.display = 'flex';
+                        setTimeout(() => {
+                            appPage.style.opacity = '1';
+                        }, 10);
+                    });
+                }
             });
             
-            // 返回按钮事件
+            // 返回按钮
             document.getElementById('back-from-settings').addEventListener('click', function() {
-                const settingsPanel = document.getElementById('settings-panel');
-                settingsPanel.style.opacity = '0';
-                setTimeout(() => settingsPanel.style.display = 'none', 400);
-            });
-            
-            document.getElementById('back-from-app').addEventListener('click', function() {
-                const appPage = document.getElementById('app-page');
-                appPage.style.opacity = '0';
-                setTimeout(() => appPage.style.display = 'none', 400);
-            });
-            
-            document.getElementById('back-from-about').addEventListener('click', function() {
-                const aboutPage = document.getElementById('about-page');
-                const settingsPanel = document.getElementById('settings-panel');
-                
-                aboutPage.style.opacity = '0';
+                document.getElementById('settings-panel').style.opacity = '0';
                 setTimeout(() => {
-                    aboutPage.style.display = 'none';
-                    settingsPanel.style.display = 'flex';
-                    setTimeout(() => settingsPanel.style.opacity = '1', 10);
+                    document.getElementById('settings-panel').style.display = 'none';
                 }, 400);
             });
             
-            // 打开关于页面
-            document.getElementById('about-setting').addEventListener('click', openAboutPage);
-            
-            // 开发者选项计数
-            let clickCount = 0;
-            const versionText = document.getElementById('version-text');
-            
-            versionText.addEventListener('click', function() {
-                const developerOptions = document.getElementById('developer-options');
-                
-                if (developerOptions.classList.contains('show')) {
-                    // 如果开发者选项已经开启，显示提示
-                    showDevAlert();
-                    return;
-                }
-                
-                clickCount++;
-                
-                if (clickCount === 6) {
-                    // 显示开发者选项
-                    developerOptions.classList.add('show');
-                    // 显示开发者消息
-                    showDeveloperMessage();
-                    // 重置计数
-                    clickCount = 0;
-                } else if (clickCount > 0) {
-                    // 显示点击次数提示
-                    const remaining = 6 - clickCount;
-                    versionText.textContent = `再点击 ${remaining} 次开启开发者选项`;
-                    
-                    // 3秒后恢复原文本
-                    setTimeout(() => {
-                        if (clickCount < 6) {
-                            versionText.textContent = 'Android 12 | 安全补丁 2023年8月5日';
-                        }
-                    }, 2000);
-                }
+            document.getElementById('back-from-about').addEventListener('click', function() {
+                document.getElementById('about-page').style.display = 'none';
+                document.getElementById('settings-panel').style.display = 'flex';
             });
             
-            // 关闭开发者选项
-            document.querySelector('.developer-options .setting-item:last-child').addEventListener('click', function() {
-                const developerOptions = document.getElementById('developer-options');
-                developerOptions.classList.remove('show');
-                showDevAlert();
+            document.getElementById('back-from-app').addEventListener('click', function() {
+                document.getElementById('app-page').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('app-page').style.display = 'none';
+                }, 400);
+            });
+            
+            // 关于设备
+            document.getElementById('about-setting').addEventListener('click', function() {
+                document.getElementById('settings-panel').style.display = 'none';
+                document.getElementById('about-page').style.display = 'flex';
+                
+                // 显示开发者消息
+                setTimeout(() => {
+                    document.getElementById('developer-message').classList.add('show');
+                }, 500);
             });
             
             // 主题切换
             const themeToggle = document.getElementById('theme-toggle');
             themeToggle.addEventListener('change', function() {
                 if (this.checked) {
-                    document.body.classList.add('light-theme');
                     document.documentElement.classList.add('light-theme');
                 } else {
-                    document.body.classList.remove('light-theme');
                     document.documentElement.classList.remove('light-theme');
                 }
+            });
+            
+            // 版本文本点击事件（显示开发者选项）
+            document.getElementById('version-text').addEventListener('click', function() {
+                let clickCount = this.getAttribute('data-click-count') || 0;
+                clickCount = parseInt(clickCount) + 1;
+                this.setAttribute('data-click-count', clickCount);
+                
+                if (clickCount >= 7) {
+                    document.getElementById('developer-options').classList.add('show');
+                    document.getElementById('dev-alert').classList.add('show');
+                    
+                    setTimeout(() => {
+                        document.getElementById('dev-alert').classList.remove('show');
+                    }, 3000);
+                    
+                    this.setAttribute('data-click-count', 0);
+                }
+            });
+            
+            // 关闭开发者选项
+            document.getElementById('close-dev-options').addEventListener('click', function() {
+                document.getElementById('developer-options').classList.remove('show');
+                
+                // 显示关闭提示
+                const alert = document.getElementById('dev-alert');
+                alert.innerHTML = '<i class="material-icons">info</i><span>开发者选项已关闭</span>';
+                alert.classList.add('show');
+                
+                setTimeout(() => {
+                    alert.classList.remove('show');
+                    // 恢复原始内容
+                    setTimeout(() => {
+                        alert.innerHTML = '<i class="material-icons">info</i><span>开发者选项已开启</span>';
+                    }, 500);
+                }, 3000);
+            });
+            
+            // 白噪音控制
+            const whiteNoiseToggle = document.getElementById('white-noise-toggle');
+            const rainAudio = document.getElementById('rain-audio');
+            const soundControl = document.getElementById('sound-control');
+            const soundIcon = document.getElementById('sound-icon');
+            
+            whiteNoiseToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    rainAudio.play().catch(e => console.log('音频播放失败:', e));
+                    soundIcon.textContent = 'volume_up';
+                } else {
+                    rainAudio.pause();
+                    soundIcon.textContent = 'volume_off';
+                }
+            });
+            
+            // 声音控制按钮
+            soundControl.addEventListener('click', function() {
+                if (rainAudio.paused) {
+                    rainAudio.play().catch(e => console.log('音频播放失败:', e));
+                    soundIcon.textContent = 'volume_up';
+                    whiteNoiseToggle.checked = true;
+                } else {
+                    rainAudio.pause();
+                    soundIcon.textContent = 'volume_off';
+                    whiteNoiseToggle.checked = false;
+                }
+            });
+            
+            // 应用显示开关
+            document.querySelectorAll('.app-toggle').forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const app = this.dataset.app;
+                    const appIcon = document.querySelector(`.app-icon[data-app="${app}"]`);
+                    
+                    if (this.checked) {
+                        appIcon.style.display = 'flex';
+                    } else {
+                        appIcon.style.display = 'none';
+                    }
+                });
             });
         });
     </script>
