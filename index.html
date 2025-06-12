@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>设备管理面板</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>设备管理面板 - Material Design</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,22 +14,28 @@
             font-family: 'Roboto', sans-serif;
         }
         
+        :root {
+            --primary: #6200ee;
+            --primary-variant: #3700b3;
+            --secondary: #03dac6;
+            --surface: #ffffff;
+            --background: #f5f5f5;
+            --on-primary: #ffffff;
+            --on-secondary: #000000;
+            --on-surface: #000000;
+            --error: #b00020;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --elevated-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-color: var(--background);
+            color: var(--on-surface);
             height: 100vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            color: white;
-            position: relative;
-        }
-        
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         
         /* 顶部状态栏 */
@@ -37,10 +43,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 25px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
             position: relative;
             z-index: 10;
         }
@@ -95,60 +101,81 @@
             font-weight: 500;
         }
         
-        /* 应用容器 */
-        .apps-container {
+        /* 主内容区 */
+        .content-container {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 24px;
             position: relative;
-            z-index: 2;
+            overflow: hidden;
         }
         
+        .welcome-container {
+            padding: 24px 0;
+            text-align: center;
+        }
+        
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .welcome-subtitle {
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        /* 应用网格 */
         .app-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 35px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
             max-width: 600px;
-            margin-top: 30px;
+            margin: 40px auto;
         }
         
         .app-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 18px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .app-icon:hover {
-            transform: translateY(-8px) scale(1.1);
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: var(--elevated-shadow);
+        }
+        
+        .app-icon:active {
+            transform: translateY(-4px);
         }
         
         .app-icon i {
-            font-size: 24px;
-            margin-bottom: 5px;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 36px;
+            margin-bottom: 12px;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .app-icon:hover i {
+            color: var(--primary-variant);
+            transform: scale(1.1);
         }
         
         .app-icon span {
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(0, 0, 0, 0.87);
         }
         
         .app-icon::after {
@@ -158,9 +185,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(98, 0, 238, 0.1) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: -1;
         }
         
         .app-icon:hover::after {
@@ -174,86 +202,116 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: var(--surface);
             z-index: 100;
             display: none;
             flex-direction: column;
             opacity: 0;
             transition: opacity 0.4s ease;
+            overflow-y: auto;
         }
         
         .settings-header {
             display: flex;
             align-items: center;
-            padding: 20px;
-            background: rgba(30, 30, 30, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .back-button {
             background: none;
             border: none;
-            color: white;
-            font-size: 24px;
+            color: var(--on-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            margin-right: 15px;
-            padding: 5px;
+            margin-right: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
         
         .settings-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 500;
         }
         
         .settings-content {
-            flex: 1;
-            padding: 25px;
-            overflow-y: auto;
+            padding: 24px;
         }
         
-        .setting-card {
-            background: rgba(40, 40, 40, 0.6);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        .setting-section {
+            margin-bottom: 32px;
         }
         
-        .setting-card h3 {
-            margin-bottom: 15px;
-            color: #e0e0e0;
+        .setting-section-title {
+            font-size: 16px;
             font-weight: 500;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .setting-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 16px;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
         
-        .setting-item:last-child {
-            border-bottom: none;
+        .setting-item:hover {
+            background-color: rgba(0, 0, 0, 0.03);
         }
         
-        .setting-label {
+        .setting-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: rgba(98, 0, 238, 0.1);
             display: flex;
             align-items: center;
-            gap: 15px;
-            font-size: 16px;
+            justify-content: center;
+            margin-right: 16px;
         }
         
-        .setting-label i {
-            width: 24px;
-            text-align: center;
-            color: #64b5f6;
+        .setting-icon i {
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .setting-subtitle {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .setting-arrow {
+            color: rgba(0, 0, 0, 0.54);
         }
         
         /* 关于页面 */
@@ -263,61 +321,86 @@
             height: 100%;
         }
         
+        .about-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
         .about-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
+            padding: 32px 24px;
             text-align: center;
         }
         
-        .device-image {
+        .device-icon {
             width: 120px;
             height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
+            background: rgba(98, 0, 238, 0.1);
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
-            font-size: 50px;
+            margin: 0 auto 24px;
+        }
+        
+        .device-icon i {
+            font-size: 60px;
+            color: var(--primary);
         }
         
         .device-name {
             font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .device-version {
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 32px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+        
+        .info-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            text-align: left;
+        }
+        
+        .info-label {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 8px;
+        }
+        
+        .info-value {
+            font-size: 16px;
             font-weight: 500;
-            margin-bottom: 15px;
-        }
-        
-        .device-info {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 18px;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 20px;
-        }
-        
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .info-item:last-child {
-            border-bottom: none;
         }
         
         .developer-message {
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--primary);
+            color: var(--on-primary);
             border-radius: 12px;
-            font-size: 14px;
-            color: #a0a0a0;
+            padding: 16px;
+            max-width: 500px;
+            margin: 0 auto;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -328,15 +411,14 @@
             transform: translateY(0);
         }
         
-        /* 其他应用页面 */
+        /* 应用页面 */
         .app-page {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            background: var(--surface);
             z-index: 50;
             display: none;
             flex-direction: column;
@@ -347,20 +429,21 @@
         .app-header {
             display: flex;
             align-items: center;
-            padding: 20px;
-            background: rgba(30, 30, 30, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
         }
         
         .app-title {
             font-size: 20px;
             font-weight: 500;
-            margin-left: 15px;
+            margin-left: 16px;
         }
         
         .app-content {
             flex: 1;
-            padding: 30px;
+            padding: 32px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -368,69 +451,47 @@
             text-align: center;
         }
         
-        .app-content i {
-            font-size: 60px;
-            margin-bottom: 25px;
-            color: rgba(255, 255, 255, 0.8);
+        .app-icon-large {
+            width: 100px;
+            height: 100px;
+            background: rgba(98, 0, 238, 0.1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
         }
         
-        .app-content h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            font-weight: 500;
+        .app-icon-large i {
+            font-size: 48px;
+            color: var(--primary);
         }
         
-        .app-content p {
+        .app-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .app-description {
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.6);
             max-width: 500px;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.7);
         }
         
-        /* 动画效果 */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        /* 响应式调整 */
+        @media (min-width: 600px) {
+            .app-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
         
-        .floating {
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse {
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        /* 背景装饰 */
-        .bubbles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
-            animation: floatBubble 15s infinite ease-in-out;
-        }
-        
-        @keyframes floatBubble {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); }
-            25% { transform: translateY(-200px) translateX(100px) rotate(90deg); }
-            50% { transform: translateY(-400px) translateX(-100px) rotate(180deg); }
-            75% { transform: translateY(-200px) translateX(-150px) rotate(270deg); }
-            100% { transform: translateY(0) translateX(0) rotate(360deg); }
+        @media (min-width: 900px) {
+            .app-grid {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 800px;
+            }
         }
     </style>
 </head>
@@ -448,42 +509,45 @@
         <div class="time-display" id="time-display">00:00:00</div>
         
         <div class="weather-info">
-            <i class="fas fa-cloud-sun"></i>
+            <i class="material-icons">wb_sunny</i>
             <span id="weather-info">正在获取天气...</span>
         </div>
     </div>
     
-    <!-- 应用中心 -->
-    <div class="apps-container">
-        <h1 class="floating">设备管理面板</h1>
+    <!-- 主内容区 -->
+    <div class="content-container">
+        <div class="welcome-container">
+            <h1 class="welcome-title">设备管理面板</h1>
+            <p class="welcome-subtitle">Material Design | Android 12 风格</p>
+        </div>
         
         <div class="app-grid">
             <div class="app-icon" data-app="messages">
-                <i class="fas fa-comment-alt"></i>
+                <i class="material-icons">message</i>
                 <span>消息</span>
             </div>
             <div class="app-icon" data-app="contacts">
-                <i class="fas fa-address-book"></i>
+                <i class="material-icons">contacts</i>
                 <span>通讯录</span>
             </div>
             <div class="app-icon" data-app="camera">
-                <i class="fas fa-camera"></i>
+                <i class="material-icons">photo_camera</i>
                 <span>相机</span>
             </div>
             <div class="app-icon" data-app="gallery">
-                <i class="fas fa-images"></i>
+                <i class="material-icons">photo_library</i>
                 <span>相册</span>
             </div>
             <div class="app-icon" data-app="music">
-                <i class="fas fa-music pulse"></i>
+                <i class="material-icons">music_note</i>
                 <span>音乐</span>
             </div>
             <div class="app-icon" data-app="settings">
-                <i class="fas fa-cog"></i>
+                <i class="material-icons">settings</i>
                 <span>设置</span>
             </div>
             <div class="app-icon" data-app="maps">
-                <i class="fas fa-map-marked-alt"></i>
+                <i class="material-icons">map</i>
                 <span>地图</span>
             </div>
         </div>
@@ -493,141 +557,153 @@
     <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
             <button class="back-button" id="back-from-settings">
-                <i class="fas fa-arrow-left"></i>
+                <i class="material-icons">arrow_back</i>
             </button>
             <div class="settings-title">设置</div>
         </div>
         
         <div class="settings-content">
-            <div class="setting-card">
-                <h3><i class="fas fa-wifi"></i> 网络与连接</h3>
+            <div class="setting-section">
+                <h2 class="setting-section-title">连接</h2>
                 <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-wifi"></i>
-                        <span>Wi-Fi</span>
+                    <div class="setting-icon">
+                        <i class="material-icons">wifi</i>
                     </div>
-                    <div class="setting-toggle">
-                        <span>已连接</span>
+                    <div class="setting-info">
+                        <div class="setting-title">Wi-Fi</div>
+                        <div class="setting-subtitle">已连接至 Home Network</div>
                     </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
                 <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-bluetooth-b"></i>
-                        <span>蓝牙</span>
+                    <div class="setting-icon">
+                        <i class="material-icons">bluetooth</i>
                     </div>
-                    <div class="setting-toggle">
-                        <span>开启</span>
+                    <div class="setting-info">
+                        <div class="setting-title">蓝牙</div>
+                        <div class="setting-subtitle">已开启</div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="setting-card">
-                <h3><i class="fas fa-mobile-alt"></i> 设备</h3>
-                <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-sun"></i>
-                        <span>显示</span>
-                    </div>
-                    <div class="setting-toggle">
-                        <span>自动</span>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-volume-up"></i>
-                        <span>声音</span>
-                    </div>
-                    <div class="setting-toggle">
-                        <span>80%</span>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-battery-three-quarters"></i>
-                        <span>电池</span>
-                    </div>
-                    <div class="setting-toggle">
-                        <span>节能模式</span>
-                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
             </div>
             
-            <div class="setting-card">
-                <h3><i class="fas fa-user"></i> 个人</h3>
+            <div class="setting-section">
+                <h2 class="setting-section-title">设备</h2>
                 <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-user-circle"></i>
-                        <span>账户</span>
+                    <div class="setting-icon">
+                        <i class="material-icons">display_settings</i>
                     </div>
+                    <div class="setting-info">
+                        <div class="setting-title">显示</div>
+                        <div class="setting-subtitle">亮度自动调节</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
                 <div class="setting-item">
-                    <div class="setting-label">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>安全</span>
+                    <div class="setting-icon">
+                        <i class="material-icons">volume_up</i>
                     </div>
+                    <div class="setting-info">
+                        <div class="setting-title">声音</div>
+                        <div class="setting-subtitle">铃声、媒体、通知</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">battery_charging_full</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">电池</div>
+                        <div class="setting-subtitle">78% - 约4小时可用</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+            </div>
+            
+            <div class="setting-section">
+                <h2 class="setting-section-title">隐私</h2>
                 <div class="setting-item" id="about-setting">
-                    <div class="setting-label">
-                        <i class="fas fa-info-circle"></i>
-                        <span>关于设备</span>
+                    <div class="setting-icon">
+                        <i class="material-icons">info</i>
                     </div>
+                    <div class="setting-info">
+                        <div class="setting-title">关于设备</div>
+                        <div class="setting-subtitle">设备信息、软件版本</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">security</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">安全</div>
+                        <div class="setting-subtitle">屏幕锁定、设备加密</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
             </div>
         </div>
         
         <!-- 关于页面 -->
         <div class="about-page" id="about-page">
-            <div class="settings-header">
+            <div class="about-header">
                 <button class="back-button" id="back-from-about">
-                    <i class="fas fa-arrow-left"></i>
+                    <i class="material-icons">arrow_back</i>
                 </button>
                 <div class="settings-title">关于设备</div>
             </div>
             
             <div class="about-content">
-                <div class="device-image">
-                    <i class="fas fa-mobile-alt"></i>
+                <div class="device-icon">
+                    <i class="material-icons">phone_android</i>
                 </div>
-                <div class="device-name">智能设备 Ultra X1</div>
-                <p>设备软件版本 2.1.0 | 安全补丁 2023-08-05</p>
                 
-                <div class="device-info">
-                    <div class="info-item">
-                        <span>型号</span>
-                        <span>Ultra X1 Pro</span>
+                <h2 class="device-name">Pixel Ultra</h2>
+                <p class="device-version">Android 12 | 安全补丁 2023年8月5日</p>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-label">设备型号</div>
+                        <div class="info-value">Pixel Ultra</div>
                     </div>
-                    <div class="info-item">
-                        <span>序列号</span>
-                        <span>UX1P-8A3B-6C7D-9E0F</span>
+                    <div class="info-card">
+                        <div class="info-label">序列号</div>
+                        <div class="info-value">FA82B02876</div>
                     </div>
-                    <div class="info-item">
-                        <span>Android 版本</span>
-                        <span>12.0</span>
+                    <div class="info-card">
+                        <div class="info-label">Android版本</div>
+                        <div class="info-value">12.0</div>
                     </div>
-                    <div class="info-item">
-                        <span>内核版本</span>
-                        <span>5.10.101</span>
+                    <div class="info-card">
+                        <div class="info-label">内核版本</div>
+                        <div class="info-value">5.10.101</div>
                     </div>
-                    <div class="info-item">
-                        <span>构建号</span>
-                        <span>UX1P.SS.23.08.001</span>
+                    <div class="info-card">
+                        <div class="info-label">构建号</div>
+                        <div class="info-value">SP2A.220505.006</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">安全级别</div>
+                        <div class="info-value">2023-08-05</div>
                     </div>
                 </div>
                 
                 <div class="developer-message" id="developer-message">
-                    <i class="fas fa-lock-open"></i>
-                    <p>开发者选项已开启</p>
-                    <p style="font-size: 12px; margin-top: 8px;">您现在可以访问高级开发者设置</p>
+                    <i class="material-icons" style="font-size: 36px; margin-bottom: 16px;">engineering</i>
+                    <h3 style="margin-bottom: 8px;">开发者选项已开启</h3>
+                    <p>您现在可以访问高级开发者设置</p>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- 应用页面容器 -->
+    <!-- 应用页面 -->
     <div class="app-page" id="app-page">
         <div class="app-header">
             <button class="back-button" id="back-from-app">
-                <i class="fas fa-arrow-left"></i>
+                <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title" id="app-title">应用</div>
         </div>
@@ -636,33 +712,7 @@
         </div>
     </div>
     
-    <!-- 背景装饰气泡 -->
-    <div class="bubbles" id="bubbles"></div>
-    
     <script>
-        // 生成背景气泡
-        function createBubbles() {
-            const bubbles = document.getElementById('bubbles');
-            for (let i = 0; i < 15; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
-                
-                // 随机大小
-                const size = Math.random() * 100 + 50;
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                
-                // 随机位置
-                bubble.style.left = `${Math.random() * 100}%`;
-                bubble.style.top = `${Math.random() * 100}%`;
-                
-                // 随机动画延迟
-                bubble.style.animationDelay = `${Math.random() * 15}s`;
-                
-                bubbles.appendChild(bubble);
-            }
-        }
-        
         // 更新时间
         function updateTime() {
             const now = new Date();
@@ -672,17 +722,17 @@
             document.getElementById('time-display').textContent = `${hours}:${minutes}:${seconds}`;
         }
         
-        // 获取设备电量
+        // 获取设备电量（模拟）
         function getBatteryStatus() {
-            // 模拟实际电量值
-            const batteryLevel = Math.floor(Math.random() * 20) + 80; // 80-100%之间
+            // 模拟电量值在70-100%之间变化
+            const batteryLevel = Math.floor(Math.random() * 30) + 70;
             document.getElementById('battery-level').style.width = `${batteryLevel}%`;
             document.getElementById('battery-percent').textContent = `${batteryLevel}%`;
         }
         
-        // 获取天气信息
+        // 获取天气信息（模拟API）
         function getWeather() {
-            // 模拟API调用
+            // 在实际应用中，这里应该是一个真实的API调用
             const weatherConditions = ['晴', '多云', '小雨', '局部阵雨', '晴朗'];
             const temperatures = ['22°C', '24°C', '21°C', '23°C', '25°C'];
             const randomIndex = Math.floor(Math.random() * weatherConditions.length);
@@ -692,15 +742,15 @@
             
             // 更新天气图标
             const icons = {
-                '晴': 'fa-sun',
-                '多云': 'fa-cloud',
-                '小雨': 'fa-cloud-rain',
-                '局部阵雨': 'fa-cloud-showers-heavy',
-                '晴朗': 'fa-sun'
+                '晴': 'wb_sunny',
+                '多云': 'cloud',
+                '小雨': 'grain',
+                '局部阵雨': 'thunderstorm',
+                '晴朗': 'wb_sunny'
             };
             
             const weatherIcon = document.querySelector('.weather-info i');
-            weatherIcon.className = `fas ${icons[weatherConditions[randomIndex]]}`;
+            weatherIcon.textContent = icons[weatherConditions[randomIndex]];
         }
         
         // 应用打开处理
@@ -710,7 +760,16 @@
             const appContent = document.getElementById('app-content');
             
             // 设置应用标题
-            appTitle.textContent = appName;
+            const appNames = {
+                'messages': '消息',
+                'contacts': '通讯录',
+                'camera': '相机',
+                'gallery': '相册',
+                'music': '音乐',
+                'maps': '地图'
+            };
+            
+            appTitle.textContent = appNames[appName];
             
             // 设置应用内容
             let appHtml = '';
@@ -718,63 +777,81 @@
             
             switch(appName) {
                 case 'messages':
-                    icon = 'fa-comment-alt';
+                    icon = 'message';
                     appHtml = `
-                        <i class="fas ${icon}"></i>
-                        <h2>消息</h2>
-                        <p>您有3条未读消息<br>点击查看最新通知</p>
+                        <div class="app-icon-large">
+                            <i class="material-icons">${icon}</i>
+                        </div>
+                        <h2 class="app-name">消息</h2>
+                        <p class="app-description">
+                            您有3条未读消息<br>
+                            最近消息来自：李明、张华和王芳
+                        </p>
                     `;
                     break;
                 case 'contacts':
-                    icon = 'fa-address-book';
+                    icon = 'contacts';
                     appHtml = `
-                        <i class="fas ${icon}"></i>
-                        <h2>通讯录</h2>
-                        <p>您有128个联系人<br>最近联系：李明</p>
+                        <div class="app-icon-large">
+                            <i class="material-icons">${icon}</i>
+                        </div>
+                        <h2 class="app-name">通讯录</h2>
+                        <p class="app-description">
+                            您有128个联系人<br>
+                            最近联系：李明、张华和王芳
+                        </p>
                     `;
                     break;
                 case 'camera':
-                    icon = 'fa-camera';
+                    icon = 'photo_camera';
                     appHtml = `
-                        <i class="fas ${icon}"></i>
-                        <h2>相机</h2>
-                        <p>准备捕捉精彩瞬间<br>点击拍照按钮开始</p>
-                        <div style="width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 20px; margin-top: 20px;"></div>
+                        <div class="app-icon-large">
+                            <i class="material-icons">${icon}</i>
+                        </div>
+                        <h2 class="app-name">相机</h2>
+                        <p class="app-description">
+                            准备捕捉精彩瞬间<br>
+                            点击拍照按钮开始
+                        </p>
                     `;
                     break;
                 case 'gallery':
-                    icon = 'fa-images';
+                    icon = 'photo_library';
                     appHtml = `
-                        <i class="fas ${icon}"></i>
-                        <h2>相册</h2>
-                        <p>您有86张照片<br>最新照片：08月12日</p>
+                        <div class="app-icon-large">
+                            <i class="material-icons">${icon}</i>
+                        </div>
+                        <h2 class="app-name">相册</h2>
+                        <p class="app-description">
+                            您有86张照片<br>
+                            最新照片：08月12日
+                        </p>
                     `;
                     break;
                 case 'music':
-                    icon = 'fa-music';
+                    icon = 'music_note';
                     appHtml = `
-                        <i class="fas ${icon}"></i>
-                        <h2>音乐</h2>
-                        <p>正在播放：夏日微风<br>艺术家：自然之声</p>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 10px;"></div>
-                            <div style="width: 200px; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 25px; position: relative;">
-                                <div style="width: 70%; height: 100%; background: #64b5f6; border-radius: 5px;"></div>
-                            </div>
+                        <div class="app-icon-large">
+                            <i class="material-icons">${icon}</i>
                         </div>
+                        <h2 class="app-name">音乐</h2>
+                        <p class="app-description">
+                            正在播放：夏日微风<br>
+                            艺术家：自然之声
+                        </p>
                     `;
                     break;
                 case 'maps':
-                    icon = 'fa-map-marked-alt';
+                    icon = 'map';
                     appHtml = `
-                        <i class="fas ${icon}"></i>
-                        <h2>地图</h2>
-                        <p>当前位置：科技园区<br>搜索目的地开始导航</p>
-                        <div style="width: 250px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 15px; margin-top: 20px; position: relative;">
-                            <div style="position: absolute; top: 30px; left: 50px; width: 20px; height: 20px; background: #64b5f6; border-radius: 50%;"></div>
-                            <div style="position: absolute; top: 100px; left: 180px; width: 20px; height: 20px; background: #ff6b6b; border-radius: 50%;"></div>
-                            <div style="position: absolute; top: 65px; left: 80px; width: 100px; height: 4px; background: #64b5f6; transform: rotate(45deg);"></div>
+                        <div class="app-icon-large">
+                            <i class="material-icons">${icon}</i>
                         </div>
+                        <h2 class="app-name">地图</h2>
+                        <p class="app-description">
+                            当前位置：科技园区<br>
+                            搜索目的地开始导航
+                        </p>
                     `;
                     break;
             }
@@ -801,14 +878,16 @@
                 settingsPanel.style.display = 'none';
                 aboutPage.style.display = 'flex';
                 setTimeout(() => aboutPage.style.opacity = '1', 10);
+                
+                // 重置开发者消息
+                const message = document.getElementById('developer-message');
+                message.classList.remove('show');
+                clickCount = 0;
             }, 400);
         }
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 创建背景效果
-            createBubbles();
-            
             // 初始化时间和电量
             updateTime();
             getBatteryStatus();
@@ -861,9 +940,6 @@
             let clickCount = 0;
             document.getElementById('about-setting').addEventListener('click', function() {
                 openAboutPage();
-                
-                // 重置点击计数
-                clickCount = 0;
             });
             
             // 关于页面点击事件（用于开发者选项）
