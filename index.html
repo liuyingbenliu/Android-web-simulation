@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>设备管理面板 - Android 12</title>
+    <title>Android 12 模拟器</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -737,12 +737,14 @@
             color: #fff;
             font-size: 18px;
             font-weight: 500;
-            /* 几何图案背景 */
+            /* 丰富几何图案 */
             background: 
-                linear-gradient(45deg, #7E67D4 25%, transparent 25%, transparent 75%, #7E67D4 75%),
-                linear-gradient(45deg, #7E67D4 25%, transparent 25%, transparent 75%, #7E67D4 75%);
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
+                radial-gradient(circle at 20% 35%, #ff9a9e 10%, transparent 10.5%),
+                radial-gradient(circle at 80% 45%, #fad0c4 8%, transparent 8.5%),
+                radial-gradient(circle at 30% 75%, #fbc2eb 12%, transparent 12.5%),
+                radial-gradient(circle at 70% 25%, #a6c1ee 15%, transparent 15.5%),
+                radial-gradient(circle at 45% 50%, #7E67D4 25%, transparent 25.5%),
+                linear-gradient(45deg, #7E67D4, #6750A4);
         }
         
         .camera-controls {
@@ -760,6 +762,7 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: var(--shadow);
+            border: none;
         }
         
         .camera-btn i {
@@ -901,6 +904,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: var(--shadow);
+            border: none;
         }
         
         .keypad-button:hover {
@@ -954,14 +958,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            /* 几何照片背景 */
+            /* 丰富几何图案 */
             background: 
-                linear-gradient(45deg, #ff9a9e 25%, transparent 25%, transparent 75%, #ff9a9e 75%),
-                linear-gradient(-45deg, #fad0c4 25%, transparent 25%, transparent 75%, #fad0c4 75%);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+                radial-gradient(circle at 30% 30%, #ff9a9e 15%, transparent 15.5%),
+                radial-gradient(circle at 70% 70%, #fad0c4 12%, transparent 12.5%),
+                radial-gradient(circle at 50% 50%, #fbc2eb 25%, transparent 25.5%),
+                radial-gradient(circle at 30% 70%, #a6c1ee 18%, transparent 18.5%),
+                radial-gradient(circle at 70% 30%, #c2e9fb 20%, transparent 20.5%),
+                linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb);
         }
         
         /* 音乐应用页面 */
@@ -988,12 +992,14 @@
             color: white;
             font-size: 24px;
             font-weight: bold;
-            /* 几何图案封面 */
+            /* 丰富几何图案 */
             background: 
-                linear-gradient(45deg, #4a69bd 25%, transparent 25%, transparent 75%, #4a69bd 75%),
-                linear-gradient(45deg, #4a69bd 25%, transparent 25%, transparent 75%, #4a69bd 75%);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+                radial-gradient(circle at 30% 30%, #ff9a9e 15%, transparent 15.5%),
+                radial-gradient(circle at 70% 70%, #fad0c4 12%, transparent 12.5%),
+                radial-gradient(circle at 50% 50%, #fbc2eb 25%, transparent 25.5%),
+                radial-gradient(circle at 30% 70%, #a6c1ee 18%, transparent 18.5%),
+                radial-gradient(circle at 70% 30%, #c2e9fb 20%, transparent 20.5%),
+                linear-gradient(45deg, #ff9a9e, #fad0c4);
         }
         
         .song-title {
@@ -1551,15 +1557,15 @@
             <div class="camera-preview">
                 <div class="camera-view">相机预览</div>
                 <div class="camera-controls">
-                    <div class="camera-btn">
+                    <button class="camera-btn">
                         <i class="material-icons">flip_camera_android</i>
-                    </div>
-                    <div class="camera-btn" style="width: 70px; height: 70px;">
+                    </button>
+                    <button class="camera-btn" style="width: 70px; height: 70px;">
                         <i class="material-icons">camera</i>
-                    </div>
-                    <div class="camera-btn">
+                    </button>
+                    <button class="camera-btn">
                         <i class="material-icons">collections</i>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1626,51 +1632,51 @@
         <div class="app-content">
             <div class="phone-display" id="phone-display">输入号码</div>
             <div class="keypad-container">
-                <div class="keypad-button" data-number="1">
+                <button class="keypad-button" data-number="1">
                     <div class="keypad-number">1</div>
-                </div>
-                <div class="keypad-button" data-number="2">
+                </button>
+                <button class="keypad-button" data-number="2">
                     <div class="keypad-number">2</div>
                     <div class="keypad-letters">ABC</div>
-                </div>
-                <div class="keypad-button" data-number="3">
+                </button>
+                <button class="keypad-button" data-number="3">
                     <div class="keypad-number">3</div>
                     <div class="keypad-letters">DEF</div>
-                </div>
-                <div class="keypad-button" data-number="4">
+                </button>
+                <button class="keypad-button" data-number="4">
                     <div class="keypad-number">4</div>
                     <div class="keypad-letters">GHI</div>
-                </div>
-                <div class="keypad-button" data-number="5">
+                </button>
+                <button class="keypad-button" data-number="5">
                     <div class="keypad-number">5</div>
                     <div class="keypad-letters">JKL</div>
-                </div>
-                <div class="keypad-button" data-number="6">
+                </button>
+                <button class="keypad-button" data-number="6">
                     <div class="keypad-number">6</div>
                     <div class="keypad-letters">MNO</div>
-                </div>
-                <div class="keypad-button" data-number="7">
+                </button>
+                <button class="keypad-button" data-number="7">
                     <div class="keypad-number">7</div>
                     <div class="keypad-letters">PQRS</div>
-                </div>
-                <div class="keypad-button" data-number="8">
+                </button>
+                <button class="keypad-button" data-number="8">
                     <div class="keypad-number">8</div>
                     <div class="keypad-letters">TUV</div>
-                </div>
-                <div class="keypad-button" data-number="9">
+                </button>
+                <button class="keypad-button" data-number="9">
                     <div class="keypad-number">9</div>
                     <div class="keypad-letters">WXYZ</div>
-                </div>
-                <div class="keypad-button" data-number="*">
+                </button>
+                <button class="keypad-button" data-number="*">
                     <div class="keypad-number">*</div>
-                </div>
-                <div class="keypad-button" data-number="0">
+                </button>
+                <button class="keypad-button" data-number="0">
                     <div class="keypad-number">0</div>
                     <div class="keypad-letters">+</div>
-                </div>
-                <div class="keypad-button" data-number="#">
+                </button>
+                <button class="keypad-button" data-number="#">
                     <div class="keypad-number">#</div>
-                </div>
+                </button>
             </div>
             <button class="call-button" id="call-button">
                 <i class="material-icons">call</i>
@@ -1688,15 +1694,15 @@
         </div>
         <div class="app-content">
             <div class="gallery-grid">
-                <div class="gallery-item">照片 1</div>
-                <div class="gallery-item">照片 2</div>
-                <div class="gallery-item">照片 3</div>
-                <div class="gallery-item">照片 4</div>
-                <div class="gallery-item">照片 5</div>
-                <div class="gallery-item">照片 6</div>
-                <div class="gallery-item">照片 7</div>
-                <div class="gallery-item">照片 8</div>
-                <div class="gallery-item">照片 9</div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
             </div>
         </div>
     </div>
@@ -1711,7 +1717,7 @@
         </div>
         <div class="app-content">
             <div class="music-player">
-                <div class="album-cover">专辑封面</div>
+                <div class="album-cover"></div>
                 <div class="song-title">Summer Vibes</div>
                 <div class="song-artist">The Chill Beats</div>
                 <div class="player-controls">
@@ -1884,7 +1890,10 @@
                         
                         // 打开应用页面
                         const appPage = document.getElementById(apps[appId]);
-                        appPage.classList.add('open');
+                        appPage.style.display = 'flex';
+                        setTimeout(() => {
+                            appPage.classList.add('open');
+                        }, 10);
                         
                         // 重置电话应用状态
                         if(appId === 'phone') {
@@ -1905,6 +1914,7 @@
                     
                     setTimeout(() => {
                         appPage.classList.remove('open', 'closing');
+                        appPage.style.display = 'none';
                     }, 400);
                 });
             });
@@ -1923,6 +1933,7 @@
                             appPage.classList.add('closing');
                             setTimeout(() => {
                                 appPage.classList.remove('open', 'closing');
+                                appPage.style.display = 'none';
                             }, 400);
                         }
                     });
