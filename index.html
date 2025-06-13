@@ -12,33 +12,35 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
-            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-tap-highlight-color: transparent;
         }
         
         :root {
-            --primary: #6200ee;
-            --primary-variant: #3700b3;
-            --secondary: #03dac6;
-            --surface: #1e1e1e;
-            --background: #121212;
-            --on-primary: #ffffff;
-            --on-secondary: #000000;
-            --on-surface: #ffffff;
-            --error: #cf6679;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            --elevated-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --primary: #6750A4;
+            --primary-variant: #7E67D4;
+            --on-primary: #FFFFFF;
+            --surface: #1C1B1F;
+            --surface-container: #232029;
+            --on-surface: #E6E1E5;
+            --on-surface-variant: #CAC4D0;
+            --outline: #938F99;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+            --elevated-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 6px 10px 4px rgba(0, 0, 0, 0.2);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --ripple: rgba(255, 255, 255, 0.1);
         }
 
         :root.light-theme {
-            --surface: #ffffff;
-            --background: #f5f5f5;
-            --on-surface: #000000;
-            --on-secondary: #000000;
-            --error: #b00020;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --elevated-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --primary: #6750A4;
+            --primary-variant: #7E67D4;
+            --on-primary: #FFFFFF;
+            --surface: #FFFBFE;
+            --surface-container: #F7F2FA;
+            --on-surface: #1C1B1F;
+            --on-surface-variant: #49454F;
+            --outline: #79747E;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 4px 8px 3px rgba(0, 0, 0, 0.05);
+            --elevated-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 10px 4px rgba(0, 0, 0, 0.05);
             --ripple: rgba(0, 0, 0, 0.05);
         }
         
@@ -181,19 +183,15 @@
         
         .welcome-subtitle {
             font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .light-theme .welcome-subtitle {
-            color: rgba(0, 0, 0, 0.6);
+            color: var(--on-surface-variant);
         }
         
         /* 应用网格 */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 600px;
+            gap: 20px;
+            max-width: 500px;
             margin: 40px auto;
         }
         
@@ -203,8 +201,8 @@
             align-items: center;
             justify-content: center;
             padding: 20px 0;
-            background: var(--surface);
-            border-radius: 16px;
+            background: var(--surface-container);
+            border-radius: 20px;
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: var(--transition);
@@ -220,12 +218,12 @@
         }
         
         .app-icon:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             box-shadow: var(--elevated-shadow);
         }
         
         .app-icon:active {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
         }
         
         .app-icon i {
@@ -253,7 +251,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(98, 0, 238, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(103, 80, 164, 0.1) 0%, transparent 70%);
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: -1;
@@ -345,23 +343,19 @@
         .setting-section-title {
             font-size: 16px;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--on-surface-variant);
             margin-bottom: 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-        
-        .light-theme .setting-section-title {
-            color: rgba(0, 0, 0, 0.6);
         }
         
         .setting-item {
             display: flex;
             align-items: center;
             padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            margin-bottom: 8px;
+            background: var(--surface-container);
+            border-radius: 16px;
+            margin-bottom: 12px;
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
@@ -369,23 +363,19 @@
             cursor: pointer;
         }
         
-        .light-theme .setting-item {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        
         .setting-item:hover {
-            background-color: rgba(255, 255, 255, 0.08);
+            background-color: rgba(103, 80, 164, 0.08);
         }
         
         .light-theme .setting-item:hover {
-            background-color: rgba(0, 0, 0, 0.06);
+            background-color: rgba(103, 80, 164, 0.05);
         }
         
         .setting-icon {
             width: 40px;
             height: 40px;
             border-radius: 20px;
-            background-color: rgba(98, 0, 238, 0.1);
+            background-color: rgba(103, 80, 164, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -410,19 +400,11 @@
         
         .setting-subtitle {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .light-theme .setting-subtitle {
-            color: rgba(0, 0, 0, 0.6);
+            color: var(--on-surface-variant);
         }
         
         .setting-arrow {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .light-theme .setting-arrow {
-            color: rgba(0, 0, 0, 0.54);
+            color: var(--on-surface-variant);
         }
         
         /* 关于页面 */
@@ -448,12 +430,13 @@
             flex: 1;
             padding: 32px 24px;
             text-align: center;
+            overflow-y: auto;
         }
         
         .device-icon {
             width: 120px;
             height: 120px;
-            background: rgba(98, 0, 238, 0.1);
+            background: rgba(103, 80, 164, 0.1);
             border-radius: 24px;
             display: flex;
             align-items: center;
@@ -475,7 +458,7 @@
         
         .device-version {
             font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--on-surface-variant);
             margin-bottom: 32px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -487,15 +470,7 @@
         }
         
         .device-version:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .light-theme .device-version {
-            color: rgba(0, 0, 0, 0.6);
-        }
-        
-        .light-theme .device-version:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(103, 80, 164, 0.1);
         }
         
         .info-grid {
@@ -507,8 +482,8 @@
         }
         
         .info-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: var(--surface-container);
+            border-radius: 16px;
             padding: 16px;
             box-shadow: var(--shadow);
             text-align: left;
@@ -516,18 +491,10 @@
             overflow: hidden;
         }
         
-        .light-theme .info-card {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        
         .info-label {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--on-surface-variant);
             margin-bottom: 8px;
-        }
-        
-        .light-theme .info-label {
-            color: rgba(0, 0, 0, 0.6);
         }
         
         .info-value {
@@ -539,7 +506,7 @@
         .developer-message {
             background: var(--primary);
             color: var(--on-primary);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 16px;
             max-width: 500px;
             margin: 0 auto;
@@ -579,8 +546,8 @@
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 34px;
+            width: 42px;
+            height: 24px;
         }
         
         .toggle-switch input {
@@ -596,16 +563,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
+            background-color: var(--outline);
             transition: .4s;
-            border-radius: 34px;
+            border-radius: 24px;
         }
         
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 16px;
+            width: 16px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -618,7 +585,7 @@
         }
         
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(18px);
         }
         
         /* 应用显示设置 */
@@ -648,7 +615,7 @@
             width: 30px;
             height: 30px;
             border-radius: 8px;
-            background: rgba(98, 0, 238, 0.1);
+            background: rgba(103, 80, 164, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -702,7 +669,7 @@
         .app-icon-large {
             width: 100px;
             height: 100px;
-            background: rgba(98, 0, 238, 0.1);
+            background: rgba(103, 80, 164, 0.1);
             border-radius: 24px;
             display: flex;
             align-items: center;
@@ -724,13 +691,9 @@
         
         .app-description {
             font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--on-surface-variant);
             max-width: 500px;
             line-height: 1.6;
-        }
-        
-        .light-theme .app-description {
-            color: rgba(0, 0, 0, 0.6);
         }
         
         /* 响应式调整 */
@@ -809,6 +772,9 @@
             align-items: center;
             justify-content: center;
             pointer-events: none;
+            background: var(--surface);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .app-animation-icon {
@@ -820,6 +786,7 @@
             justify-content: center;
             transform-origin: center;
             z-index: 201;
+            overflow: hidden;
         }
         
         .app-animation-icon i {
@@ -827,28 +794,36 @@
             font-size: 36px;
         }
         
-        /* 三大金刚键 */
+        /* 安卓12风格三大金刚键 */
         .navigation-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.1);
+            height: 72px;
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            padding: 0 20%;
             z-index: 90;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1), 0 -4px 8px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 160px;
+            height: 100%;
+            padding: 0 10px;
         }
         
         .nav-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -864,18 +839,18 @@
         }
         
         .nav-button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(103, 80, 164, 0.1);
         }
         
         .nav-button:active {
             transform: scale(0.95);
         }
         
-        /* 后退键特殊样式 */
+        /* 后退键样式 */
         .back-button-nav {
             position: relative;
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
         }
         
         .back-button-nav::before {
@@ -887,14 +862,14 @@
             border-bottom: 3px solid var(--on-surface);
             transform: rotate(45deg);
             left: 18px;
-            top: 15px;
+            top: 14px;
         }
         
-        /* 主页键特殊样式 */
+        /* 主页键样式 */
         .home-button-nav {
-            width: 50px;
-            height: 50px;
-            border-radius: 25px;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
             background: var(--on-surface);
             display: flex;
             align-items: center;
@@ -910,11 +885,11 @@
             border-radius: 5px;
         }
         
-        /* 最近任务键特殊样式 */
+        /* 最近任务键样式 */
         .recent-button-nav {
             position: relative;
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
         }
         
         .recent-button-nav::before {
@@ -924,8 +899,8 @@
             height: 20px;
             border-top: 2px solid var(--on-surface);
             border-bottom: 2px solid var(--on-surface);
-            top: 15px;
-            left: 10px;
+            top: 14px;
+            left: 9px;
         }
         
         .recent-button-nav::after {
@@ -934,8 +909,8 @@
             width: 2px;
             height: 20px;
             background: var(--on-surface);
-            top: 15px;
-            left: 25px;
+            top: 14px;
+            left: 24px;
         }
         
         @keyframes gradientBG {
@@ -948,6 +923,11 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+        
+        /* 动画过渡 */
+        .page-transition {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
         }
     </style>
 </head>
@@ -962,19 +942,19 @@
                 <div class="battery-level" id="battery-level"></div>
                 <div class="battery-tip"></div>
             </div>
-            <span id="battery-percent">正在获取电量...</span>
+            <span id="battery-percent">78%</span>
         </div>
         
-        <div class="time-display" id="time-display">00:00:00</div>
+        <div class="time-display" id="time-display">19:57:28</div>
         
         <div class="weather-info">
             <i class="material-icons">wb_sunny</i>
-            <span id="weather-info">正在获取天气...</span>
+            <span id="weather-info">晴朗 22°C</span>
         </div>
     </div>
     
     <!-- 主内容区 -->
-    <div class="content-container">
+    <div class="content-container" id="main-container">
         <div class="welcome-container">
             <h1 class="welcome-title">设备管理面板</h1>
             <p class="welcome-subtitle">Material Design | Android 12 风格</p>
@@ -1013,7 +993,7 @@
     </div>
     
     <!-- 设置面板 -->
-    <div class="settings-panel" id="settings-panel">
+    <div class="settings-panel page-transition" id="settings-panel">
         <div class="settings-header">
             <button class="back-button" id="back-from-settings">
                 <i class="material-icons">arrow_back</i>
@@ -1118,7 +1098,7 @@
                     <div class="toggle-container">
                         <span class="toggle-label">暗色模式</span>
                         <label class="toggle-switch">
-                            <input type="checkbox" id="theme-toggle">
+                            <input type="checkbox" id="theme-toggle" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -1141,46 +1121,12 @@
                         </label>
                     </div>
                 </div>
-                
-                <!-- 应用显示设置 -->
-                <div class="setting-item" style="flex-direction: column; align-items: flex-start; padding: 0;">
-                    <div style="padding: 16px; width: 100%;">
-                        <div class="setting-title">应用显示设置</div>
-                        <div class="setting-subtitle">选择要在主屏幕显示的应用</div>
-                    </div>
-                    <div style="width: 100%; padding: 0 16px 16px;">
-                        <div class="app-toggle-row">
-                            <div class="app-toggle-name">
-                                <div class="app-toggle-icon">
-                                    <i class="material-icons">message</i>
-                                </div>
-                                <span>消息</span>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" class="app-toggle" data-app="messages" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="app-toggle-row">
-                            <div class="app-toggle-name">
-                                <div class="app-toggle-icon">
-                                    <i class="material-icons">contacts</i>
-                                </div>
-                                <span>通讯录</span>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" class="app-toggle" data-app="contacts" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
     
     <!-- 关于页面 -->
-    <div class="about-page" id="about-page">
+    <div class="about-page page-transition" id="about-page">
         <div class="about-header">
             <button class="back-button" id="back-from-about">
                 <i class="material-icons">arrow_back</i>
@@ -1252,11 +1198,13 @@
         <i class="material-icons">volume_up</i>
     </div>
     
-    <!-- 三大金刚键 -->
+    <!-- 安卓12风格三大金刚键 -->
     <div class="navigation-bar">
-        <div class="nav-button back-button-nav" id="nav-back"></div>
-        <div class="nav-button home-button-nav" id="nav-home"></div>
-        <div class="nav-button recent-button-nav" id="nav-recent"></div>
+        <div class="nav-container">
+            <div class="nav-button back-button-nav" id="nav-back"></div>
+            <div class="nav-button home-button-nav" id="nav-home"></div>
+            <div class="nav-button recent-button-nav" id="nav-recent"></div>
+        </div>
     </div>
     
     <script>
@@ -1294,41 +1242,6 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
             
             document.getElementById('time-display').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        
-        // 模拟电池状态
-        function updateBattery() {
-            const batteryLevel = document.getElementById('battery-level');
-            const batteryPercent = document.getElementById('battery-percent');
-            
-            // 模拟电池百分比（75%-100%之间变化）
-            const percent = Math.floor(Math.random() * 25) + 75;
-            batteryLevel.style.width = `${percent}%`;
-            batteryPercent.textContent = `${percent}%`;
-        }
-        
-        // 模拟天气信息
-        function updateWeather() {
-            const weatherInfo = document.getElementById('weather-info');
-            const conditions = ['晴天', '多云', '小雨', '阴天', '晴朗'];
-            const temperatures = ['22°C', '24°C', '20°C', '19°C', '23°C'];
-            
-            const randomIndex = Math.floor(Math.random() * conditions.length);
-            weatherInfo.textContent = `${conditions[randomIndex]} ${temperatures[randomIndex]}`;
-        }
-        
-        // 主题切换
-        function setupThemeToggle() {
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            
-            themeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    body.classList.add('light-theme');
-                } else {
-                    body.classList.remove('light-theme');
-                }
-            });
         }
         
         // 水波纹效果
@@ -1419,31 +1332,39 @@
             animationContainer.appendChild(animIcon);
             animationContainer.style.display = 'flex';
             
-            // 动画效果
+            // 显示容器
             setTimeout(() => {
-                animIcon.style.transition = 'all 0.6s cubic-bezier(0.28, 0.11, 0.32, 1)';
-                animIcon.style.width = '100%';
-                animIcon.style.height = '100%';
-                animIcon.style.top = '0';
-                animIcon.style.left = '0';
-                animIcon.style.borderRadius = '0';
+                animationContainer.style.opacity = '1';
                 
-                // 更新应用页面内容
-                document.getElementById('app-icon-large').innerHTML = `<i class="material-icons">${icon}</i>`;
-                document.getElementById('app-name').textContent = appName;
-                document.getElementById('app-title').textContent = appName;
-                document.getElementById('app-description').textContent = description;
-                
-                // 显示应用页面
+                // 开始动画
                 setTimeout(() => {
-                    document.getElementById('app-page').style.display = 'flex';
+                    animIcon.style.transition = 'all 0.6s cubic-bezier(0.28, 0.11, 0.32, 1)';
+                    animIcon.style.width = '100%';
+                    animIcon.style.height = '100%';
+                    animIcon.style.top = '0';
+                    animIcon.style.left = '0';
+                    animIcon.style.borderRadius = '0';
+                    
+                    // 更新应用页面内容
+                    document.getElementById('app-icon-large').innerHTML = `<i class="material-icons">${icon}</i>`;
+                    document.getElementById('app-name').textContent = appName;
+                    document.getElementById('app-title').textContent = appName;
+                    document.getElementById('app-description').textContent = description;
+                    
+                    // 显示应用页面
                     setTimeout(() => {
-                        document.getElementById('app-page').style.opacity = '1';
-                        animationContainer.style.display = 'none';
-                        animIcon.remove();
-                    }, 50);
-                }, 500);
-            }, 50);
+                        document.getElementById('app-page').style.display = 'flex';
+                        setTimeout(() => {
+                            document.getElementById('app-page').style.opacity = '1';
+                            animationContainer.style.opacity = '0';
+                            setTimeout(() => {
+                                animationContainer.style.display = 'none';
+                                animIcon.remove();
+                            }, 300);
+                        }, 50);
+                    }, 500);
+                }, 50);
+            }, 10);
         }
         
         // 应用打开功能
@@ -1497,7 +1418,12 @@
                 document.getElementById('app-page').style.display = 'none';
                 document.getElementById('app-page').style.opacity = '0';
                 document.getElementById('about-page').style.display = 'none';
+                document.getElementById('about-page').style.opacity = '0';
                 document.getElementById('settings-panel').style.display = 'none';
+                document.getElementById('settings-panel').style.opacity = '0';
+                
+                // 显示主内容
+                document.getElementById('main-container').style.display = 'block';
                 
                 createRipple({currentTarget: this});
             });
@@ -1518,6 +1444,7 @@
             
             // 打开设置面板
             settingsIcon.addEventListener('click', function() {
+                document.getElementById('main-container').style.display = 'none';
                 document.getElementById('settings-panel').style.display = 'flex';
                 setTimeout(() => {
                     document.getElementById('settings-panel').style.opacity = '1';
@@ -1529,6 +1456,7 @@
                 document.getElementById('settings-panel').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('settings-panel').style.display = 'none';
+                    document.getElementById('main-container').style.display = 'block';
                 }, 400);
             });
             
@@ -1561,7 +1489,22 @@
                 document.getElementById('app-page').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('app-page').style.display = 'none';
+                    document.getElementById('main-container').style.display = 'block';
                 }, 400);
+            });
+        }
+        
+        // 主题切换
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    body.classList.remove('light-theme');
+                } else {
+                    body.classList.add('light-theme');
+                }
             });
         }
         
@@ -1569,23 +1512,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             createBubbles();
             updateTime();
-            updateBattery();
-            updateWeather();
-            setupThemeToggle();
             addRippleEffect();
             setupDeveloperOptions();
             setupAppOpening();
             setupNavigationButtons();
             setupSettings();
+            setupThemeToggle();
             
             // 每秒更新时间
             setInterval(updateTime, 1000);
-            
-            // 每分钟更新电池和天气
-            setInterval(() => {
-                updateBattery();
-                updateWeather();
-            }, 60000);
         });
     </script>
 </body>
