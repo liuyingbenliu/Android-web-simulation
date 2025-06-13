@@ -1178,23 +1178,214 @@
         .home-animation.active {
             opacity: 1;
         }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes gradientLightBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* 动画过渡 */
+        .page-transition {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        }
+        
+        /* 颜色主题样式 */
+        .color-theme-purple {
+            --primary: #6750A4;
+            --primary-variant: #7E67D4;
+        }
+        
+        .color-theme-blue {
+            --primary: #2962FF;
+            --primary-variant: #448AFF;
+        }
+        
+        .color-theme-orange {
+            --primary: #FF6D00;
+            --primary-variant: #FF9100;
+        }
+        
+        /* 颜色选择器 */
+        .color-picker {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            justify-content: center;
+        }
+        
+        .color-option {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .color-option.active {
+            border-color: white;
+            transform: scale(1.1);
+        }
+        
+        .color-option.purple {
+            background: #6750A4;
+        }
+        
+        .color-option.blue {
+            background: #2962FF;
+        }
+        
+        .color-option.orange {
+            background: #FF6D00;
+        }
+        
+        /* 拨号中动画 */
+        .calling-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 400;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .calling-animation.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .caller-info {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .caller-name {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 8px;
+        }
+        
+        .caller-number {
+            font-size: 24px;
+            color: #ccc;
+        }
+        
+        .call-status {
+            font-size: 20px;
+            color: #ccc;
+            margin-top: 24px;
+        }
+        
+        .call-controls {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .end-call-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #ff5252;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }
+        
+        /* 开发者提示 */
+        .dev-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .dev-alert.show {
+            opacity: 1;
+        }
+        
+        /* 新增UI版本区块样式 */
+        .ui-version-block {
+            background: var(--surface-container);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .ui-version-block:hover {
+            background-color: rgba(103, 80, 164, 0.08);
+        }
+        
+        .light-theme .ui-version-block:hover {
+            background-color: rgba(103, 80, 164, 0.05);
+        }
+        
+        .ui-version-label {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            margin-bottom: 4px;
+        }
+        
+        .ui-version-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--on-surface);
+        }
     </style>
 </head>
 <body>
     <!-- 泡泡背景 -->
-    <div class="bubbles"></div>
+    <div class="bubbles" id="bubbles"></div>
     
     <!-- iOS风格开启动画 -->
-    <div class="app-launch-animation">
+    <div class="app-launch-animation" id="app-launch">
         <div class="app-launch-icon">
-            <i class="material-icons">photo_library</i>
+            <i class="material-icons" id="launch-icon">rocket_launch</i>
         </div>
     </div>
     
     <!-- 返回桌面动画 -->
-    <div class="home-animation"></div>
+    <div class="home-animation" id="home-animation"></div>
     
-    <!-- 顶部状态栏 -->
+    <!-- 顶部状态栏 - 长椭圆设计 -->
     <div class="status-bar">
         <div class="battery-info">
             <div class="battery-icon">
@@ -1203,82 +1394,125 @@
             </div>
             <span>85%</span>
         </div>
-        <div class="time-display">14:28</div>
+        <div class="time-display" id="current-time">11:45</div>
         <div class="weather-info">
             <i class="material-icons">wb_sunny</i>
-            <span>28°</span>
+            <span>26°C</span>
         </div>
     </div>
     
     <!-- 主内容区 -->
     <div class="content-container">
         <div class="welcome-container">
-            <h1 class="welcome-title">Pixel 6 Pro</h1>
-            <p class="welcome-subtitle">Android 12</p>
+            <h1 class="welcome-title">欢迎回来</h1>
+            <p class="welcome-subtitle">今天是2025年6月13日，星期五</p>
         </div>
         
-        <!-- 应用网格 -->
         <div class="app-grid">
-            <div class="app-icon" data-app="gallery">
-                <i class="material-icons">photo_library</i>
-                <span>相册</span>
-            </div>
-            <div class="app-icon" data-app="camera">
-                <i class="material-icons">photo_camera</i>
-                <span>相机</span>
-            </div>
-            <div class="app-icon" data-app="messages">
-                <i class="material-icons">message</i>
-                <span>信息</span>
-            </div>
-            <div class="app-icon" data-app="phone">
-                <i class="material-icons">phone</i>
-                <span>电话</span>
-            </div>
-            <div class="app-icon" data-app="music">
-                <i class="material-icons">music_note</i>
-                <span>音乐</span>
-            </div>
-            <div class="app-icon" data-app="settings">
+            <div class="app-icon" id="settings">
                 <i class="material-icons">settings</i>
                 <span>设置</span>
             </div>
-            <div class="app-icon" data-app="about">
-                <i class="material-icons">info</i>
-                <span>关于</span>
+            <div class="app-icon" id="camera">
+                <i class="material-icons">camera</i>
+                <span>相机</span>
             </div>
-            <div class="app-icon" data-app="developer">
-                <i class="material-icons">code</i>
-                <span>开发者</span>
+            <div class="app-icon" id="messages">
+                <i class="material-icons">message</i>
+                <span>信息</span>
+            </div>
+            <div class="app-icon" id="phone">
+                <i class="material-icons">call</i>
+                <span>电话</span>
+            </div>
+            <div class="app-icon" id="gallery">
+                <i class="material-icons">photo_library</i>
+                <span>相册</span>
+            </div>
+            <div class="app-icon" id="music">
+                <i class="material-icons">music_note</i>
+                <span>音乐</span>
             </div>
         </div>
     </div>
     
     <!-- 设置面板 -->
-    <div class="settings-panel">
+    <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
-            <button class="back-button" id="back-to-home">
+            <button class="back-button" id="settings-back">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="settings-title">设置</div>
         </div>
         <div class="settings-content">
             <div class="setting-section">
-                <h3 class="setting-section-title">显示</h3>
-                <div class="setting-item">
+                <div class="setting-section-title">设备设置</div>
+                <div class="setting-item" id="wifi-setting">
                     <div class="setting-icon">
-                        <i class="material-icons">dark_mode</i>
+                        <i class="material-icons">wifi</i>
                     </div>
                     <div class="setting-info">
-                        <div class="setting-title">深色主题</div>
-                        <div class="setting-subtitle">启用深色模式</div>
+                        <div class="setting-title">Wi-Fi</div>
+                        <div class="setting-subtitle">已连接至 Galaxy Home</div>
                     </div>
-                    <div class="toggle-switch">
-                        <input type="checkbox" id="dark-mode-toggle">
-                        <span class="slider"></span>
-                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
-                <div class="setting-item">
+                <div class="setting-item" id="bluetooth-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">bluetooth</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">蓝牙</div>
+                        <div class="setting-subtitle">已开启 · 未连接</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <div class="setting-item" id="sound-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">volume_up</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">声音与振动</div>
+                        <div class="setting-subtitle">媒体音量 75%</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+            </div>
+            
+            <div class="setting-section">
+                <div class="setting-section-title">系统设置</div>
+                <div class="setting-item" id="display-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">display_settings</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">显示</div>
+                        <div class="setting-subtitle">亮度 · 自适应</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <div class="setting-item" id="battery-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">battery_charging_full</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">电池</div>
+                        <div class="setting-subtitle">剩余约 8 小时 20 分钟</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <div class="setting-item" id="storage-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">storage</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">存储</div>
+                        <div class="setting-subtitle">128 GB · 已用 64 GB</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <!-- 新增动画开关 -->
+                <div class="setting-item" id="animation-setting">
                     <div class="setting-icon">
                         <i class="material-icons">animation</i>
                     </div>
@@ -1294,24 +1528,14 @@
             </div>
             
             <div class="setting-section">
-                <h3 class="setting-section-title">系统</h3>
-                <div class="setting-item">
+                <div class="setting-section-title">关于设备</div>
+                <div class="setting-item" id="about-device">
                     <div class="setting-icon">
-                        <i class="material-icons">update</i>
+                        <i class="material-icons">info</i>
                     </div>
                     <div class="setting-info">
-                        <div class="setting-title">系统更新</div>
-                        <div class="setting-subtitle">Android 12 - 最新版本</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">battery_full</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">电池</div>
-                        <div class="setting-subtitle">85% - 预计可用8小时</div>
+                        <div class="setting-title">关于设备</div>
+                        <div class="setting-subtitle">软件信息与设备详情</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
@@ -1320,49 +1544,249 @@
     </div>
     
     <!-- 关于页面 -->
-    <div class="about-page">
+    <div class="about-page" id="about-page">
         <div class="about-header">
-            <button class="back-button" id="back-from-about">
+            <button class="back-button" id="about-back">
                 <i class="material-icons">arrow_back</i>
             </button>
-            <div class="settings-title">关于本机</div>
+            <div class="settings-title">关于设备</div>
         </div>
         <div class="about-content">
-            <div class="device-icon">
-                <i class="material-icons">phone_android</i>
+            <div class="device-icon" id="android-version">
+                <i class="material-icons">android</i>
             </div>
-            <h2 class="device-name">Pixel 6 Pro</h2>
-            <div class="device-sim">T-Mobile</div>
+            <h2 class="device-name">Galaxy S24 Ultra</h2>
+            <div class="device-sim">Android web simulation</div>
             
             <div class="info-grid">
                 <div class="info-card">
-                    <div class="info-label">型号</div>
-                    <div class="info-value">Pixel 6 Pro</div>
+                    <div class="info-label">设备型号</div>
+                    <div class="info-value">SM-S928B/DS</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">Android版本</div>
-                    <div class="info-value">12.0</div>
+                    <div class="info-label">序列号</div>
+                    <div class="info-value">R3CT17ZAHXJ</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">内核版本</div>
-                    <div class="info-value">5.10.43-android12-9</div>
+                    <div class="info-label">Android 版本</div>
+                    <div class="info-value">12.0.0 (SP1A.210812.016)</div>
                 </div>
                 <div class="info-card">
                     <div class="info-label">安全补丁</div>
-                    <div class="info-value">2023年5月5日</div>
+                    <div class="info-value">2025年5月5日</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">内核版本</div>
+                    <div class="info-value">5.4.210-Android-12</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">基带版本</div>
+                    <div class="info-value">S928BXXU3BVC7</div>
+                </div>
+            </div>
+            
+            <!-- 新增UI版本区块 -->
+            <div class="ui-version-block" id="ui-version-block">
+                <div class="ui-version-label">UI版本</div>
+                <div class="ui-version-value">V3.0</div>
+            </div>
+            
+            <div class="developer-options" id="dev-options">
+                <div class="setting-section-title">开发者选项</div>
+                <div class="toggle-container">
+                    <div class="toggle-label">USB调试</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="usb-debug">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">显示布局边界</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="layout-bounds">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">强制GPU渲染</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="gpu-render">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">深色/浅色主题</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">设备主题颜色</div>
+                    <div class="color-picker">
+                        <div class="color-option purple active" data-color="purple"></div>
+                        <div class="color-option blue" data-color="blue"></div>
+                        <div class="color-option orange" data-color="orange"></div>
+                    </div>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">关闭开发者选项</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="dev-options-toggle">
+                        <span class="slider"></span>
+                    </label>
                 </div>
             </div>
             
             <div class="developer-message">
-                <p>Google Pixel 6 Pro 搭载 Tensor 芯片，拥有强大的计算能力和卓越的相机系统，为您提供最佳的 Android 体验。</p>
+                <p>此设备运行的是最新版本的 Android 12，所有安全更新均已应用。保持您的设备更新以获得最佳性能和安全性。</p>
             </div>
+        </div>
+    </div>
+    
+    <!-- 相机应用页面 -->
+    <div class="app-page" id="camera-app">
+        <div class="app-header">
+            <button class="back-button" id="camera-back">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="app-title">相机</div>
+        </div>
+        <div class="app-content">
+            <div class="camera-preview">
+                <div class="camera-view">相机预览</div>
+                <div class="camera-controls">
+                    <button class="camera-btn">
+                        <i class="material-icons">flip_camera_android</i>
+                    </button>
+                    <button class="camera-btn" style="width: 70px; height: 70px;">
+                        <i class="material-icons">camera</i>
+                    </button>
+                    <button class="camera-btn">
+                        <i class="material-icons">collections</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 信息应用页面 -->
+    <div class="app-page" id="messages-app">
+        <div class="app-header">
+            <button class="back-button" id="messages-back">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="app-title">信息</div>
+        </div>
+        <div class="app-content">
+            <div class="messages-container">
+                <div class="message-list" id="message-list">
+                    <div class="message-item">
+                        <div class="message-avatar">A</div>
+                        <div class="message-content">
+                            <div class="message-sender">Alice</div>
+                            <div class="message-text">今晚一起吃饭吗？</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">B</div>
+                        <div class="message-content">
+                            <div class="message-sender">Bob</div>
+                            <div class="message-text">项目进展顺利，已按时完成</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">C</div>
+                        <div class="message-content">
+                            <div class="message-sender">Carol</div>
+                            <div class="message-text">别忘了明天的会议，早上9点</div>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">D</div>
+                        <div class="message-content">
+                            <div class="message-sender">Dave</div>
+                            <div class="message-text">周末去爬山怎么样？</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-input-container">
+                    <input type="text" class="message-input" id="message-input" placeholder="输入消息...">
+                    <button class="send-button" id="send-button">
+                        <i class="material-icons">send</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 电话应用页面 -->
+    <div class="app-page" id="phone-app">
+        <div class="app-header">
+            <button class="back-button" id="phone-back">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="app-title">电话</div>
+        </div>
+        <div class="app-content">
+            <div class="phone-display" id="phone-display">输入号码</div>
+            <div class="keypad-container">
+                <button class="keypad-button" data-number="1">
+                    <div class="keypad-number">1</div>
+                </button>
+                <button class="keypad-button" data-number="2">
+                    <div class="keypad-number">2</div>
+                    <div class="keypad-letters">ABC</div>
+                </button>
+                <button class="keypad-button" data-number="3">
+                    <div class="keypad-number">3</div>
+                    <div class="keypad-letters">DEF</div>
+                </button>
+                <button class="keypad-button" data-number="4">
+                    <div class="keypad-number">4</div>
+                    <div class="keypad-letters">GHI</div>
+                </button>
+                <button class="keypad-button" data-number="5">
+                    <div class="keypad-number">5</div>
+                    <div class="keypad-letters">JKL</div>
+                </button>
+                <button class="keypad-button" data-number="6">
+                    <div class="keypad-number">6</div>
+                    <div class="keypad-letters">MNO</div>
+                </button>
+                <button class="keypad-button" data-number="7">
+                    <div class="keypad-number">7</div>
+                    <div class="keypad-letters">PQRS</div>
+                </button>
+                <button class="keypad-button" data-number="8">
+                    <div class="keypad-number">8</div>
+                    <div class="keypad-letters">TUV</div>
+                </button>
+                <button class="keypad-button" data-number="9">
+                    <div class="keypad-number">9</div>
+                    <div class="keypad-letters">WXYZ</div>
+                </button>
+                <button class="keypad-button" data-number="*">
+                    <div class="keypad-number">*</div>
+                </button>
+                <button class="keypad-button" data-number="0">
+                    <div class="keypad-number">0</div>
+                    <div class="keypad-letters">+</div>
+                </button>
+                <button class="keypad-button" data-number="#">
+                    <div class="keypad-number">#</div>
+                </button>
+            </div>
+            <button class="call-button" id="call-button">
+                <i class="material-icons">call</i>
+            </button>
         </div>
     </div>
     
     <!-- 相册应用页面 -->
     <div class="app-page" id="gallery-app">
         <div class="app-header">
-            <button class="back-button" id="back-from-gallery">
+            <button class="back-button" id="gallery-back">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title">相册</div>
@@ -1400,152 +1824,19 @@
         </div>
     </div>
     
-    <!-- 相机应用页面 -->
-    <div class="app-page" id="camera-app">
-        <div class="app-header">
-            <button class="back-button" id="back-from-camera">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            <div class="app-title">相机</div>
-        </div>
-        <div class="app-content">
-            <div class="camera-preview">
-                <div class="camera-view">相机预览</div>
-                <div class="camera-controls">
-                    <button class="camera-btn">
-                        <i class="material-icons">flip_camera_android</i>
-                    </button>
-                    <button class="camera-btn">
-                        <i class="material-icons">photo_camera</i>
-                    </button>
-                    <button class="camera-btn">
-                        <i class="material-icons">collections</i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 信息应用页面 -->
-    <div class="app-page" id="messages-app">
-        <div class="app-header">
-            <button class="back-button" id="back-from-messages">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            <div class="app-title">信息</div>
-        </div>
-        <div class="app-content">
-            <div class="messages-container">
-                <div class="message-list">
-                    <div class="message-item">
-                        <div class="message-avatar">A</div>
-                        <div class="message-content">
-                            <div class="message-sender">Alice</div>
-                            <div class="message-text">你好！今天下午3点开会别忘了</div>
-                        </div>
-                    </div>
-                    <div class="message-item self">
-                        <div class="message-avatar">我</div>
-                        <div class="message-content">
-                            <div class="message-sender">我</div>
-                            <div class="message-text">收到，我会准时参加</div>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">B</div>
-                        <div class="message-content">
-                            <div class="message-sender">Bob</div>
-                            <div class="message-text">新项目文档已经上传到共享文件夹</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="message-input-container">
-                    <input type="text" class="message-input" placeholder="输入消息...">
-                    <button class="send-button">
-                        <i class="material-icons">send</i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 电话应用页面 -->
-    <div class="app-page" id="phone-app">
-        <div class="app-header">
-            <button class="back-button" id="back-from-phone">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            <div class="app-title">电话</div>
-        </div>
-        <div class="app-content">
-            <div class="phone-display">+1 (555) 123-4567</div>
-            <div class="keypad-container">
-                <button class="keypad-button">
-                    <span class="keypad-number">1</span>
-                    <span class="keypad-letters"></span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">2</span>
-                    <span class="keypad-letters">ABC</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">3</span>
-                    <span class="keypad-letters">DEF</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">4</span>
-                    <span class="keypad-letters">GHI</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">5</span>
-                    <span class="keypad-letters">JKL</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">6</span>
-                    <span class="keypad-letters">MNO</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">7</span>
-                    <span class="keypad-letters">PQRS</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">8</span>
-                    <span class="keypad-letters">TUV</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">9</span>
-                    <span class="keypad-letters">WXYZ</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">*</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">0</span>
-                    <span class="keypad-letters">+</span>
-                </button>
-                <button class="keypad-button">
-                    <span class="keypad-number">#</span>
-                </button>
-            </div>
-            <button class="call-button">
-                <i class="material-icons">call</i>
-            </button>
-        </div>
-    </div>
-    
     <!-- 音乐应用页面 -->
     <div class="app-page" id="music-app">
         <div class="app-header">
-            <button class="back-button" id="back-from-music">
+            <button class="back-button" id="music-back">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title">音乐</div>
         </div>
         <div class="app-content">
             <div class="music-player">
-                <div class="album-cover">专辑封面</div>
-                <div class="song-title">几何之旅</div>
-                <div class="song-artist">Android 12 原声带</div>
+                <div class="album-cover"></div>
+                <div class="song-title">Summer Vibes</div>
+                <div class="song-artist">The Chill Beats</div>
                 <div class="player-controls">
                     <button class="player-button">
                         <i class="material-icons">skip_previous</i>
@@ -1562,219 +1853,434 @@
     </div>
     
     <!-- 返回悬浮按钮 -->
-    <div class="floating-back-btn" id="floating-home-btn">
+    <div class="floating-back-btn" id="floating-back">
         <i class="material-icons">home</i>
     </div>
     
+    <!-- 开发者提示 -->
+    <div class="dev-alert" id="dev-alert">
+        <i class="material-icons">verified_user</i>
+        <span>开发者选项已开启</span>
+    </div>
+    
+    <!-- 拨号中动画 -->
+    <div class="calling-animation" id="calling-animation">
+        <div class="caller-info">
+            <div class="caller-name">未知号码</div>
+            <div class="caller-number" id="calling-number">13800138000</div>
+            <div class="call-status">拨号中...</div>
+        </div>
+        <div class="call-controls">
+            <button class="end-call-btn" id="end-call-btn">
+                <i class="material-icons">call_end</i>
+            </button>
+        </div>
+    </div>
+
     <script>
-        // 初始化变量
-        let currentApp = null;
-        let animationEnabled = true;
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建气泡背景
+            createBubbles();
+            
+            // 更新时间显示
+            updateTime();
+            setInterval(updateTime, 60000);
+            
+            // 设置按钮事件
+            document.getElementById('settings').addEventListener('click', function() {
+                showPanel('settings-panel');
+            });
+            
+            // 设置返回按钮
+            document.getElementById('settings-back').addEventListener('click', function() {
+                hidePanel('settings-panel');
+            });
+            
+            // 关于设备按钮
+            document.getElementById('about-device').addEventListener('click', function() {
+                hidePanel('settings-panel');
+                setTimeout(() => showPanel('about-page'), 100);
+            });
+            
+            // 关于页面返回按钮 - 直接返回设置主页
+            document.getElementById('about-back').addEventListener('click', function() {
+                hidePanel('about-page');
+                setTimeout(() => showPanel('settings-panel'), 100);
+            });
+            
+            // UI版本区块点击事件 - 6次开启开发者选项
+            let tapCount = 0;
+            let lastTapTime = 0;
+            document.getElementById('ui-version-block').addEventListener('click', function() {
+                const now = Date.now();
+                if (now - lastTapTime > 500) { // 重置如果点击间隔超过500ms
+                    tapCount = 0;
+                }
+                
+                tapCount++;
+                lastTapTime = now;
+                
+                // 添加点击反馈效果
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+                
+                if(tapCount === 6) {
+                    document.getElementById('dev-options').classList.add('show');
+                    document.querySelector('.developer-message').classList.add('show');
+                    document.getElementById('dev-alert').classList.add('show');
+                    
+                    setTimeout(() => {
+                        document.getElementById('dev-alert').classList.remove('show');
+                    }, 3000);
+                    
+                    // 重置计数器
+                    tapCount = 0;
+                }
+            });
+            
+            // 关闭开发者选项开关
+            document.getElementById('dev-options-toggle').addEventListener('change', function() {
+                if(this.checked) {
+                    document.getElementById('dev-options').classList.remove('show');
+                    document.querySelector('.developer-message').classList.remove('show');
+                    tapCount = 0;
+                }
+            });
+            
+            // 主题颜色选择
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除所有颜色主题类
+                    document.body.classList.remove('color-theme-purple', 'color-theme-blue', 'color-theme-orange');
+                    
+                    // 添加选中的颜色主题类
+                    document.body.classList.add(`color-theme-${this.dataset.color}`);
+                    
+                    // 更新活动状态
+                    document.querySelectorAll('.color-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+            
+            // 应用页面事件
+            const apps = {
+                'camera': 'camera-app',
+                'messages': 'messages-app',
+                'phone': 'phone-app',
+                'gallery': 'gallery-app',
+                'music': 'music-app'
+            };
+            
+            // 应用图标对应的启动图标
+            const appIcons = {
+                'camera': 'camera',
+                'messages': 'message',
+                'phone': 'call',
+                'gallery': 'photo_library',
+                'music': 'music_note'
+            };
+            
+            // 打开应用
+            Object.keys(apps).forEach(appId => {
+                document.getElementById(appId).addEventListener('click', function() {
+                    // 检查动画开关是否开启
+                    const animationEnabled = document.getElementById('animation-toggle').checked;
+                    
+                    if (animationEnabled) {
+                        // 设置启动动画图标
+                        document.getElementById('launch-icon').textContent = appIcons[appId];
+                        
+                        // 显示启动动画
+                        const launchAnimation = document.getElementById('app-launch');
+                        launchAnimation.classList.add('active');
+                        
+                        setTimeout(() => {
+                            launchAnimation.classList.remove('active');
+                            openApp(apps[appId]);
+                        }, 600);
+                    } else {
+                        // 无动画直接打开应用
+                        openApp(apps[appId]);
+                    }
+                });
+            });
+            
+            // 打开应用函数
+            function openApp(appId) {
+                const appPage = document.getElementById(appId);
+                appPage.style.display = 'flex';
+                setTimeout(() => {
+                    appPage.classList.add('open');
+                    
+                    // 显示悬浮返回按钮
+                    document.getElementById('floating-back').style.display = 'flex';
+                    
+                    // 重置电话应用状态
+                    if(appId === 'phone-app') {
+                        document.getElementById('phone-display').textContent = '输入号码';
+                        document.getElementById('call-button').classList.remove('active');
+                    }
+                }, 10);
+            }
+            
+            // 应用返回按钮
+            Object.keys(apps).forEach(appId => {
+                document.getElementById(`${appId}-back`).addEventListener('click', function() {
+                    closeApp(apps[appId]);
+                });
+            });
+            
+            // 悬浮返回按钮事件
+            document.getElementById('floating-back').addEventListener('click', function() {
+                // 检查是否有打开的应用
+                let appFound = false;
+                Object.keys(apps).forEach(appId => {
+                    const appPage = document.getElementById(apps[appId]);
+                    if (appPage.classList.contains('open')) {
+                        closeApp(apps[appId]);
+                        appFound = true;
+                    }
+                });
+                
+                // 如果没有打开的应用，关闭设置或关于页面
+                if (!appFound) {
+                    if (document.getElementById('settings-panel').classList.contains('show')) {
+                        hidePanel('settings-panel');
+                    } else if (document.getElementById('about-page').classList.contains('show')) {
+                        hidePanel('about-page');
+                    }
+                }
+            });
+            
+            // 关闭应用函数
+            function closeApp(appId) {
+                const appPage = document.getElementById(appId);
+                
+                // 检查动画开关是否开启
+                const animationEnabled = document.getElementById('animation-toggle').checked;
+                
+                if (animationEnabled) {
+                    // 显示返回桌面动画
+                    const homeAnimation = document.getElementById('home-animation');
+                    homeAnimation.classList.add('active');
+                    
+                    // 添加关闭动画
+                    appPage.classList.add('closing');
+                    
+                    setTimeout(() => {
+                        homeAnimation.classList.remove('active');
+                        appPage.classList.remove('open', 'closing');
+                        appPage.style.display = 'none';
+                        
+                        // 隐藏悬浮返回按钮
+                        document.getElementById('floating-back').style.display = 'none';
+                    }, 400);
+                } else {
+                    // 无动画直接关闭
+                    appPage.classList.add('closing');
+                    setTimeout(() => {
+                        appPage.classList.remove('open', 'closing');
+                        appPage.style.display = 'none';
+                        
+                        // 隐藏悬浮返回按钮
+                        document.getElementById('floating-back').style.display = 'none';
+                    }, 10);
+                }
+            }
+            
+            // 开发者选项中的主题切换
+            document.getElementById('theme-toggle').addEventListener('change', function() {
+                document.body.classList.toggle('light-theme');
+            });
+            
+            // 添加水波纹效果
+            addRippleEffect();
+            
+            // 电话应用功能
+            const phoneDisplay = document.getElementById('phone-display');
+            const callButton = document.getElementById('call-button');
+            const callingAnimation = document.getElementById('calling-animation');
+            const endCallButton = document.getElementById('end-call-btn');
+            const callingNumber = document.getElementById('calling-number');
+            
+            let phoneNumber = '';
+            
+            // 拨号按钮事件
+            document.querySelectorAll('.keypad-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const number = this.getAttribute('data-number');
+                    phoneNumber += number;
+                    phoneDisplay.textContent = phoneNumber;
+                    
+                    // 如果号码不为空，激活拨号按钮
+                    if(phoneNumber.length > 0) {
+                        callButton.classList.add('active');
+                    }
+                });
+            });
+            
+            // 拨号按钮事件
+            callButton.addEventListener('click', function() {
+                if(phoneNumber.length > 0) {
+                    callingNumber.textContent = phoneNumber;
+                    callingAnimation.classList.add('show');
+                    
+                    // 模拟呼叫状态更新
+                    setTimeout(() => {
+                        document.querySelector('.call-status').textContent = "通话中...";
+                    }, 2000);
+                }
+            });
+            
+            // 挂断电话
+            endCallButton.addEventListener('click', function() {
+                callingAnimation.classList.remove('show');
+                document.querySelector('.call-status').textContent = "拨号中...";
+                phoneNumber = '';
+                phoneDisplay.textContent = '输入号码';
+                callButton.classList.remove('active');
+            });
+            
+            // 信息应用功能
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const messageList = document.getElementById('message-list');
+            
+            // 发送消息
+            sendButton.addEventListener('click', function() {
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    // 创建新消息
+                    const newMessage = document.createElement('div');
+                    newMessage.classList.add('message-item', 'self');
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">我</div>
+                        <div class="message-content">
+                            <div class="message-sender">我</div>
+                            <div class="message-text">${messageText}</div>
+                        </div>
+                    `;
+                    
+                    // 添加到消息列表
+                    messageList.appendChild(newMessage);
+                    
+                    // 清空输入框
+                    messageInput.value = '';
+                    
+                    // 滚动到底部
+                    messageList.scrollTop = messageList.scrollHeight;
+                    
+                    // 模拟回复
+                    setTimeout(() => {
+                        const replies = [
+                            "好的，收到！",
+                            "明白了，谢谢！",
+                            "稍后回复你",
+                            "正在处理中...",
+                            "需要更多信息吗？"
+                        ];
+                        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                        
+                        const replyMessage = document.createElement('div');
+                        replyMessage.classList.add('message-item');
+                        replyMessage.innerHTML = `
+                            <div class="message-avatar">R</div>
+                            <div class="message-content">
+                                <div class="message-sender">回复助手</div>
+                                <div class="message-text">${randomReply}</div>
+                            </div>
+                        `;
+                        
+                        messageList.appendChild(replyMessage);
+                        messageList.scrollTop = messageList.scrollHeight;
+                    }, 1000);
+                }
+            });
+            
+            // 按回车发送消息
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        });
         
-        // 生成泡泡背景
+        // 显示面板的动画效果
+        function showPanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = 'flex';
+            setTimeout(() => {
+                panel.classList.add('show');
+            }, 10);
+        }
+        
+        // 隐藏面板的动画效果
+        function hidePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.remove('show');
+            setTimeout(() => {
+                panel.style.display = 'none';
+            }, 400);
+        }
+        
+        // 创建气泡背景
         function createBubbles() {
-            const bubblesContainer = document.querySelector('.bubbles');
-            const bubbleCount = 20;
+            const bubblesContainer = document.getElementById('bubbles');
+            const bubbleCount = 15;
             
             for (let i = 0; i < bubbleCount; i++) {
                 const bubble = document.createElement('div');
                 bubble.classList.add('bubble');
                 
-                // 随机大小和位置
-                const size = Math.random() * 80 + 20;
-                const posX = Math.random() * 100;
-                const delay = Math.random() * 15;
-                const duration = Math.random() * 10 + 15;
-                
+                // 随机大小
+                const size = Math.random() * 100 + 20;
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
-                bubble.style.left = `${posX}%`;
-                bubble.style.animationDelay = `${delay}s`;
-                bubble.style.animationDuration = `${duration}s`;
+                
+                // 随机位置
+                bubble.style.left = `${Math.random() * 100}%`;
+                
+                // 随机动画延迟
+                bubble.style.animationDelay = `${Math.random() * 15}s`;
                 
                 bubblesContainer.appendChild(bubble);
             }
         }
         
-        // 初始化时间显示
+        // 更新时间显示
         function updateTime() {
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.querySelector('.time-display').textContent = `${hours}:${minutes}`;
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
         }
         
-        // 初始化主题切换
-        function initThemeToggle() {
-            const darkModeToggle = document.getElementById('dark-mode-toggle');
-            const animationToggle = document.getElementById('animation-toggle');
-            
-            // 从localStorage加载主题设置
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            document.body.classList.toggle('light-theme', !isDarkMode);
-            darkModeToggle.checked = isDarkMode;
-            
-            // 从localStorage加载动画设置
-            animationEnabled = localStorage.getItem('animation') !== 'false';
-            animationToggle.checked = animationEnabled;
-            
-            // 监听主题切换
-            darkModeToggle.addEventListener('change', function() {
-                document.body.classList.toggle('light-theme', !this.checked);
-                localStorage.setItem('darkMode', this.checked);
-            });
-            
-            // 监听动画切换
-            animationToggle.addEventListener('change', function() {
-                animationEnabled = this.checked;
-                localStorage.setItem('animation', this.checked);
-            });
-        }
-        
-        // 显示iOS风格开启动画
-        function showAppLaunchAnimation(appIcon, callback) {
-            if (!animationEnabled) {
-                callback();
-                return;
-            }
-            
-            const animation = document.querySelector('.app-launch-animation');
-            const icon = animation.querySelector('.app-launch-icon');
-            
-            // 复制应用图标的样式
-            const rect = appIcon.getBoundingClientRect();
-            icon.style.width = `${rect.width}px`;
-            icon.style.height = `${rect.height}px`;
-            icon.style.borderRadius = '20px';
-            icon.innerHTML = appIcon.innerHTML;
-            
-            // 显示动画
-            animation.classList.add('active');
-            
-            // 动画结束后执行回调
-            setTimeout(() => {
-                animation.classList.remove('active');
-                setTimeout(callback, 300);
-            }, 800);
-        }
-        
-        // 显示应用页面
-        function showApp(appId) {
-            // 保存当前应用
-            currentApp = appId;
-            
-            // 获取应用图标元素
-            const appIcon = document.querySelector(`.app-icon[data-app="${appId}"]`);
-            
-            // 显示开启动画
-            showAppLaunchAnimation(appIcon, () => {
-                // 显示应用页面
-                const appPage = document.getElementById(`${appId}-app`);
-                appPage.classList.add('open');
-                
-                // 显示悬浮返回按钮
-                document.getElementById('floating-home-btn').style.display = 'flex';
-            });
-        }
-        
-        // 返回桌面
-        function returnToHome() {
-            if (!currentApp) return;
-            
-            const appPage = document.getElementById(`${currentApp}-app`);
-            
-            if (animationEnabled) {
-                // 显示返回动画
-                const animation = document.querySelector('.home-animation');
-                animation.classList.add('active');
-                
-                // 动画结束后关闭应用
-                setTimeout(() => {
-                    appPage.classList.remove('open');
-                    animation.classList.remove('active');
-                    currentApp = null;
+        // 添加水波纹效果
+        function addRippleEffect() {
+            document.querySelectorAll('.app-icon, .setting-item, .floating-back-btn, .camera-btn, .keypad-button, .call-button, .player-button, .send-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
                     
-                    // 隐藏悬浮返回按钮
-                    document.getElementById('floating-home-btn').style.display = 'none';
-                }, 300);
-            } else {
-                // 无动画直接关闭
-                appPage.classList.remove('open');
-                currentApp = null;
-                
-                // 隐藏悬浮返回按钮
-                document.getElementById('floating-home-btn').style.display = 'none';
-            }
-        }
-        
-        // 初始化应用点击事件
-        function initAppClicks() {
-            document.querySelectorAll('.app-icon').forEach(icon => {
-                icon.addEventListener('click', function() {
-                    const appId = this.getAttribute('data-app');
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
                     
-                    if (appId === 'settings') {
-                        document.querySelector('.settings-panel').classList.add('show');
-                    } else if (appId === 'about') {
-                        document.querySelector('.about-page').classList.add('show');
-                    } else {
-                        showApp(appId);
-                    }
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
                 });
             });
         }
-        
-        // 初始化返回按钮事件
-        function initBackButtons() {
-            // 返回桌面按钮
-            document.getElementById('floating-home-btn').addEventListener('click', returnToHome);
-            
-            // 设置面板返回
-            document.getElementById('back-to-home').addEventListener('click', function() {
-                document.querySelector('.settings-panel').classList.remove('show');
-            });
-            
-            // 关于页面返回
-            document.getElementById('back-from-about').addEventListener('click', function() {
-                document.querySelector('.about-page').classList.remove('show');
-            });
-            
-            // 应用内返回
-            document.querySelectorAll('.back-button[id^="back-from"]').forEach(button => {
-                button.addEventListener('click', returnToHome);
-            });
-        }
-        
-        // 开发者选项
-        function initDeveloperOptions() {
-            const deviceIcon = document.querySelector('.device-icon');
-            const developerMessage = document.querySelector('.developer-message');
-            
-            deviceIcon.addEventListener('click', function() {
-                document.querySelector('.developer-options').classList.toggle('show');
-                developerMessage.classList.add('show');
-            });
-        }
-        
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            createBubbles();
-            updateTime();
-            setInterval(updateTime, 60000); // 每分钟更新时间
-            
-            initThemeToggle();
-            initAppClicks();
-            initBackButtons();
-            initDeveloperOptions();
-            
-            // 初始化悬浮按钮状态
-            document.getElementById('floating-home-btn').style.display = 'none';
-            
-            // 显示开发者消息
-            setTimeout(() => {
-                document.querySelector('.developer-message').classList.add('show');
-            }, 2000);
-        });
     </script>
 </body>
 </html>
