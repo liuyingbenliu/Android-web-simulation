@@ -138,6 +138,7 @@
             background: #4ade80;
             border-radius: 1px;
             transition: width 0.5s ease;
+            width: 85%;
         }
         
         .battery-tip {
@@ -297,6 +298,11 @@
             overflow-y: auto;
         }
         
+        .settings-panel.show {
+            display: flex;
+            opacity: 1;
+        }
+        
         .settings-header {
             display: flex;
             align-items: center;
@@ -421,6 +427,10 @@
             z-index: 150;
             display: none;
             flex-direction: column;
+        }
+        
+        .about-page.show {
+            display: flex;
         }
         
         .about-header {
@@ -654,6 +664,7 @@
         .app-page.open {
             opacity: 1;
             transform: scale(1);
+            display: flex;
         }
         
         .app-page.closing {
@@ -737,7 +748,7 @@
         .camera-view {
             width: 100%;
             height: 300px;
-            background: #000;
+            background: linear-gradient(135deg, #7E67D4, #6750A4);
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 16px;
@@ -745,6 +756,8 @@
             align-items: center;
             justify-content: center;
             color: #fff;
+            font-size: 18px;
+            font-weight: 500;
         }
         
         .camera-controls {
@@ -789,6 +802,7 @@
         
         .app-center.open {
             transform: translateY(0);
+            display: flex;
         }
         
         .app-center-header {
@@ -865,6 +879,7 @@
         .multitask-view.open {
             opacity: 1;
             transform: scale(1);
+            display: flex;
         }
         
         .multitask-header {
@@ -1105,384 +1120,326 @@
         .page-transition {
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
         }
-        
-        .hide {
-            display: none !important;
-        }
-        
-        .show {
-            display: flex !important;
-        }
     </style>
 </head>
 <body>
     <!-- 泡泡背景 -->
     <div class="bubbles" id="bubbles"></div>
     
-    <!-- iOS风格应用开启动画 -->
-    <div class="app-launch-animation" id="app-launch-animation">
-        <div class="app-launch-icon">
-            <i class="material-icons" id="launch-icon">apps</i>
-        </div>
-    </div>
-    
     <!-- 顶部状态栏 -->
     <div class="status-bar">
         <div class="battery-info">
             <div class="battery-icon">
-                <div class="battery-level" id="battery-level" style="width: 78%;"></div>
+                <div class="battery-level"></div>
                 <div class="battery-tip"></div>
             </div>
-            <span id="battery-percent">78%</span>
+            <span>85%</span>
         </div>
-        
-        <div class="time-display" id="time-display">19:57:28</div>
-        
+        <div class="time-display" id="current-time">11:45</div>
         <div class="weather-info">
             <i class="material-icons">wb_sunny</i>
-            <span id="weather-info">晴朗 22°C</span>
+            <span>26°C</span>
         </div>
     </div>
     
     <!-- 主内容区 -->
-    <div class="content-container" id="main-container">
+    <div class="content-container">
         <div class="welcome-container">
-            <h1 class="welcome-title">设备管理面板</h1>
-            <p class="welcome-subtitle">Material Design | Android 12 风格</p>
+            <h1 class="welcome-title">欢迎回来</h1>
+            <p class="welcome-subtitle">今天是2025年6月13日，星期五</p>
         </div>
         
-        <div class="app-grid" id="app-grid">
-            <div class="app-icon" data-app="messages">
-                <i class="material-icons">message</i>
-                <span>消息</span>
-            </div>
-            <div class="app-icon" data-app="contacts">
-                <i class="material-icons">contacts</i>
-                <span>通讯录</span>
-            </div>
-            <div class="app-icon" data-app="camera">
-                <i class="material-icons">photo_camera</i>
-                <span>相机</span>
-            </div>
-            <div class="app-icon" data-app="gallery">
-                <i class="material-icons">photo_library</i>
-                <span>相册</span>
-            </div>
-            <div class="app-icon" data-app="music">
-                <i class="material-icons">music_note</i>
-                <span>音乐</span>
-            </div>
-            <div class="app-icon" data-app="settings">
+        <div class="app-grid">
+            <div class="app-icon" id="settings">
                 <i class="material-icons">settings</i>
                 <span>设置</span>
             </div>
-            <div class="app-icon" data-app="maps">
-                <i class="material-icons">map</i>
-                <span>地图</span>
+            <div class="app-icon" id="camera">
+                <i class="material-icons">camera</i>
+                <span>相机</span>
             </div>
-            <div class="app-icon" data-app="app-center">
+            <div class="app-icon" id="app-center">
                 <i class="material-icons">apps</i>
                 <span>应用中心</span>
+            </div>
+            <div class="app-icon" id="messages">
+                <i class="material-icons">message</i>
+                <span>信息</span>
+            </div>
+            <div class="app-icon" id="phone">
+                <i class="material-icons">call</i>
+                <span>电话</span>
+            </div>
+            <div class="app-icon" id="multitask">
+                <i class="material-icons">view_agenda</i>
+                <span>多任务</span>
+            </div>
+            <div class="app-icon" id="gallery">
+                <i class="material-icons">photo_library</i>
+                <span>相册</span>
+            </div>
+            <div class="app-icon" id="music">
+                <i class="material-icons">music_note</i>
+                <span>音乐</span>
+            </div>
+            <div class="app-icon" id="theme-toggle">
+                <i class="material-icons">brightness_6</i>
+                <span>深色模式</span>
             </div>
         </div>
     </div>
     
     <!-- 设置面板 -->
-    <div class="settings-panel page-transition" id="settings-panel">
+    <div class="settings-panel" id="settings-panel">
         <div class="settings-header">
-            <button class="back-button" id="back-from-settings">
+            <button class="back-button" id="settings-back">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="settings-title">设置</div>
         </div>
-        
         <div class="settings-content">
             <div class="setting-section">
-                <h2 class="setting-section-title">连接</h2>
-                <div class="setting-item">
+                <div class="setting-section-title">设备设置</div>
+                <div class="setting-item" id="wifi-setting">
                     <div class="setting-icon">
                         <i class="material-icons">wifi</i>
                     </div>
                     <div class="setting-info">
                         <div class="setting-title">Wi-Fi</div>
-                        <div class="setting-subtitle">已连接至 Home Network</div>
+                        <div class="setting-subtitle">已连接至 Galaxy Home</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
-                <div class="setting-item">
+                <div class="setting-item" id="bluetooth-setting">
                     <div class="setting-icon">
                         <i class="material-icons">bluetooth</i>
                     </div>
                     <div class="setting-info">
                         <div class="setting-title">蓝牙</div>
-                        <div class="setting-subtitle">已开启</div>
+                        <div class="setting-subtitle">已开启 · 未连接</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <div class="setting-item" id="sound-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">volume_up</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">声音与振动</div>
+                        <div class="setting-subtitle">媒体音量 75%</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
             </div>
             
             <div class="setting-section">
-                <h2 class="setting-section-title">设备</h2>
-                <div class="setting-item">
+                <div class="setting-section-title">系统设置</div>
+                <div class="setting-item" id="display-setting">
                     <div class="setting-icon">
                         <i class="material-icons">display_settings</i>
                     </div>
                     <div class="setting-info">
                         <div class="setting-title">显示</div>
-                        <div class="setting-subtitle">亮度自动调节</div>
+                        <div class="setting-subtitle">亮度 · 自适应</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
-                <div class="setting-item">
+                <div class="setting-item" id="battery-setting">
                     <div class="setting-icon">
-                        <i class="material-icons">volume_up</i>
+                        <i class="material-icons">battery_charging_full</i>
                     </div>
                     <div class="setting-info">
-                        <div class="setting-title">声音</div>
-                        <div class="setting-subtitle">铃声、媒体、通知</div>
+                        <div class="setting-title">电池</div>
+                        <div class="setting-subtitle">剩余约 8 小时 20 分钟</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
-                <div class="setting-item" id="about-device">
+                <div class="setting-item" id="storage-setting">
                     <div class="setting-icon">
-                        <i class="material-icons">devices</i>
+                        <i class="material-icons">storage</i>
                     </div>
                     <div class="setting-info">
-                        <div class="setting-title">关于设备</div>
-                        <div class="setting-subtitle">Android 版本、型号</div>
+                        <div class="setting-title">存储</div>
+                        <div class="setting-subtitle">128 GB · 已用 64 GB</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
             </div>
             
             <div class="setting-section">
-                <h2 class="setting-section-title">系统</h2>
-                <div class="setting-item">
+                <div class="setting-section-title">关于设备</div>
+                <div class="setting-item" id="about-device">
                     <div class="setting-icon">
-                        <i class="material-icons">security</i>
+                        <i class="material-icons">info</i>
                     </div>
                     <div class="setting-info">
-                        <div class="setting-title">安全</div>
-                        <div class="setting-subtitle">设备安全选项</div>
+                        <div class="setting-title">关于设备</div>
+                        <div class="setting-subtitle">软件信息与设备详情</div>
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">language</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">语言与输入法</div>
-                        <div class="setting-subtitle">简体中文</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-            </div>
-            
-            <div class="developer-options" id="developer-options">
-                <div class="setting-section">
-                    <h2 class="setting-section-title">开发者选项</h2>
-                    <div class="toggle-container">
-                        <div class="toggle-label">USB调试</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="usb-debugging">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="toggle-container">
-                        <div class="toggle-label">显示布局边界</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="layout-boundaries">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="toggle-container">
-                        <div class="toggle-label">GPU渲染模式分析</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="gpu-rendering">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    
-                    <h3 class="setting-section-title">应用可见性</h3>
-                    <div class="app-toggle-row">
-                        <div class="app-toggle-name">
-                            <div class="app-toggle-icon">
-                                <i class="material-icons">message</i>
-                            </div>
-                            <span>消息</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked data-app="messages">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="app-toggle-row">
-                        <div class="app-toggle-name">
-                            <div class="app-toggle-icon">
-                                <i class="material-icons">contacts</i>
-                            </div>
-                            <span>通讯录</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked data-app="contacts">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="app-toggle-row">
-                        <div class="app-toggle-name">
-                            <div class="app-toggle-icon">
-                                <i class="material-icons">photo_camera</i>
-                            </div>
-                            <span>相机</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked data-app="camera">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- 关于设备页面 -->
+    <!-- 关于页面 -->
     <div class="about-page" id="about-page">
         <div class="about-header">
-            <button class="back-button" id="back-from-about">
+            <button class="back-button" id="about-back">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="settings-title">关于设备</div>
         </div>
-        
         <div class="about-content">
             <div class="device-icon">
-                <i class="material-icons">phone_android</i>
+                <i class="material-icons">smartphone</i>
             </div>
-            <div class="device-name">Pixel 6 Pro</div>
-            <div class="device-version" id="version-tap">Android 12 • 点击查看版本信息</div>
+            <h2 class="device-name">Galaxy S24 Ultra</h2>
+            <div class="device-version" id="android-version">Android 12 · 点击查看版本号</div>
             
             <div class="info-grid">
                 <div class="info-card">
                     <div class="info-label">设备型号</div>
-                    <div class="info-value">Pixel 6 Pro</div>
+                    <div class="info-value">SM-S928B/DS</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">Android版本</div>
-                    <div class="info-value">12.0.0 (SQ1D.211205.016.A1)</div>
+                    <div class="info-label">序列号</div>
+                    <div class="info-value">R3CT17ZAHXJ</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Android 版本</div>
+                    <div class="info-value">12.0.0 (SP1A.210812.016)</div>
                 </div>
                 <div class="info-card">
                     <div class="info-label">安全补丁</div>
-                    <div class="info-value">2023年3月5日</div>
+                    <div class="info-value">2025年5月5日</div>
                 </div>
                 <div class="info-card">
                     <div class="info-label">内核版本</div>
-                    <div class="info-value">5.10.43-android12-9</div>
+                    <div class="info-value">5.4.210-Android-12</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">存储空间</div>
-                    <div class="info-value">128 GB (可用 42 GB)</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">内存</div>
-                    <div class="info-value">12 GB</div>
+                    <div class="info-label">基带版本</div>
+                    <div class="info-value">S928BXXU3BVC7</div>
                 </div>
             </div>
             
-            <div class="developer-message" id="dev-message">
-                <p>您现在是开发者！开发者选项已启用。</p>
-                <p>在设置 > 系统 > 开发者选项中可访问更多设置。</p>
+            <div class="developer-options" id="dev-options">
+                <div class="setting-section-title">开发者选项</div>
+                <div class="toggle-container">
+                    <div class="toggle-label">USB调试</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="usb-debug">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">显示布局边界</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="layout-bounds">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">强制GPU渲染</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="gpu-render">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="developer-message">
+                <p>此设备运行的是最新版本的 Android 12，所有安全更新均已应用。保持您的设备更新以获得最佳性能和安全性。</p>
             </div>
         </div>
     </div>
     
-    <!-- 应用页面 -->
-    <div class="app-page" id="app-page">
+    <!-- 相机应用页面 -->
+    <div class="app-page" id="camera-app">
         <div class="app-header">
-            <button class="back-button" id="back-from-app">
+            <button class="back-button" id="camera-back">
                 <i class="material-icons">arrow_back</i>
             </button>
-            <div class="app-title" id="app-title">应用</div>
+            <div class="app-title">相机</div>
         </div>
-        
-        <div class="app-content" id="app-content">
-            <!-- 动态内容 -->
+        <div class="app-content">
+            <div class="camera-preview">
+                <div class="camera-view">相机预览</div>
+                <div class="camera-controls">
+                    <div class="camera-btn">
+                        <i class="material-icons">flip_camera_android</i>
+                    </div>
+                    <div class="camera-btn" style="width: 70px; height: 70px;">
+                        <i class="material-icons">camera</i>
+                    </div>
+                    <div class="camera-btn">
+                        <i class="material-icons">collections</i>
+                    </div>
+                </div>
+            </div>
+            <div class="app-description">
+                使用后置摄像头拍摄照片和视频。支持夜景模式、人像模式和8K视频录制。
+            </div>
         </div>
     </div>
     
-    <!-- 应用中心 -->
-    <div class="app-center" id="app-center">
+    <!-- 应用中心页面 -->
+    <div class="app-center" id="app-center-panel">
         <div class="app-center-header">
-            <button class="back-button" id="back-from-app-center">
+            <button class="back-button" id="app-center-back">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-center-title">应用中心</div>
         </div>
-        
         <div class="app-center-grid">
             <div class="app-center-icon">
                 <i class="material-icons">email</i>
-                <span>邮件</span>
+                <span>邮箱</span>
             </div>
             <div class="app-center-icon">
-                <i class="material-icons">calendar_today</i>
-                <span>日历</span>
+                <i class="material-icons">map</i>
+                <span>地图</span>
             </div>
             <div class="app-center-icon">
                 <i class="material-icons">cloud</i>
                 <span>云存储</span>
             </div>
             <div class="app-center-icon">
-                <i class="material-icons">videocam</i>
-                <span>视频</span>
+                <i class="material-icons">calendar_today</i>
+                <span>日历</span>
             </div>
             <div class="app-center-icon">
                 <i class="material-icons">shopping_cart</i>
-                <span>购物</span>
+                <span>商店</span>
             </div>
             <div class="app-center-icon">
-                <i class="material-icons">local_offer</i>
-                <span>促销</span>
+                <i class="material-icons">movie</i>
+                <span>视频</span>
+            </div>
+            <div class="app-center-icon">
+                <i class="material-icons">translate</i>
+                <span>翻译</span>
+            </div>
+            <div class="app-center-icon">
+                <i class="material-icons">drive_eta</i>
+                <span>导航</span>
+            </div>
+            <div class="app-center-icon">
+                <i class="material-icons">headset</i>
+                <span>音乐</span>
             </div>
             <div class="app-center-icon">
                 <i class="material-icons">book</i>
-                <span>阅读</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">flight</i>
-                <span>旅行</span>
+                <span>图书</span>
             </div>
             <div class="app-center-icon">
                 <i class="material-icons">sports_esports</i>
                 <span>游戏</span>
             </div>
             <div class="app-center-icon">
-                <i class="material-icons">fitness_center</i>
+                <i class="material-icons">health_and_safety</i>
                 <span>健康</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">restaurant</i>
-                <span>美食</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">school</i>
-                <span>学习</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">work</i>
-                <span>工作</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">music_note</i>
-                <span>音乐</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">map</i>
-                <span>地图</span>
-            </div>
-            <div class="app-center-icon">
-                <i class="material-icons">photo_camera</i>
-                <span>相机</span>
             </div>
         </div>
     </div>
@@ -1491,59 +1448,61 @@
     <div class="multitask-view" id="multitask-view">
         <div class="multitask-header">
             <div class="multitask-title">最近应用</div>
-            <button class="back-button" id="close-multitask">
+            <button class="back-button" id="multitask-back">
                 <i class="material-icons">close</i>
             </button>
         </div>
-        
         <div class="multitask-grid">
-            <div class="app-card">
-                <div class="app-card-image">
-                    <i class="material-icons">message</i>
-                </div>
-                <div class="app-card-name">消息</div>
-            </div>
-            <div class="app-card">
-                <div class="app-card-image">
-                    <i class="material-icons">contacts</i>
-                </div>
-                <div class="app-card-name">通讯录</div>
-            </div>
-            <div class="app-card">
-                <div class="app-card-image">
-                    <i class="material-icons">photo_camera</i>
-                </div>
-                <div class="app-card-name">相机</div>
-            </div>
-            <div class="app-card">
-                <div class="app-card-image">
-                    <i class="material-icons">photo_library</i>
-                </div>
-                <div class="app-card-name">相册</div>
-            </div>
-            <div class="app-card">
+            <div class="app-card animate-in">
                 <div class="app-card-image">
                     <i class="material-icons">settings</i>
                 </div>
                 <div class="app-card-name">设置</div>
             </div>
-            <div class="app-card">
+            <div class="app-card animate-in">
                 <div class="app-card-image">
-                    <i class="material-icons">map</i>
+                    <i class="material-icons">chrome_reader_mode</i>
                 </div>
-                <div class="app-card-name">地图</div>
+                <div class="app-card-name">浏览器</div>
             </div>
-            <div class="app-card">
+            <div class="app-card animate-in">
+                <div class="app-card-image">
+                    <i class="material-icons">message</i>
+                </div>
+                <div class="app-card-name">信息</div>
+            </div>
+            <div class="app-card animate-in">
+                <div class="app-card-image">
+                    <i class="material-icons">mail</i>
+                </div>
+                <div class="app-card-name">邮箱</div>
+            </div>
+            <div class="app-card animate-in">
+                <div class="app-card-image">
+                    <i class="material-icons">photo_library</i>
+                </div>
+                <div class="app-card-name">相册</div>
+            </div>
+            <div class="app-card animate-in">
                 <div class="app-card-image">
                     <i class="material-icons">music_note</i>
                 </div>
                 <div class="app-card-name">音乐</div>
             </div>
-            <div class="app-card">
-                <div class="app-card-image">
-                    <i class="material-icons">apps</i>
-                </div>
-                <div class="app-card-name">应用中心</div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="navigation-bar">
+        <div class="nav-container">
+            <div class="nav-button" id="nav-back">
+                <div class="back-button-nav"></div>
+            </div>
+            <div class="nav-button" id="nav-home">
+                <div class="home-button-nav"></div>
+            </div>
+            <div class="nav-button" id="nav-recent">
+                <div class="recent-button-nav"></div>
             </div>
         </div>
     </div>
@@ -1551,409 +1510,177 @@
     <!-- 开发者提示 -->
     <div class="dev-alert" id="dev-alert">
         <i class="material-icons">verified_user</i>
-        <span>开发者选项已启用</span>
+        <span>开发者选项已开启</span>
     </div>
     
-    <!-- 安卓12风格三大金刚键 -->
-    <div class="navigation-bar">
-        <div class="nav-container">
-            <div class="nav-button back-button-nav" id="nav-back"></div>
-            <div class="nav-button home-button-nav" id="nav-home"></div>
-            <div class="nav-button recent-button-nav" id="nav-recent"></div>
+    <!-- 应用启动动画 -->
+    <div class="app-launch-animation" id="app-launch">
+        <div class="app-launch-icon">
+            <i class="material-icons">rocket_launch</i>
         </div>
     </div>
-    
-    <!-- 相机输入 -->
-    <input type="file" id="camera-input" accept="image/*" capture="camera" style="display: none;">
-    
+
     <script>
-        // DOM 元素
-        const mainContainer = document.getElementById('main-container');
-        const settingsPanel = document.getElementById('settings-panel');
-        const aboutPage = document.getElementById('about-page');
-        const appPage = document.getElementById('app-page');
-        const appGrid = document.getElementById('app-grid');
-        const appCenter = document.getElementById('app-center');
-        const multitaskView = document.getElementById('multitask-view');
-        const developerOptions = document.getElementById('developer-options');
-        const devAlert = document.getElementById('dev-alert');
-        const versionTap = document.getElementById('version-tap');
-        const devMessage = document.getElementById('dev-message');
-        const cameraInput = document.getElementById('camera-input');
-        const appContent = document.getElementById('app-content');
-        const appTitle = document.getElementById('app-title');
-        const launchAnimation = document.getElementById('app-launch-animation');
-        const launchIcon = document.getElementById('launch-icon');
-        
-        // 按钮元素
-        const navBack = document.getElementById('nav-back');
-        const navHome = document.getElementById('nav-home');
-        const navRecent = document.getElementById('nav-recent');
-        const backFromSettings = document.getElementById('back-from-settings');
-        const backFromAbout = document.getElementById('back-from-about');
-        const backFromApp = document.getElementById('back-from-app');
-        const backFromAppCenter = document.getElementById('back-from-app-center');
-        const closeMultitask = document.getElementById('close-multitask');
-        const aboutDevice = document.getElementById('about-device');
-        
-        // 状态变量
-        let currentPage = 'main';
-        let developerMode = false;
-        let tapCount = 0;
-        
-        // 初始化
-        function init() {
-            // 创建泡泡背景
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 创建气泡背景
             createBubbles();
             
-            // 更新时间
+            // 更新时间显示
             updateTime();
-            setInterval(updateTime, 1000);
+            setInterval(updateTime, 60000);
             
-            // 事件监听器
-            setupEventListeners();
+            // 设置按钮事件
+            document.getElementById('settings').addEventListener('click', function() {
+                document.getElementById('settings-panel').classList.add('show');
+            });
             
-            // 初始化开发者选项
-            initDeveloperOptions();
-        }
+            // 设置返回按钮
+            document.getElementById('settings-back').addEventListener('click', function() {
+                document.getElementById('settings-panel').classList.remove('show');
+            });
+            
+            // 关于设备按钮
+            document.getElementById('about-device').addEventListener('click', function() {
+                document.getElementById('about-page').classList.add('show');
+                document.getElementById('settings-panel').classList.remove('show');
+            });
+            
+            // 关于页面返回按钮
+            document.getElementById('about-back').addEventListener('click', function() {
+                document.getElementById('about-page').classList.remove('show');
+            });
+            
+            // Android版本点击事件
+            document.getElementById('android-version').addEventListener('click', function() {
+                document.getElementById('dev-options').classList.add('show');
+                document.querySelector('.developer-message').classList.add('show');
+            });
+            
+            // 相机应用
+            document.getElementById('camera').addEventListener('click', function() {
+                document.getElementById('camera-app').classList.add('open');
+            });
+            
+            // 相机返回按钮
+            document.getElementById('camera-back').addEventListener('click', function() {
+                document.getElementById('camera-app').classList.remove('open');
+            });
+            
+            // 应用中心
+            document.getElementById('app-center').addEventListener('click', function() {
+                document.getElementById('app-center-panel').classList.add('open');
+            });
+            
+            // 应用中心返回按钮
+            document.getElementById('app-center-back').addEventListener('click', function() {
+                document.getElementById('app-center-panel').classList.remove('open');
+            });
+            
+            // 多任务视图
+            document.getElementById('multitask').addEventListener('click', function() {
+                document.getElementById('multitask-view').classList.add('open');
+            });
+            
+            // 多任务返回按钮
+            document.getElementById('multitask-back').addEventListener('click', function() {
+                document.getElementById('multitask-view').classList.remove('open');
+            });
+            
+            // 主题切换
+            document.getElementById('theme-toggle').addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+                this.querySelector('span').textContent = 
+                    document.body.classList.contains('light-theme') ? '浅色模式' : '深色模式';
+            });
+            
+            // 底部导航按钮事件
+            document.getElementById('nav-back').addEventListener('click', function() {
+                // 模拟返回按钮功能
+                if (document.getElementById('settings-panel').classList.contains('show')) {
+                    document.getElementById('settings-panel').classList.remove('show');
+                } else if (document.getElementById('about-page').classList.contains('show')) {
+                    document.getElementById('about-page').classList.remove('show');
+                } else if (document.getElementById('camera-app').classList.contains('open')) {
+                    document.getElementById('camera-app').classList.remove('open');
+                } else if (document.getElementById('app-center-panel').classList.contains('open')) {
+                    document.getElementById('app-center-panel').classList.remove('open');
+                } else if (document.getElementById('multitask-view').classList.contains('open')) {
+                    document.getElementById('multitask-view').classList.remove('open');
+                }
+            });
+            
+            document.getElementById('nav-home').addEventListener('click', function() {
+                // 关闭所有面板，返回主页
+                document.getElementById('settings-panel').classList.remove('show');
+                document.getElementById('about-page').classList.remove('show');
+                document.getElementById('camera-app').classList.remove('open');
+                document.getElementById('app-center-panel').classList.remove('open');
+                document.getElementById('multitask-view').classList.remove('open');
+            });
+            
+            document.getElementById('nav-recent').addEventListener('click', function() {
+                // 打开多任务视图
+                document.getElementById('multitask-view').classList.add('open');
+            });
+            
+            // 添加水波纹效果
+            addRippleEffect();
+        });
         
-        // 创建泡泡背景
+        // 创建气泡背景
         function createBubbles() {
-            const bubbles = document.getElementById('bubbles');
-            for (let i = 0; i < 20; i++) {
+            const bubblesContainer = document.getElementById('bubbles');
+            const bubbleCount = 15;
+            
+            for (let i = 0; i < bubbleCount; i++) {
                 const bubble = document.createElement('div');
-                bubble.className = 'bubble';
+                bubble.classList.add('bubble');
                 
-                // 随机大小和位置
-                const size = Math.random() * 60 + 20;
+                // 随机大小
+                const size = Math.random() * 100 + 20;
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
+                
+                // 随机位置
                 bubble.style.left = `${Math.random() * 100}%`;
-                bubble.style.top = `${Math.random() * 100}%`;
                 
                 // 随机动画延迟
-                bubble.style.animationDelay = `${Math.random() * 10}s`;
+                bubble.style.animationDelay = `${Math.random() * 15}s`;
                 
-                bubbles.appendChild(bubble);
+                bubblesContainer.appendChild(bubble);
             }
         }
         
         // 更新时间显示
         function updateTime() {
             const now = new Date();
-            const timeDisplay = document.getElementById('time-display');
-            timeDisplay.textContent = now.toLocaleTimeString('zh-CN', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
         }
         
-        // 设置事件监听器
-        function setupEventListeners() {
-            // 导航按钮
-            navBack.addEventListener('click', handleBack);
-            navHome.addEventListener('click', goHome);
-            navRecent.addEventListener('click', showMultitaskView);
-            
-            // 返回按钮
-            backFromSettings.addEventListener('click', () => closePanel(settingsPanel));
-            backFromAbout.addEventListener('click', () => closePanel(aboutPage));
-            backFromApp.addEventListener('click', () => closeApp());
-            backFromAppCenter.addEventListener('click', () => closePanel(appCenter));
-            closeMultitask.addEventListener('click', () => closePanel(multitaskView));
-            
-            // 应用图标点击
-            document.querySelectorAll('.app-icon').forEach(icon => {
-                icon.addEventListener('click', (e) => {
-                    const app = icon.getAttribute('data-app');
-                    const iconElement = icon.querySelector('i');
+        // 添加水波纹效果
+        function addRippleEffect() {
+            document.querySelectorAll('.app-icon, .setting-item, .nav-button, .camera-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
                     
-                    // 设置启动动画图标
-                    launchIcon.textContent = iconElement.textContent;
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
                     
-                    // 显示启动动画
-                    launchAnimation.classList.add('active');
+                    this.appendChild(ripple);
                     
-                    // 打开应用
                     setTimeout(() => {
-                        launchAnimation.classList.remove('active');
-                        openApp(app);
+                        ripple.remove();
                     }, 600);
                 });
             });
-            
-            // 设置项目点击
-            aboutDevice.addEventListener('click', () => openPanel(aboutPage));
-            
-            // 版本号点击（开发者选项）
-            versionTap.addEventListener('click', () => {
-                tapCount++;
-                if (tapCount >= 7 && !developerMode) {
-                    developerMode = true;
-                    developerOptions.classList.add('show');
-                    devAlert.classList.add('show');
-                    devMessage.classList.add('show');
-                    
-                    setTimeout(() => {
-                        devAlert.classList.remove('show');
-                    }, 3000);
-                }
-            });
-            
-            // 应用开关切换
-            document.querySelectorAll('.app-toggle-row input').forEach(toggle => {
-                toggle.addEventListener('change', (e) => {
-                    const app = e.target.getAttribute('data-app');
-                    const icon = document.querySelector(`.app-icon[data-app="${app}"]`);
-                    
-                    if (e.target.checked) {
-                        icon.classList.remove('hide');
-                    } else {
-                        icon.classList.add('hide');
-                    }
-                });
-            });
-            
-            // 相机输入处理
-            cameraInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) {
-                    const file = e.target.files[0];
-                    const url = URL.createObjectURL(file);
-                    
-                    // 在相机应用中显示图片预览
-                    appContent.innerHTML = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">photo_camera</i>
-                        </div>
-                        <div class="app-name">相机</div>
-                        <div class="camera-preview">
-                            <div class="camera-view">
-                                <img src="${url}" style="max-width:100%; max-height:100%;" alt="拍摄的照片">
-                            </div>
-                            <div class="camera-controls">
-                                <div class="camera-btn" id="retake-photo">
-                                    <i class="material-icons">replay</i>
-                                </div>
-                                <div class="camera-btn" id="save-photo">
-                                    <i class="material-icons">check</i>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // 添加重拍和保存事件
-                    document.getElementById('retake-photo').addEventListener('click', () => {
-                        cameraInput.click();
-                    });
-                    
-                    document.getElementById('save-photo').addEventListener('click', () => {
-                        alert('照片已保存到相册');
-                    });
-                }
-            });
         }
-        
-        // 初始化开发者选项
-        function initDeveloperOptions() {
-            // 初始化开关状态
-            document.querySelectorAll('.developer-options input[type="checkbox"]').forEach(toggle => {
-                toggle.checked = false;
-            });
-        }
-        
-        // 打开面板
-        function openPanel(panel) {
-            // 关闭当前页面
-            if (currentPage !== 'main') {
-                document.querySelector(`.${currentPage}`).classList.remove('show');
-            }
-            
-            panel.classList.add('show');
-            currentPage = panel.id;
-        }
-        
-        // 关闭面板
-        function closePanel(panel) {
-            panel.classList.remove('show');
-            currentPage = 'main';
-            mainContainer.classList.add('show');
-        }
-        
-        // 打开应用
-        function openApp(app) {
-            if (app === 'settings') {
-                openPanel(settingsPanel);
-                return;
-            }
-            
-            if (app === 'app-center') {
-                appCenter.classList.add('open');
-                appCenter.style.display = 'flex';
-                currentPage = 'app-center';
-                return;
-            }
-            
-            // 设置应用标题
-            appTitle.textContent = document.querySelector(`.app-icon[data-app="${app}"] span`).textContent;
-            
-            // 清空内容
-            appContent.innerHTML = '';
-            
-            // 根据应用类型设置内容
-            switch(app) {
-                case 'camera':
-                    appContent.innerHTML = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">photo_camera</i>
-                        </div>
-                        <div class="app-name">相机</div>
-                        <div class="camera-preview">
-                            <div class="camera-view">
-                                <i class="material-icons">photo_camera</i>
-                                <p>正在启动相机...</p>
-                            </div>
-                            <div class="camera-controls">
-                                <div class="camera-btn" id="take-photo">
-                                    <i class="material-icons">camera</i>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // 添加拍照事件
-                    document.getElementById('take-photo').addEventListener('click', () => {
-                        cameraInput.click();
-                    });
-                    break;
-                    
-                default:
-                    appContent.innerHTML = `
-                        <div class="app-icon-large">
-                            <i class="material-icons">${getAppIcon(app)}</i>
-                        </div>
-                        <div class="app-name">${getAppName(app)}</div>
-                        <div class="app-description">
-                            ${getAppDescription(app)}
-                        </div>
-                    `;
-            }
-            
-            // 显示应用页面
-            appPage.classList.add('open');
-            appPage.style.display = 'flex';
-            currentPage = 'app-page';
-        }
-        
-        // 关闭应用
-        function closeApp() {
-            appPage.classList.add('closing');
-            setTimeout(() => {
-                appPage.classList.remove('open');
-                appPage.style.display = 'none';
-                appPage.classList.remove('closing');
-                currentPage = 'main';
-            }, 400);
-        }
-        
-        // 返回处理
-        function handleBack() {
-            switch(currentPage) {
-                case 'settings-panel':
-                    closePanel(settingsPanel);
-                    break;
-                case 'about-page':
-                    closePanel(aboutPage);
-                    break;
-                case 'app-page':
-                    closeApp();
-                    break;
-                case 'app-center':
-                    appCenter.classList.remove('open');
-                    setTimeout(() => {
-                        appCenter.style.display = 'none';
-                        currentPage = 'main';
-                    }, 500);
-                    break;
-                case 'multitask-view':
-                    closePanel(multitaskView);
-                    break;
-                default:
-                    // 如果已经在主屏幕，则最小化所有应用
-                    if (currentPage !== 'main') {
-                        goHome();
-                    }
-            }
-        }
-        
-        // 返回主页
-        function goHome() {
-            // 关闭所有面板
-            document.querySelectorAll('.settings-panel, .about-page, .app-page, .app-center, .multitask-view').forEach(panel => {
-                panel.classList.remove('show');
-                panel.style.display = 'none';
-            });
-            
-            currentPage = 'main';
-            mainContainer.classList.add('show');
-        }
-        
-        // 显示多任务视图
-        function showMultitaskView() {
-            multitaskView.classList.add('open');
-            multitaskView.style.display = 'flex';
-            currentPage = 'multitask-view';
-            
-            // 为多任务卡片添加动画
-            const cards = document.querySelectorAll('.app-card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('animate-in');
-                }, index * 100);
-            });
-        }
-        
-        // 获取应用图标
-        function getAppIcon(app) {
-            const icons = {
-                'messages': 'message',
-                'contacts': 'contacts',
-                'camera': 'photo_camera',
-                'gallery': 'photo_library',
-                'music': 'music_note',
-                'maps': 'map'
-            };
-            return icons[app] || 'apps';
-        }
-        
-        // 获取应用名称
-        function getAppName(app) {
-            const names = {
-                'messages': '消息',
-                'contacts': '通讯录',
-                'camera': '相机',
-                'gallery': '相册',
-                'music': '音乐',
-                'maps': '地图'
-            };
-            return names[app] || '应用';
-        }
-        
-        // 获取应用描述
-        function getAppDescription(app) {
-            const descriptions = {
-                'messages': '发送和接收短信、彩信和即时消息。与您的联系人保持联系。',
-                'contacts': '管理您的联系人信息，轻松查找和联系您认识的人。',
-                'camera': '拍摄照片和视频，记录生活中的美好瞬间。',
-                'gallery': '浏览您的照片和视频，创建相册并与他人分享。',
-                'music': '播放您喜爱的音乐，创建播放列表并发现新歌曲。',
-                'maps': '查找地点、获取路线并探索您周围的世界。'
-            };
-            return descriptions[app] || '这是一个应用程序。';
-        }
-        
-        // 初始化
-        window.onload = init;
     </script>
 </body>
 </html>
