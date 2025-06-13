@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android web simulation</title>
+    <title>Dream 2025 Pro Max - 锁屏界面</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -2649,15 +2649,15 @@
                 });
             }
             
-            // 键盘按钮事件
+            // 键盘按钮事件 - 修复了事件对象问题
             lockButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function(e) { // 添加事件参数 e
                     const key = this.getAttribute('data-key');
                     
                     // 添加水波纹效果
                     const rect = this.getBoundingClientRect();
-                    const x = event.clientX - rect.left;
-                    const y = event.clientY - rect.top;
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
                     
                     const ripple = document.createElement('span');
                     ripple.classList.add('key-ripple');
