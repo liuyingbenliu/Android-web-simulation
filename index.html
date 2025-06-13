@@ -297,7 +297,7 @@
             }
         }
         
-        /* 设置面板 - 修复动画问题 */
+        /* 设置面板 */
         .settings-panel {
             position: fixed;
             top: 0;
@@ -306,17 +306,16 @@
             height: 100%;
             background: var(--surface);
             z-index: 100;
-            display: flex;
+            display: none;
             flex-direction: column;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow-y: auto;
-            visibility: hidden;
         }
         
         .settings-panel.show {
-            visibility: visible;
+            display: flex;
             opacity: 1;
             transform: translateY(0);
         }
@@ -443,16 +442,15 @@
             height: 100%;
             background: var(--surface);
             z-index: 150;
-            display: flex;
+            display: none;
             flex-direction: column;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            visibility: hidden;
         }
         
         .about-page.show {
-            visibility: visible;
+            display: flex;
             opacity: 1;
             transform: translateY(0);
         }
@@ -636,18 +634,17 @@
             height: 100%;
             background: var(--surface);
             z-index: 200;
-            display: flex;
+            display: none;
             flex-direction: column;
             opacity: 0;
             transform: scale(0.95);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            visibility: hidden;
         }
         
         .app-page.open {
-            visibility: visible;
             opacity: 1;
             transform: scale(1);
+            display: flex;
         }
         
         .app-page.closing {
@@ -961,20 +958,74 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            transition: transform 0.3s ease;
-            cursor: pointer;
+            background: var(--surface-container);
         }
         
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-        
-        .gallery-item img {
+        /* 几何图片样式 */
+        .geo-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .geo-1 {
+            background: 
+                radial-gradient(circle at 30% 30%, #ff9a9e 15%, transparent 15.5%),
+                radial-gradient(circle at 70% 70%, #fad0c4 12%, transparent 12.5%),
+                radial-gradient(circle at 50% 50%, #fbc2eb 25%, transparent 25.5%),
+                radial-gradient(circle at 30% 70%, #a6c1ee 18%, transparent 18.5%),
+                radial-gradient(circle at 70% 30%, #c2e9fb 20%, transparent 20.5%),
+                linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb);
+        }
+        
+        .geo-2 {
+            background: 
+                linear-gradient(45deg, #6a11cb 0%, #2575fc 100%),
+                radial-gradient(circle at 20% 80%, #ff9a9e 10%, transparent 10.5%);
+        }
+        
+        .geo-3 {
+            background: 
+                radial-gradient(circle at 50% 50%, #7E67D4 25%, transparent 25.5%),
+                linear-gradient(45deg, #7E67D4, #6750A4, #4a36c4);
+        }
+        
+        .geo-4 {
+            background: 
+                linear-gradient(45deg, #ff0844 0%, #ffb199 100%),
+                radial-gradient(circle at 60% 40%, #ff9a9e 15%, transparent 15.5%);
+        }
+        
+        .geo-5 {
+            background: 
+                linear-gradient(45deg, #0ba360 0%, #3cba92 100%),
+                radial-gradient(circle at 80% 20%, #c2e59c 15%, transparent 15.5%);
+        }
+        
+        .geo-6 {
+            background: 
+                linear-gradient(45deg, #d299c2 0%, #fef9d7 100%),
+                radial-gradient(circle at 30% 50%, #a1c4fd 15%, transparent 15.5%);
+        }
+        
+        .geo-7 {
+            background: 
+                linear-gradient(45deg, #fa709a 0%, #fee140 100%),
+                radial-gradient(circle at 70% 60%, #ff9a9e 15%, transparent 15.5%);
+        }
+        
+        .geo-8 {
+            background: 
+                linear-gradient(45deg, #4facfe 0%, #00f2fe 100%),
+                radial-gradient(circle at 40% 30%, #a1c4fd 15%, transparent 15.5%);
+        }
+        
+        .geo-9 {
+            background: 
+                linear-gradient(45deg, #a6c0fe 0%, #f68084 100%),
+                radial-gradient(circle at 50% 70%, #ff9a9e 15%, transparent 15.5%);
         }
         
         /* 音乐应用页面 */
@@ -1101,216 +1152,258 @@
         .app-launch-icon {
             width: 120px;
             height: 120px;
-            background: rgba(103, 80, 164, 0.1);
             border-radius: 24px;
+            background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            font-size: 48px;
         }
         
-        .app-launch-icon i {
-            font-size: 60px;
-            color: var(--primary);
+        /* 返回桌面动画 */
+        .home-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            z-index: 350;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
-        /* 背景动画 */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes gradientLightBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .home-animation.active {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <!-- 泡泡背景 -->
-    <div class="bubbles" id="bubbles"></div>
+    <div class="bubbles"></div>
+    
+    <!-- iOS风格开启动画 -->
+    <div class="app-launch-animation">
+        <div class="app-launch-icon">
+            <i class="material-icons">photo_library</i>
+        </div>
+    </div>
+    
+    <!-- 返回桌面动画 -->
+    <div class="home-animation"></div>
     
     <!-- 顶部状态栏 -->
     <div class="status-bar">
         <div class="battery-info">
             <div class="battery-icon">
-                <div class="battery-level" id="battery-level"></div>
+                <div class="battery-level"></div>
                 <div class="battery-tip"></div>
             </div>
-            <span id="battery-percent">85%</span>
+            <span>85%</span>
         </div>
-        <div class="time-display" id="time-display">11:30</div>
+        <div class="time-display">14:28</div>
         <div class="weather-info">
             <i class="material-icons">wb_sunny</i>
-            <span>28°C</span>
+            <span>28°</span>
         </div>
     </div>
     
     <!-- 主内容区 -->
     <div class="content-container">
         <div class="welcome-container">
-            <div class="welcome-title">你好，用户</div>
-            <div class="welcome-subtitle">今天是2025年6月13日，星期五</div>
+            <h1 class="welcome-title">Pixel 6 Pro</h1>
+            <p class="welcome-subtitle">Android 12</p>
         </div>
         
         <!-- 应用网格 -->
         <div class="app-grid">
-            <div class="app-icon" onclick="openApp('camera-app')">
-                <i class="material-icons">photo_camera</i>
-                <span>相机</span>
-            </div>
-            <div class="app-icon" onclick="openApp('gallery-app')">
+            <div class="app-icon" data-app="gallery">
                 <i class="material-icons">photo_library</i>
                 <span>相册</span>
             </div>
-            <div class="app-icon" onclick="openApp('messages-app')">
+            <div class="app-icon" data-app="camera">
+                <i class="material-icons">photo_camera</i>
+                <span>相机</span>
+            </div>
+            <div class="app-icon" data-app="messages">
                 <i class="material-icons">message</i>
                 <span>信息</span>
             </div>
-            <div class="app-icon" onclick="openApp('phone-app')">
-                <i class="material-icons">call</i>
+            <div class="app-icon" data-app="phone">
+                <i class="material-icons">phone</i>
                 <span>电话</span>
             </div>
-            <div class="app-icon" onclick="openApp('music-app')">
+            <div class="app-icon" data-app="music">
                 <i class="material-icons">music_note</i>
                 <span>音乐</span>
             </div>
-            <div class="app-icon" onclick="openSettings()">
+            <div class="app-icon" data-app="settings">
                 <i class="material-icons">settings</i>
                 <span>设置</span>
+            </div>
+            <div class="app-icon" data-app="about">
+                <i class="material-icons">info</i>
+                <span>关于</span>
+            </div>
+            <div class="app-icon" data-app="developer">
+                <i class="material-icons">code</i>
+                <span>开发者</span>
             </div>
         </div>
     </div>
     
     <!-- 设置面板 -->
-    <div class="settings-panel" id="settings-panel">
+    <div class="settings-panel">
         <div class="settings-header">
-            <button class="back-button" onclick="closeSettings()">
+            <button class="back-button" id="back-to-home">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="settings-title">设置</div>
         </div>
         <div class="settings-content">
             <div class="setting-section">
-                <div class="setting-section-title">设备设置</div>
+                <h3 class="setting-section-title">显示</h3>
                 <div class="setting-item">
                     <div class="setting-icon">
-                        <i class="material-icons">wifi</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">网络和互联网</div>
-                        <div class="setting-subtitle">Wi-Fi、移动网络、热点</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">devices</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">连接设备</div>
-                        <div class="setting-subtitle">蓝牙、NFC、USB</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">palette</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">壁纸和样式</div>
-                        <div class="setting-subtitle">主题、图标形状</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-            </div>
-            
-            <div class="setting-section">
-                <div class="setting-section-title">偏好设置</div>
-                <div class="setting-item" onclick="openAbout()">
-                    <div class="setting-icon">
-                        <i class="material-icons">info</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">关于手机</div>
-                        <div class="setting-subtitle">设备信息、软件更新</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">security</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">安全</div>
-                        <div class="setting-subtitle">屏幕锁定、指纹</div>
-                    </div>
-                    <i class="material-icons setting-arrow">chevron_right</i>
-                </div>
-                <div class="setting-item" onclick="toggleTheme()">
-                    <div class="setting-icon">
-                        <i class="material-icons">brightness_6</i>
+                        <i class="material-icons">dark_mode</i>
                     </div>
                     <div class="setting-info">
                         <div class="setting-title">深色主题</div>
                         <div class="setting-subtitle">启用深色模式</div>
                     </div>
                     <div class="toggle-switch">
-                        <input type="checkbox" id="theme-toggle">
+                        <input type="checkbox" id="dark-mode-toggle">
                         <span class="slider"></span>
                     </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">animation</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">应用开启动画</div>
+                        <div class="setting-subtitle">iOS风格动画效果</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="animation-toggle" checked>
+                        <span class="slider"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="setting-section">
+                <h3 class="setting-section-title">系统</h3>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">update</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">系统更新</div>
+                        <div class="setting-subtitle">Android 12 - 最新版本</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-icon">
+                        <i class="material-icons">battery_full</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">电池</div>
+                        <div class="setting-subtitle">85% - 预计可用8小时</div>
+                    </div>
+                    <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- 关于页面 -->
-    <div class="about-page" id="about-page">
+    <div class="about-page">
         <div class="about-header">
-            <button class="back-button" onclick="closeAbout()">
+            <button class="back-button" id="back-from-about">
                 <i class="material-icons">arrow_back</i>
             </button>
-            <div class="settings-title">关于手机</div>
+            <div class="settings-title">关于本机</div>
         </div>
         <div class="about-content">
-            <div class="device-icon" onclick="revealDeveloperMessage()">
-                <i class="material-icons">smartphone</i>
+            <div class="device-icon">
+                <i class="material-icons">phone_android</i>
             </div>
-            <div class="device-name">Pixel 6 Pro</div>
-            <div class="device-sim">SIM 1 · T-Mobile</div>
+            <h2 class="device-name">Pixel 6 Pro</h2>
+            <div class="device-sim">T-Mobile</div>
             
             <div class="info-grid">
                 <div class="info-card">
-                    <div class="info-label">设备型号</div>
+                    <div class="info-label">型号</div>
                     <div class="info-value">Pixel 6 Pro</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-label">Android 版本</div>
+                    <div class="info-label">Android版本</div>
                     <div class="info-value">12.0</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">安全更新</div>
-                    <div class="info-value">2025年5月5日</div>
                 </div>
                 <div class="info-card">
                     <div class="info-label">内核版本</div>
                     <div class="info-value">5.10.43-android12-9</div>
                 </div>
+                <div class="info-card">
+                    <div class="info-label">安全补丁</div>
+                    <div class="info-value">2023年5月5日</div>
+                </div>
             </div>
             
-            <div class="developer-message" id="developer-message">
-                <p>✨ Android 12 模拟器 ✨</p>
-                <p>由DeepSeek-R1精心打造，完美还原Material You设计语言</p>
-                <p>轻点设备图标查看此信息</p>
+            <div class="developer-message">
+                <p>Google Pixel 6 Pro 搭载 Tensor 芯片，拥有强大的计算能力和卓越的相机系统，为您提供最佳的 Android 体验。</p>
             </div>
         </div>
     </div>
     
-    <!-- 相机应用 -->
-    <div id="camera-app" class="app-page">
+    <!-- 相册应用页面 -->
+    <div class="app-page" id="gallery-app">
         <div class="app-header">
-            <button class="back-button" onclick="closeApp('camera-app')">
+            <button class="back-button" id="back-from-gallery">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="app-title">相册</div>
+        </div>
+        <div class="app-content">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="geo-image geo-1"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-2"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-3"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-4"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-5"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-6"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-7"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-8"></div>
+                </div>
+                <div class="gallery-item">
+                    <div class="geo-image geo-9"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 相机应用页面 -->
+    <div class="app-page" id="camera-app">
+        <div class="app-header">
+            <button class="back-button" id="back-from-camera">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title">相机</div>
@@ -1322,68 +1415,21 @@
                     <button class="camera-btn">
                         <i class="material-icons">flip_camera_android</i>
                     </button>
-                    <button class="camera-btn" style="width: 70px; height: 70px;">
-                        <i class="material-icons">camera</i>
+                    <button class="camera-btn">
+                        <i class="material-icons">photo_camera</i>
                     </button>
                     <button class="camera-btn">
-                        <i class="material-icons">photo_library</i>
+                        <i class="material-icons">collections</i>
                     </button>
                 </div>
             </div>
-            <div class="app-description">
-                使用后置摄像头拍摄照片和视频，或切换到前置摄像头进行自拍
-            </div>
         </div>
     </div>
     
-    <!-- 相册应用 -->
-    <div id="gallery-app" class="app-page">
+    <!-- 信息应用页面 -->
+    <div class="app-page" id="messages-app">
         <div class="app-header">
-            <button class="back-button" onclick="closeApp('gallery-app')">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            <div class="app-title">相册</div>
-        </div>
-        <div class="app-content">
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=1" alt="Photo 1">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=2" alt="Photo 2">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=3" alt="Photo 3">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=4" alt="Photo 4">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=5" alt="Photo 5">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=6" alt="Photo 6">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=7" alt="Photo 7">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=8" alt="Photo 8">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://picsum.photos/300/300?random=9" alt="Photo 9">
-                </div>
-            </div>
-            <div class="app-description">
-                浏览您拍摄的所有照片和视频，按日期或相册整理
-            </div>
-        </div>
-    </div>
-    
-    <!-- 信息应用 -->
-    <div id="messages-app" class="app-page">
-        <div class="app-header">
-            <button class="back-button" onclick="closeApp('messages-app')">
+            <button class="back-button" id="back-from-messages">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title">信息</div>
@@ -1394,22 +1440,22 @@
                     <div class="message-item">
                         <div class="message-avatar">A</div>
                         <div class="message-content">
-                            <div class="message-sender">Alex</div>
-                            <div class="message-text">你好，今晚的会议改到7点了</div>
+                            <div class="message-sender">Alice</div>
+                            <div class="message-text">你好！今天下午3点开会别忘了</div>
                         </div>
                     </div>
                     <div class="message-item self">
                         <div class="message-avatar">我</div>
                         <div class="message-content">
                             <div class="message-sender">我</div>
-                            <div class="message-text">好的，谢谢通知！</div>
+                            <div class="message-text">收到，我会准时参加</div>
                         </div>
                     </div>
                     <div class="message-item">
-                        <div class="message-avatar">S</div>
+                        <div class="message-avatar">B</div>
                         <div class="message-content">
-                            <div class="message-sender">Sarah</div>
-                            <div class="message-text">周末有空一起看电影吗？</div>
+                            <div class="message-sender">Bob</div>
+                            <div class="message-text">新项目文档已经上传到共享文件夹</div>
                         </div>
                     </div>
                 </div>
@@ -1423,73 +1469,74 @@
         </div>
     </div>
     
-    <!-- 电话应用 -->
-    <div id="phone-app" class="app-page">
+    <!-- 电话应用页面 -->
+    <div class="app-page" id="phone-app">
         <div class="app-header">
-            <button class="back-button" onclick="closeApp('phone-app')">
+            <button class="back-button" id="back-from-phone">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title">电话</div>
         </div>
         <div class="app-content">
-            <div class="phone-display" id="phone-number">+1 (234) 567-890</div>
+            <div class="phone-display">+1 (555) 123-4567</div>
             <div class="keypad-container">
-                <button class="keypad-button" onclick="dialNumber('1')">
-                    <div class="keypad-number">1</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">1</span>
+                    <span class="keypad-letters"></span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('2')">
-                    <div class="keypad-number">2</div>
-                    <div class="keypad-letters">ABC</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">2</span>
+                    <span class="keypad-letters">ABC</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('3')">
-                    <div class="keypad-number">3</div>
-                    <div class="keypad-letters">DEF</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">3</span>
+                    <span class="keypad-letters">DEF</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('4')">
-                    <div class="keypad-number">4</div>
-                    <div class="keypad-letters">GHI</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">4</span>
+                    <span class="keypad-letters">GHI</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('5')">
-                    <div class="keypad-number">5</div>
-                    <div class="keypad-letters">JKL</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">5</span>
+                    <span class="keypad-letters">JKL</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('6')">
-                    <div class="keypad-number">6</div>
-                    <div class="keypad-letters">MNO</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">6</span>
+                    <span class="keypad-letters">MNO</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('7')">
-                    <div class="keypad-number">7</div>
-                    <div class="keypad-letters">PQRS</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">7</span>
+                    <span class="keypad-letters">PQRS</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('8')">
-                    <div class="keypad-number">8</div>
-                    <div class="keypad-letters">TUV</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">8</span>
+                    <span class="keypad-letters">TUV</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('9')">
-                    <div class="keypad-number">9</div>
-                    <div class="keypad-letters">WXYZ</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">9</span>
+                    <span class="keypad-letters">WXYZ</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('*')">
-                    <div class="keypad-number">*</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">*</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('0')">
-                    <div class="keypad-number">0</div>
-                    <div class="keypad-letters">+</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">0</span>
+                    <span class="keypad-letters">+</span>
                 </button>
-                <button class="keypad-button" onclick="dialNumber('#')">
-                    <div class="keypad-number">#</div>
+                <button class="keypad-button">
+                    <span class="keypad-number">#</span>
                 </button>
             </div>
-            <button class="call-button" id="call-button" onclick="toggleCall()">
+            <button class="call-button">
                 <i class="material-icons">call</i>
             </button>
         </div>
     </div>
     
-    <!-- 音乐应用 -->
-    <div id="music-app" class="app-page">
+    <!-- 音乐应用页面 -->
+    <div class="app-page" id="music-app">
         <div class="app-header">
-            <button class="back-button" onclick="closeApp('music-app')">
+            <button class="back-button" id="back-from-music">
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="app-title">音乐</div>
@@ -1497,8 +1544,8 @@
         <div class="app-content">
             <div class="music-player">
                 <div class="album-cover">专辑封面</div>
-                <div class="song-title">Blinding Lights</div>
-                <div class="song-artist">The Weeknd</div>
+                <div class="song-title">几何之旅</div>
+                <div class="song-artist">Android 12 原声带</div>
                 <div class="player-controls">
                     <button class="player-button">
                         <i class="material-icons">skip_previous</i>
@@ -1514,188 +1561,220 @@
         </div>
     </div>
     
-    <!-- 返回按钮 -->
-    <div class="floating-back-btn" id="floating-back-btn" onclick="closeAllApps()">
+    <!-- 返回悬浮按钮 -->
+    <div class="floating-back-btn" id="floating-home-btn">
         <i class="material-icons">home</i>
     </div>
     
-    <!-- 应用开启动画 -->
-    <div class="app-launch-animation" id="app-launch-animation">
-        <div class="app-launch-icon">
-            <i class="material-icons" id="launch-icon">apps</i>
-        </div>
-    </div>
-    
     <script>
-        // 初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化时间显示
-            updateTime();
-            setInterval(updateTime, 60000);
-            
-            // 初始化泡泡背景
-            createBubbles();
-            
-            // 初始化电池状态
-            updateBattery();
-            
-            // 设置深色模式切换
-            document.getElementById('theme-toggle').addEventListener('change', toggleTheme);
-            
-            // 显示主界面
-            document.getElementById('floating-back-btn').style.display = 'none';
-        });
+        // 初始化变量
+        let currentApp = null;
+        let animationEnabled = true;
         
-        // 更新当前时间
-        function updateTime() {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('time-display').textContent = `${hours}:${minutes}`;
-        }
-        
-        // 创建泡泡背景
+        // 生成泡泡背景
         function createBubbles() {
-            const bubbles = document.getElementById('bubbles');
+            const bubblesContainer = document.querySelector('.bubbles');
             const bubbleCount = 20;
             
             for (let i = 0; i < bubbleCount; i++) {
                 const bubble = document.createElement('div');
-                bubble.className = 'bubble';
+                bubble.classList.add('bubble');
                 
                 // 随机大小和位置
-                const size = Math.random() * 60 + 20;
+                const size = Math.random() * 80 + 20;
                 const posX = Math.random() * 100;
                 const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 15;
                 
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
                 bubble.style.left = `${posX}%`;
                 bubble.style.animationDelay = `${delay}s`;
+                bubble.style.animationDuration = `${duration}s`;
                 
-                bubbles.appendChild(bubble);
+                bubblesContainer.appendChild(bubble);
             }
         }
         
-        // 更新电池状态
-        function updateBattery() {
-            const batteryLevel = document.getElementById('battery-level');
-            const batteryPercent = document.getElementById('battery-percent');
+        // 初始化时间显示
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.querySelector('.time-display').textContent = `${hours}:${minutes}`;
+        }
+        
+        // 初始化主题切换
+        function initThemeToggle() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const animationToggle = document.getElementById('animation-toggle');
             
-            // 模拟电池变化
-            const level = Math.floor(Math.random() * 20) + 75; // 75-95%
-            batteryLevel.style.width = `${level}%`;
-            batteryPercent.textContent = `${level}%`;
+            // 从localStorage加载主题设置
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            document.body.classList.toggle('light-theme', !isDarkMode);
+            darkModeToggle.checked = isDarkMode;
             
-            // 每2分钟更新一次
-            setTimeout(updateBattery, 120000);
-        }
-        
-        // 打开设置面板
-        function openSettings() {
-            document.getElementById('settings-panel').classList.add('show');
-            document.getElementById('floating-back-btn').style.display = 'flex';
-        }
-        
-        // 关闭设置面板
-        function closeSettings() {
-            document.getElementById('settings-panel').classList.remove('show');
-            document.getElementById('floating-back-btn').style.display = 'none';
-        }
-        
-        // 打开关于页面
-        function openAbout() {
-            document.getElementById('about-page').classList.add('show');
-        }
-        
-        // 关闭关于页面
-        function closeAbout() {
-            document.getElementById('about-page').classList.remove('show');
-        }
-        
-        // 显示开发者信息
-        function revealDeveloperMessage() {
-            document.getElementById('developer-message').classList.add('show');
-        }
-        
-        // 切换主题
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-        }
-        
-        // 打开应用
-        function openApp(appId) {
-            const appElement = document.getElementById(appId);
-            const appIcon = document.querySelector(`[onclick="openApp('${appId}')"] i`);
+            // 从localStorage加载动画设置
+            animationEnabled = localStorage.getItem('animation') !== 'false';
+            animationToggle.checked = animationEnabled;
             
-            // 显示启动动画
-            const launchAnimation = document.getElementById('app-launch-animation');
-            const launchIcon = document.getElementById('launch-icon');
-            
-            launchIcon.textContent = appIcon.textContent;
-            launchIcon.style.color = getComputedStyle(appIcon).color;
-            
-            launchAnimation.classList.add('active');
-            
-            // 动画结束后打开应用
-            setTimeout(() => {
-                launchAnimation.classList.remove('active');
-                appElement.classList.add('open');
-                document.getElementById('floating-back-btn').style.display = 'flex';
-            }, 600);
-        }
-        
-        // 关闭应用
-        function closeApp(appId) {
-            const appElement = document.getElementById(appId);
-            appElement.classList.remove('open');
-            
-            // 如果没有其他应用打开，隐藏返回按钮
-            const openApps = document.querySelectorAll('.app-page.open');
-            if (openApps.length === 0) {
-                document.getElementById('floating-back-btn').style.display = 'none';
-            }
-        }
-        
-        // 关闭所有应用
-        function closeAllApps() {
-            document.querySelectorAll('.app-page.open').forEach(app => {
-                app.classList.remove('open');
+            // 监听主题切换
+            darkModeToggle.addEventListener('change', function() {
+                document.body.classList.toggle('light-theme', !this.checked);
+                localStorage.setItem('darkMode', this.checked);
             });
-            document.getElementById('floating-back-btn').style.display = 'none';
-        }
-        
-        // 拨号功能
-        let phoneNumber = '';
-        function dialNumber(number) {
-            phoneNumber += number;
-            document.getElementById('phone-number').textContent = formatPhoneNumber(phoneNumber);
-        }
-        
-        // 格式化电话号码
-        function formatPhoneNumber(number) {
-            if (number.length <= 3) {
-                return number;
-            } else if (number.length <= 6) {
-                return `(${number.substring(0, 3)}) ${number.substring(3)}`;
-            } else {
-                return `(${number.substring(0, 3)}) ${number.substring(3, 6)}-${number.substring(6, 10)}`;
-            }
-        }
-        
-        // 拨打电话
-        function toggleCall() {
-            const callButton = document.getElementById('call-button');
-            callButton.classList.toggle('active');
             
-            if (callButton.classList.contains('active')) {
-                callButton.innerHTML = '<i class="material-icons">call_end</i>';
+            // 监听动画切换
+            animationToggle.addEventListener('change', function() {
+                animationEnabled = this.checked;
+                localStorage.setItem('animation', this.checked);
+            });
+        }
+        
+        // 显示iOS风格开启动画
+        function showAppLaunchAnimation(appIcon, callback) {
+            if (!animationEnabled) {
+                callback();
+                return;
+            }
+            
+            const animation = document.querySelector('.app-launch-animation');
+            const icon = animation.querySelector('.app-launch-icon');
+            
+            // 复制应用图标的样式
+            const rect = appIcon.getBoundingClientRect();
+            icon.style.width = `${rect.width}px`;
+            icon.style.height = `${rect.height}px`;
+            icon.style.borderRadius = '20px';
+            icon.innerHTML = appIcon.innerHTML;
+            
+            // 显示动画
+            animation.classList.add('active');
+            
+            // 动画结束后执行回调
+            setTimeout(() => {
+                animation.classList.remove('active');
+                setTimeout(callback, 300);
+            }, 800);
+        }
+        
+        // 显示应用页面
+        function showApp(appId) {
+            // 保存当前应用
+            currentApp = appId;
+            
+            // 获取应用图标元素
+            const appIcon = document.querySelector(`.app-icon[data-app="${appId}"]`);
+            
+            // 显示开启动画
+            showAppLaunchAnimation(appIcon, () => {
+                // 显示应用页面
+                const appPage = document.getElementById(`${appId}-app`);
+                appPage.classList.add('open');
+                
+                // 显示悬浮返回按钮
+                document.getElementById('floating-home-btn').style.display = 'flex';
+            });
+        }
+        
+        // 返回桌面
+        function returnToHome() {
+            if (!currentApp) return;
+            
+            const appPage = document.getElementById(`${currentApp}-app`);
+            
+            if (animationEnabled) {
+                // 显示返回动画
+                const animation = document.querySelector('.home-animation');
+                animation.classList.add('active');
+                
+                // 动画结束后关闭应用
+                setTimeout(() => {
+                    appPage.classList.remove('open');
+                    animation.classList.remove('active');
+                    currentApp = null;
+                    
+                    // 隐藏悬浮返回按钮
+                    document.getElementById('floating-home-btn').style.display = 'none';
+                }, 300);
             } else {
-                callButton.innerHTML = '<i class="material-icons">call</i>';
-                phoneNumber = '';
-                document.getElementById('phone-number').textContent = '+1 (234) 567-890';
+                // 无动画直接关闭
+                appPage.classList.remove('open');
+                currentApp = null;
+                
+                // 隐藏悬浮返回按钮
+                document.getElementById('floating-home-btn').style.display = 'none';
             }
         }
+        
+        // 初始化应用点击事件
+        function initAppClicks() {
+            document.querySelectorAll('.app-icon').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const appId = this.getAttribute('data-app');
+                    
+                    if (appId === 'settings') {
+                        document.querySelector('.settings-panel').classList.add('show');
+                    } else if (appId === 'about') {
+                        document.querySelector('.about-page').classList.add('show');
+                    } else {
+                        showApp(appId);
+                    }
+                });
+            });
+        }
+        
+        // 初始化返回按钮事件
+        function initBackButtons() {
+            // 返回桌面按钮
+            document.getElementById('floating-home-btn').addEventListener('click', returnToHome);
+            
+            // 设置面板返回
+            document.getElementById('back-to-home').addEventListener('click', function() {
+                document.querySelector('.settings-panel').classList.remove('show');
+            });
+            
+            // 关于页面返回
+            document.getElementById('back-from-about').addEventListener('click', function() {
+                document.querySelector('.about-page').classList.remove('show');
+            });
+            
+            // 应用内返回
+            document.querySelectorAll('.back-button[id^="back-from"]').forEach(button => {
+                button.addEventListener('click', returnToHome);
+            });
+        }
+        
+        // 开发者选项
+        function initDeveloperOptions() {
+            const deviceIcon = document.querySelector('.device-icon');
+            const developerMessage = document.querySelector('.developer-message');
+            
+            deviceIcon.addEventListener('click', function() {
+                document.querySelector('.developer-options').classList.toggle('show');
+                developerMessage.classList.add('show');
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createBubbles();
+            updateTime();
+            setInterval(updateTime, 60000); // 每分钟更新时间
+            
+            initThemeToggle();
+            initAppClicks();
+            initBackButtons();
+            initDeveloperOptions();
+            
+            // 初始化悬浮按钮状态
+            document.getElementById('floating-home-btn').style.display = 'none';
+            
+            // 显示开发者消息
+            setTimeout(() => {
+                document.querySelector('.developer-message').classList.add('show');
+            }, 2000);
+        });
     </script>
 </body>
 </html>
