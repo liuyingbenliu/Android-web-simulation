@@ -81,6 +81,11 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
         
+        .light-theme .bubble {
+            background: rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
         @keyframes float {
             0% {
                 transform: translateY(100vh) scale(0.2);
@@ -130,6 +135,10 @@
             border-radius: 2px;
         }
         
+        .light-theme .battery-icon {
+            border: 1px solid rgba(0, 0, 0, 0.7);
+        }
+        
         .battery-level {
             position: absolute;
             height: 10px;
@@ -149,6 +158,10 @@
             right: -4px;
             top: 3px;
             border-radius: 0 2px 2px 0;
+        }
+        
+        .light-theme .battery-tip {
+            background: rgba(0, 0, 0, 0.7);
         }
         
         .time-display {
@@ -294,13 +307,15 @@
             display: none;
             flex-direction: column;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow-y: auto;
         }
         
         .settings-panel.show {
             display: flex;
             opacity: 1;
+            transform: translateY(0);
         }
         
         .settings-header {
@@ -427,10 +442,15 @@
             z-index: 150;
             display: none;
             flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .about-page.show {
             display: flex;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .about-header {
@@ -473,6 +493,13 @@
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--on-surface);
+        }
+        
+        .device-sim {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
         
         .device-version {
@@ -992,78 +1019,31 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
-        /* 安卓12风格三大金刚键 */
-        .navigation-bar {
+        /* 返回悬浮按钮 */
+        .floating-back-btn {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 72px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 90;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1), 0 -4px 8px 3px rgba(0, 0, 0, 0.05);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 200px;
-            height: 100%;
-            padding: 0 10px;
-        }
-        
-        .nav-button {
-            width: 48px;
-            height: 48px;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: background-color 0.3s ease;
-        }
-        
-        .nav-button:hover {
-            background-color: rgba(103, 80, 164, 0.1);
-        }
-        
-        .nav-button:active {
-            transform: scale(0.95);
-        }
-        
-        /* 后退键样式 - Android 12实心箭头 */
-        .back-button-nav {
-            position: relative;
-            width: 48px;
-            height: 48px;
-            background: var(--on-surface);
-            border-radius: 24px;
-            clip-path: polygon(30% 45%, 30% 55%, 60% 55%, 60% 65%, 70% 50%, 60% 35%, 60% 45%);
-        }
-        
-        /* 主页键样式 - Android 12实心圆形 */
-        .home-button-nav {
-            width: 48px;
-            height: 48px;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: var(--on-surface);
+            background: var(--primary);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--elevated-shadow);
+            cursor: pointer;
+            z-index: 250;
+            transition: all 0.3s ease;
         }
         
-        /* 最近任务键样式 - Android 12实心方块 */
-        .recent-button-nav {
-            position: relative;
-            width: 48px;
-            height: 48px;
-            background: var(--on-surface);
-            border-radius: 5px;
+        .floating-back-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .floating-back-btn:active {
+            transform: scale(0.95);
         }
         
         /* iOS风格应用开启动画 */
@@ -1182,9 +1162,9 @@
                 <i class="material-icons">music_note</i>
                 <span>音乐</span>
             </div>
-            <div class="app-icon" id="theme-toggle">
-                <i class="material-icons">brightness_6</i>
-                <span>深色模式</span>
+            <div class="app-icon" id="about">
+                <i class="material-icons">info</i>
+                <span>关于</span>
             </div>
         </div>
     </div>
@@ -1295,6 +1275,7 @@
                 <i class="material-icons">smartphone</i>
             </div>
             <h2 class="device-name">Galaxy S24 Ultra</h2>
+            <div class="device-sim">Android web simulation</div>
             <div class="device-version" id="android-version">Android 12 · 点击查看版本号</div>
             
             <div class="info-grid">
@@ -1344,6 +1325,13 @@
                     <div class="toggle-label">强制GPU渲染</div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="gpu-render">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">深色/浅色主题</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -1492,19 +1480,9 @@
         </div>
     </div>
     
-    <!-- 底部导航栏 -->
-    <div class="navigation-bar">
-        <div class="nav-container">
-            <div class="nav-button" id="nav-back">
-                <div class="back-button-nav"></div>
-            </div>
-            <div class="nav-button" id="nav-home">
-                <div class="home-button-nav"></div>
-            </div>
-            <div class="nav-button" id="nav-recent">
-                <div class="recent-button-nav"></div>
-            </div>
-        </div>
+    <!-- 返回悬浮按钮 -->
+    <div class="floating-back-btn" id="floating-back">
+        <i class="material-icons">arrow_back</i>
     </div>
     
     <!-- 开发者提示 -->
@@ -1532,29 +1510,38 @@
             
             // 设置按钮事件
             document.getElementById('settings').addEventListener('click', function() {
-                document.getElementById('settings-panel').classList.add('show');
+                showPanel('settings-panel');
             });
             
             // 设置返回按钮
             document.getElementById('settings-back').addEventListener('click', function() {
-                document.getElementById('settings-panel').classList.remove('show');
+                hidePanel('settings-panel');
             });
             
             // 关于设备按钮
             document.getElementById('about-device').addEventListener('click', function() {
-                document.getElementById('about-page').classList.add('show');
-                document.getElementById('settings-panel').classList.remove('show');
+                hidePanel('settings-panel');
+                setTimeout(() => showPanel('about-page'), 100);
             });
             
             // 关于页面返回按钮
             document.getElementById('about-back').addEventListener('click', function() {
-                document.getElementById('about-page').classList.remove('show');
+                hidePanel('about-page');
             });
             
-            // Android版本点击事件
+            // Android版本点击事件 - 6次开启开发者选项
+            let tapCount = 0;
             document.getElementById('android-version').addEventListener('click', function() {
-                document.getElementById('dev-options').classList.add('show');
-                document.querySelector('.developer-message').classList.add('show');
+                tapCount++;
+                if(tapCount === 6) {
+                    document.getElementById('dev-options').classList.add('show');
+                    document.querySelector('.developer-message').classList.add('show');
+                    document.getElementById('dev-alert').classList.add('show');
+                    
+                    setTimeout(() => {
+                        document.getElementById('dev-alert').classList.remove('show');
+                    }, 3000);
+                }
             });
             
             // 相机应用
@@ -1587,20 +1574,18 @@
                 document.getElementById('multitask-view').classList.remove('open');
             });
             
-            // 主题切换
-            document.getElementById('theme-toggle').addEventListener('click', function() {
-                document.body.classList.toggle('light-theme');
-                this.querySelector('span').textContent = 
-                    document.body.classList.contains('light-theme') ? '浅色模式' : '深色模式';
+            // 关于按钮
+            document.getElementById('about').addEventListener('click', function() {
+                showPanel('about-page');
             });
             
-            // 底部导航按钮事件
-            document.getElementById('nav-back').addEventListener('click', function() {
+            // 悬浮返回按钮事件
+            document.getElementById('floating-back').addEventListener('click', function() {
                 // 模拟返回按钮功能
                 if (document.getElementById('settings-panel').classList.contains('show')) {
-                    document.getElementById('settings-panel').classList.remove('show');
+                    hidePanel('settings-panel');
                 } else if (document.getElementById('about-page').classList.contains('show')) {
-                    document.getElementById('about-page').classList.remove('show');
+                    hidePanel('about-page');
                 } else if (document.getElementById('camera-app').classList.contains('open')) {
                     document.getElementById('camera-app').classList.remove('open');
                 } else if (document.getElementById('app-center-panel').classList.contains('open')) {
@@ -1610,23 +1595,32 @@
                 }
             });
             
-            document.getElementById('nav-home').addEventListener('click', function() {
-                // 关闭所有面板，返回主页
-                document.getElementById('settings-panel').classList.remove('show');
-                document.getElementById('about-page').classList.remove('show');
-                document.getElementById('camera-app').classList.remove('open');
-                document.getElementById('app-center-panel').classList.remove('open');
-                document.getElementById('multitask-view').classList.remove('open');
-            });
-            
-            document.getElementById('nav-recent').addEventListener('click', function() {
-                // 打开多任务视图
-                document.getElementById('multitask-view').classList.add('open');
+            // 开发者选项中的主题切换
+            document.getElementById('theme-toggle').addEventListener('change', function() {
+                document.body.classList.toggle('light-theme');
             });
             
             // 添加水波纹效果
             addRippleEffect();
         });
+        
+        // 显示面板的动画效果
+        function showPanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.style.display = 'flex';
+            setTimeout(() => {
+                panel.classList.add('show');
+            }, 10);
+        }
+        
+        // 隐藏面板的动画效果
+        function hidePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.remove('show');
+            setTimeout(() => {
+                panel.style.display = 'none';
+            }, 400);
+        }
         
         // 创建气泡背景
         function createBubbles() {
@@ -1662,7 +1656,7 @@
         
         // 添加水波纹效果
         function addRippleEffect() {
-            document.querySelectorAll('.app-icon, .setting-item, .nav-button, .camera-btn').forEach(button => {
+            document.querySelectorAll('.app-icon, .setting-item, .floating-back-btn, .camera-btn').forEach(button => {
                 button.addEventListener('click', function(e) {
                     const rect = this.getBoundingClientRect();
                     const x = e.clientX - rect.left;
