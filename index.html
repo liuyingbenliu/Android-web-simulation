@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android web simulation</title>
+    <title>Dream 2025 Pro Max - 几何解锁</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        /* 保留所有原有样式 */
         * {
             margin: 0;
             padding: 0;
@@ -1412,12 +1413,14 @@
             font-weight: 300;
             letter-spacing: -5px;
             margin-bottom: 10px;
+            color: white;
         }
         
         .lock-date {
             font-size: 28px;
             margin-bottom: 50px;
             opacity: 0.8;
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .device-status {
@@ -1451,6 +1454,7 @@
         .status-label {
             font-size: 16px;
             opacity: 0.8;
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .lock-right-panel {
@@ -1462,91 +1466,132 @@
             padding: 30px;
         }
         
-        .password-container {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .password-dots {
+        /* 几何解锁按钮 */
+        .geometric-unlock {
+            position: relative;
+            width: 300px;
+            height: 300px;
             display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 60px;
-        }
-        
-        .password-dot {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        
-        .password-dot.filled {
-            background: white;
-        }
-        
-        .password-dot.error {
-            background: var(--error);
-            animation: shake 0.4s;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-8px); }
-        }
-        
-        .lock-keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .lock-btn {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            font-weight: 300;
             cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
         }
         
-        .lock-btn:active {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(0.95);
+        .geometric-core {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7E57C2, #5e35b1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(126, 87, 194, 0.5);
+            transition: all 0.4s ease;
         }
         
-        .lock-btn-letters {
-            font-size: 14px;
-            margin-top: 5px;
-            opacity: 0.7;
+        .geometric-core i {
+            font-size: 48px;
+            color: white;
         }
         
-        .lock-btn.confirm-btn {
-            background: rgba(78, 216, 96, 0.3);
-            border: 1px solid rgba(78, 216, 96, 0.5);
+        .shape {
+            position: absolute;
+            transition: all 0.5s ease;
         }
         
-        .lock-btn.confirm-btn i {
-            font-size: 40px;
-            color: var(--success);
+        .shape-1 {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid #ff9a9e;
+            animation: rotate 20s linear infinite;
         }
         
-        .lock-btn.delete-btn {
-            background: rgba(255, 82, 82, 0.3);
-            border: 1px solid rgba(255, 82, 82, 0.5);
+        .shape-2 {
+            width: 220px;
+            height: 220px;
+            border-radius: 30%;
+            border: 3px solid #a6c1ee;
+            transform: rotate(45deg);
+            animation: rotateReverse 25s linear infinite;
+        }
+        
+        .shape-3 {
+            width: 260px;
+            height: 260px;
+            border: 3px solid #fad0c4;
+            border-radius: 40%;
+            transform: rotate(15deg);
+            animation: rotate 30s linear infinite;
+        }
+        
+        .shape-4 {
+            width: 280px;
+            height: 280px;
+            border: 3px solid #4ade80;
+            border-radius: 45%;
+            transform: rotate(75deg);
+            animation: rotateReverse 35s linear infinite;
+        }
+        
+        .geometric-unlock:hover .shape {
+            border-width: 4px;
+            opacity: 0.9;
+        }
+        
+        .geometric-unlock:hover .shape-1 {
+            width: 190px;
+            height: 190px;
+        }
+        
+        .geometric-unlock:hover .shape-2 {
+            width: 230px;
+            height: 230px;
+        }
+        
+        .geometric-unlock:hover .shape-3 {
+            width: 270px;
+            height: 270px;
+        }
+        
+        .geometric-unlock:hover .shape-4 {
+            width: 290px;
+            height: 290px;
+        }
+        
+        .geometric-unlock:active .geometric-core {
+            transform: scale(0.9);
+            box-shadow: 0 0 10px rgba(126, 87, 194, 0.8);
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateReverse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        
+        /* 解锁动画 */
+        @keyframes unlockAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .unlock-active {
+            animation: unlockAnimation 0.5s ease;
+        }
+        
+        .unlock-instruction {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
         }
         
         .lock-footer {
@@ -1555,6 +1600,7 @@
             font-size: 16px;
             opacity: 0.7;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
         }
         
         /* 平板设备适配 */
@@ -1589,10 +1635,9 @@
                 height: 50px;
             }
             
-            .lock-btn {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
+            .geometric-unlock {
+                width: 250px;
+                height: 250px;
             }
         }
         
@@ -1605,20 +1650,20 @@
                 font-size: 20px;
             }
             
-            .lock-keypad {
-                gap: 15px;
+            .geometric-unlock {
+                width: 220px;
+                height: 220px;
             }
             
-            .lock-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 28px;
+            .geometric-core {
+                width: 100px;
+                height: 100px;
             }
             
-            .password-dot {
-                width: 18px;
-                height: 18px;
-            }
+            .shape-1 { width: 150px; height: 150px; }
+            .shape-2 { width: 180px; height: 180px; }
+            .shape-3 { width: 210px; height: 210px; }
+            .shape-4 { width: 230px; height: 230px; }
         }
         
         @media (max-width: 480px) {
@@ -1630,47 +1675,29 @@
                 font-size: 18px;
             }
             
-            .lock-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
+            .geometric-unlock {
+                width: 180px;
+                height: 180px;
             }
             
-            .lock-btn-letters {
-                font-size: 12px;
+            .geometric-core {
+                width: 80px;
+                height: 80px;
             }
             
-            .password-dot {
-                width: 14px;
-                height: 14px;
+            .geometric-core i {
+                font-size: 36px;
             }
             
-            .password-dots {
-                gap: 15px;
-                margin-bottom: 40px;
-            }
-        }
-        
-        /* 水波纹效果 */
-        .key-ripple {
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-        
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+            .shape-1 { width: 120px; height: 120px; }
+            .shape-2 { width: 140px; height: 140px; }
+            .shape-3 { width: 160px; height: 160px; }
+            .shape-4 { width: 170px; height: 170px; }
         }
     </style>
 </head>
 <body class="color-theme-purple">
-    <!-- 锁屏界面 - 优化版本 -->
+    <!-- 锁屏界面 - 几何解锁版本 -->
     <div class="lock-screen" id="lock-screen">
         <div class="lock-container">
             <div class="lock-left-panel">
@@ -1700,61 +1727,16 @@
             </div>
             
             <div class="lock-right-panel">
-                <div class="password-container">
-                    <div class="password-dots">
-                        <div class="password-dot" id="dot-1"></div>
-                        <div class="password-dot" id="dot-2"></div>
-                        <div class="password-dot" id="dot-3"></div>
-                        <div class="password-dot" id="dot-4"></div>
-                        <div class="password-dot" id="dot-5"></div>
-                        <div class="password-dot" id="dot-6"></div>
-                    </div>
-                    
-                    <div class="lock-keypad">
-                        <div class="lock-btn" data-key="1">
-                            <div>1</div>
-                        </div>
-                        <div class="lock-btn" data-key="2">
-                            <div>2</div>
-                            <div class="lock-btn-letters">ABC</div>
-                        </div>
-                        <div class="lock-btn" data-key="3">
-                            <div>3</div>
-                            <div class="lock-btn-letters">DEF</div>
-                        </div>
-                        <div class="lock-btn" data-key="4">
-                            <div>4</div>
-                            <div class="lock-btn-letters">GHI</div>
-                        </div>
-                        <div class="lock-btn" data-key="5">
-                            <div>5</div>
-                            <div class="lock-btn-letters">JKL</div>
-                        </div>
-                        <div class="lock-btn" data-key="6">
-                            <div>6</div>
-                            <div class="lock-btn-letters">MNO</div>
-                        </div>
-                        <div class="lock-btn" data-key="7">
-                            <div>7</div>
-                            <div class="lock-btn-letters">PQRS</div>
-                        </div>
-                        <div class="lock-btn" data-key="8">
-                            <div>8</div>
-                            <div class="lock-btn-letters">TUV</div>
-                        </div>
-                        <div class="lock-btn" data-key="9">
-                            <div>9</div>
-                            <div class="lock-btn-letters">WXYZ</div>
-                        </div>
-                        <div class="lock-btn delete-btn" data-key="delete">
-                            <i class="material-icons">backspace</i>
-                        </div>
-                        <div class="lock-btn" data-key="0">
-                            <div>0</div>
-                        </div>
-                        <div class="lock-btn confirm-btn" id="confirm-btn" data-key="confirm">
-                            <i class="material-icons">check</i>
-                        </div>
+                <div class="unlock-instruction">轻触几何艺术解锁</div>
+                
+                <!-- 几何解锁按钮 -->
+                <div class="geometric-unlock" id="geometric-unlock">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                    <div class="shape shape-4"></div>
+                    <div class="geometric-core">
+                        <i class="material-icons">lock_open</i>
                     </div>
                 </div>
             </div>
@@ -2605,116 +2587,35 @@
                 }
             });
             
-            // 锁屏功能 - 优化版本
-            const lockScreen = document.getElementById('lock-screen');
-            const lockTime = document.getElementById('lock-time');
-            const lockDate = document.getElementById('lock-date');
-            const passwordDots = [
-                document.getElementById('dot-1'),
-                document.getElementById('dot-2'),
-                document.getElementById('dot-3'),
-                document.getElementById('dot-4'),
-                document.getElementById('dot-5'),
-                document.getElementById('dot-6')
-            ];
-            
-            const lockButtons = document.querySelectorAll('.lock-btn');
-            const confirmButton = document.getElementById('confirm-btn');
-            const CORRECT_PASSWORD = '123456';
-            let enteredPassword = '';
+            // 几何解锁功能
+            const unlockButton = document.getElementById('geometric-unlock');
+            unlockButton.addEventListener('click', unlockDevice);
             
             // 更新锁屏时间
             function updateLockScreenTime() {
                 const now = new Date();
                 const hours = now.getHours().toString().padStart(2, '0');
                 const minutes = now.getMinutes().toString().padStart(2, '0');
-                lockTime.textContent = `${hours}:${minutes}`;
+                document.getElementById('lock-time').textContent = `${hours}:${minutes}`;
                 
                 const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-                lockDate.textContent = now.toLocaleDateString('zh-CN', dateOptions);
+                document.getElementById('lock-date').textContent = now.toLocaleDateString('zh-CN', dateOptions);
                 
                 document.getElementById('current-time').textContent = `${hours}:${minutes}`;
             }
             
-            // 更新密码点显示
-            function updatePasswordDots() {
-                passwordDots.forEach((dot, index) => {
-                    if (index < enteredPassword.length) {
-                        dot.classList.add('filled');
-                        dot.classList.remove('error');
-                    } else {
-                        dot.classList.remove('filled');
-                        dot.classList.remove('error');
-                    }
-                });
-            }
-            
-            // 键盘按钮事件 - 修复了事件对象问题
-            lockButtons.forEach(button => {
-                button.addEventListener('click', function(e) { // 添加事件参数 e
-                    const key = this.getAttribute('data-key');
-                    
-                    // 添加水波纹效果
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const ripple = document.createElement('span');
-                    ripple.classList.add('key-ripple');
-                    ripple.style.left = `${x}px`;
-                    ripple.style.top = `${y}px`;
-                    
-                    this.appendChild(ripple);
+            // 解锁设备
+            function unlockDevice() {
+                unlockButton.classList.add('unlock-active');
+                
+                setTimeout(() => {
+                    // 解锁设备
+                    document.getElementById('lock-screen').classList.add('unlocked');
                     
                     setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                    
-                    if (key === 'delete') {
-                        if (enteredPassword.length > 0) {
-                            enteredPassword = enteredPassword.slice(0, -1);
-                            updatePasswordDots();
-                        }
-                    } else if (key === 'confirm') {
-                        checkPassword();
-                    } else {
-                        if (enteredPassword.length < 6) {
-                            enteredPassword += key;
-                            updatePasswordDots();
-                        }
-                    }
-                });
-            });
-            
-            // 检查密码
-            function checkPassword() {
-                if (enteredPassword === CORRECT_PASSWORD) {
-                    // 密码正确
-                    confirmButton.style.animation = 'pulse 0.5s';
-                    
-                    setTimeout(() => {
-                        // 解锁设备
-                        lockScreen.classList.add('unlocked');
-                        
-                        setTimeout(() => {
-                            lockScreen.style.display = 'none';
-                        }, 1000);
-                    }, 500);
-                } else {
-                    // 密码错误
-                    passwordDots.forEach(dot => {
-                        dot.classList.add('error');
-                    });
-                    
-                    // 清空密码并重置
-                    setTimeout(() => {
-                        enteredPassword = '';
-                        updatePasswordDots();
-                        passwordDots.forEach(dot => {
-                            dot.classList.remove('error');
-                        });
-                    }, 600);
-                }
+                        document.getElementById('lock-screen').style.display = 'none';
+                    }, 1000);
+                }, 500);
             }
         });
         
