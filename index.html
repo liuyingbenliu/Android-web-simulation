@@ -728,7 +728,6 @@
         .camera-view {
             width: 100%;
             height: 300px;
-            background: linear-gradient(135deg, #7E67D4, #6750A4);
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 16px;
@@ -738,6 +737,12 @@
             color: #fff;
             font-size: 18px;
             font-weight: 500;
+            /* 几何图案背景 */
+            background: 
+                linear-gradient(45deg, #7E67D4 25%, transparent 25%, transparent 75%, #7E67D4 75%),
+                linear-gradient(45deg, #7E67D4 25%, transparent 25%, transparent 75%, #7E67D4 75%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
         }
         
         .camera-controls {
@@ -776,6 +781,9 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 16px;
         }
         
         .message-item {
@@ -784,6 +792,21 @@
             padding: 12px;
             display: flex;
             gap: 12px;
+            max-width: 80%;
+            align-self: flex-start;
+        }
+        
+        .message-item.self {
+            background: var(--primary);
+            align-self: flex-end;
+        }
+        
+        .message-item.self .message-sender {
+            color: white;
+        }
+        
+        .message-item.self .message-text {
+            color: rgba(255, 255, 255, 0.9);
         }
         
         .message-avatar {
@@ -796,6 +819,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+            flex-shrink: 0;
         }
         
         .message-content {
@@ -811,6 +835,37 @@
         .message-text {
             font-size: 14px;
             color: var(--on-surface-variant);
+        }
+        
+        /* 消息输入框 */
+        .message-input-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 24px;
+            border: none;
+            background: var(--surface-container);
+            color: var(--on-surface);
+            font-size: 16px;
+        }
+        
+        .send-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            color: white;
         }
         
         /* 电话应用页面 */
@@ -875,6 +930,7 @@
             box-shadow: var(--elevated-shadow);
             margin-top: 24px;
             transition: all 0.3s ease;
+            border: none;
         }
         
         .call-button.active {
@@ -895,12 +951,17 @@
             aspect-ratio: 1/1;
             border-radius: 8px;
             overflow: hidden;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
+            /* 几何照片背景 */
+            background: 
+                linear-gradient(45deg, #ff9a9e 25%, transparent 25%, transparent 75%, #ff9a9e 75%),
+                linear-gradient(-45deg, #fad0c4 25%, transparent 25%, transparent 75%, #fad0c4 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
         }
         
         /* 音乐应用页面 */
@@ -920,7 +981,6 @@
             width: 200px;
             height: 200px;
             border-radius: 16px;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
@@ -928,6 +988,12 @@
             color: white;
             font-size: 24px;
             font-weight: bold;
+            /* 几何图案封面 */
+            background: 
+                linear-gradient(45deg, #4a69bd 25%, transparent 25%, transparent 75%, #4a69bd 75%),
+                linear-gradient(45deg, #4a69bd 25%, transparent 25%, transparent 75%, #4a69bd 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
         }
         
         .song-title {
@@ -958,6 +1024,8 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border: none;
+            color: white;
         }
         
         .player-button-large {
@@ -1157,30 +1225,32 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border: none;
+            color: white;
         }
         
         /* 开发者提示 */
         .dev-alert {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 14px;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-size: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             z-index: 500;
             opacity: 0;
-            transform: translateY(20px);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
         
         .dev-alert.show {
             opacity: 1;
-            transform: translateY(0);
         }
         
         /* 新增UI版本区块样式 */
@@ -1505,7 +1575,7 @@
         </div>
         <div class="app-content">
             <div class="messages-container">
-                <div class="message-list">
+                <div class="message-list" id="message-list">
                     <div class="message-item">
                         <div class="message-avatar">A</div>
                         <div class="message-content">
@@ -1534,6 +1604,12 @@
                             <div class="message-text">周末去爬山怎么样？</div>
                         </div>
                     </div>
+                </div>
+                <div class="message-input-container">
+                    <input type="text" class="message-input" id="message-input" placeholder="输入消息...">
+                    <button class="send-button" id="send-button">
+                        <i class="material-icons">send</i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1596,9 +1672,9 @@
                     <div class="keypad-number">#</div>
                 </div>
             </div>
-            <div class="call-button" id="call-button">
+            <button class="call-button" id="call-button">
                 <i class="material-icons">call</i>
-            </div>
+            </button>
         </div>
     </div>
     
@@ -1639,15 +1715,15 @@
                 <div class="song-title">Summer Vibes</div>
                 <div class="song-artist">The Chill Beats</div>
                 <div class="player-controls">
-                    <div class="player-button">
+                    <button class="player-button">
                         <i class="material-icons">skip_previous</i>
-                    </div>
-                    <div class="player-button player-button-large">
+                    </button>
+                    <button class="player-button player-button-large">
                         <i class="material-icons">play_arrow</i>
-                    </div>
-                    <div class="player-button">
+                    </button>
+                    <button class="player-button">
                         <i class="material-icons">skip_next</i>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1667,7 +1743,7 @@
     <!-- 应用启动动画 -->
     <div class="app-launch-animation" id="app-launch">
         <div class="app-launch-icon">
-            <i class="material-icons">rocket_launch</i>
+            <i class="material-icons" id="launch-icon">rocket_launch</i>
         </div>
     </div>
     
@@ -1679,9 +1755,9 @@
             <div class="call-status">拨号中...</div>
         </div>
         <div class="call-controls">
-            <div class="end-call-btn" id="end-call-btn">
+            <button class="end-call-btn" id="end-call-btn">
                 <i class="material-icons">call_end</i>
-            </div>
+            </button>
         </div>
     </div>
 
@@ -1784,19 +1860,38 @@
                 'music': 'music-app'
             };
             
+            // 应用图标对应的启动图标
+            const appIcons = {
+                'camera': 'camera',
+                'messages': 'message',
+                'phone': 'call',
+                'gallery': 'photo_library',
+                'music': 'music_note'
+            };
+            
             // 打开应用
             Object.keys(apps).forEach(appId => {
                 document.getElementById(appId).addEventListener('click', function() {
-                    const appPage = document.getElementById(apps[appId]);
+                    // 设置启动动画图标
+                    document.getElementById('launch-icon').textContent = appIcons[appId];
                     
-                    // 添加动画效果
-                    appPage.classList.add('open');
+                    // 显示启动动画
+                    const launchAnimation = document.getElementById('app-launch');
+                    launchAnimation.classList.add('active');
                     
-                    // 重置电话应用状态
-                    if(appId === 'phone') {
-                        document.getElementById('phone-display').textContent = '输入号码';
-                        document.getElementById('call-button').classList.remove('active');
-                    }
+                    setTimeout(() => {
+                        launchAnimation.classList.remove('active');
+                        
+                        // 打开应用页面
+                        const appPage = document.getElementById(apps[appId]);
+                        appPage.classList.add('open');
+                        
+                        // 重置电话应用状态
+                        if(appId === 'phone') {
+                            document.getElementById('phone-display').textContent = '输入号码';
+                            document.getElementById('call-button').classList.remove('active');
+                        }
+                    }, 600);
                 });
             });
             
@@ -1886,6 +1981,69 @@
                 phoneDisplay.textContent = '输入号码';
                 callButton.classList.remove('active');
             });
+            
+            // 信息应用功能
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const messageList = document.getElementById('message-list');
+            
+            // 发送消息
+            sendButton.addEventListener('click', function() {
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    // 创建新消息
+                    const newMessage = document.createElement('div');
+                    newMessage.classList.add('message-item', 'self');
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">我</div>
+                        <div class="message-content">
+                            <div class="message-sender">我</div>
+                            <div class="message-text">${messageText}</div>
+                        </div>
+                    `;
+                    
+                    // 添加到消息列表
+                    messageList.appendChild(newMessage);
+                    
+                    // 清空输入框
+                    messageInput.value = '';
+                    
+                    // 滚动到底部
+                    messageList.scrollTop = messageList.scrollHeight;
+                    
+                    // 模拟回复
+                    setTimeout(() => {
+                        const replies = [
+                            "好的，收到！",
+                            "明白了，谢谢！",
+                            "稍后回复你",
+                            "正在处理中...",
+                            "需要更多信息吗？"
+                        ];
+                        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                        
+                        const replyMessage = document.createElement('div');
+                        replyMessage.classList.add('message-item');
+                        replyMessage.innerHTML = `
+                            <div class="message-avatar">R</div>
+                            <div class="message-content">
+                                <div class="message-sender">回复助手</div>
+                                <div class="message-text">${randomReply}</div>
+                            </div>
+                        `;
+                        
+                        messageList.appendChild(replyMessage);
+                        messageList.scrollTop = messageList.scrollHeight;
+                    }, 1000);
+                }
+            });
+            
+            // 按回车发送消息
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
         });
         
         // 显示面板的动画效果
@@ -1940,7 +2098,7 @@
         
         // 添加水波纹效果
         function addRippleEffect() {
-            document.querySelectorAll('.app-icon, .setting-item, .floating-back-btn, .camera-btn, .keypad-button, .call-button, .player-button').forEach(button => {
+            document.querySelectorAll('.app-icon, .setting-item, .floating-back-btn, .camera-btn, .keypad-button, .call-button, .player-button, .send-button').forEach(button => {
                 button.addEventListener('click', function(e) {
                     const rect = this.getBoundingClientRect();
                     const x = e.clientX - rect.left;
