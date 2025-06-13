@@ -412,9 +412,15 @@
         
         /* 关于页面 */
         .about-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            z-index: 150;
             display: none;
             flex-direction: column;
-            height: 100%;
         }
         
         .about-header {
@@ -637,22 +643,22 @@
             width: 100%;
             height: 100%;
             background: var(--surface);
-            z-index: 50;
+            z-index: 200;
             display: none;
             flex-direction: column;
             opacity: 0;
-            transform: translateY(20px);
+            transform: scale(0.95);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .app-page.open {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
         
         .app-page.closing {
             opacity: 0;
-            transform: translateY(20px);
+            transform: scale(0.95);
         }
         
         .app-header {
@@ -662,6 +668,9 @@
             background: var(--primary);
             color: var(--on-primary);
             box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .app-title {
@@ -762,7 +771,6 @@
         
         /* 应用中心 */
         .app-center {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -770,10 +778,17 @@
             height: 100%;
             background: var(--surface);
             z-index: 150;
+            display: none;
             flex-direction: column;
             overflow-y: auto;
             padding-top: 60px;
             padding-bottom: 100px;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .app-center.open {
+            transform: translateY(0);
         }
         
         .app-center-header {
@@ -842,6 +857,14 @@
             flex-direction: column;
             padding: 60px 16px 100px;
             overflow-y: auto;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .multitask-view.open {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .multitask-header {
@@ -877,6 +900,14 @@
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: var(--transition);
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        
+        .app-card.animate-in {
+            transform: translateY(0);
+            opacity: 1;
+            transition: transform 0.4s ease, opacity 0.4s ease;
         }
         
         .app-card:hover {
@@ -918,7 +949,7 @@
             }
         }
         
-        /* 开发者选项提示 */
+        /* 开发者提示 */
         .dev-alert {
             position: fixed;
             bottom: 20px;
@@ -944,62 +975,6 @@
             background: rgba(255, 255, 255, 0.9);
             color: #333;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 声音控制 */
-        .sound-control {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            z-index: 100;
-        }
-        
-        .sound-control i {
-            color: var(--on-primary);
-            font-size: 24px;
-        }
-        
-        /* 应用开启动画容器 */
-        .app-animation-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            background: var(--surface);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .app-animation-icon {
-            position: absolute;
-            border-radius: 24px;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform-origin: center;
-            z-index: 201;
-            overflow: hidden;
-        }
-        
-        .app-animation-icon i {
-            color: var(--on-primary);
-            font-size: 36px;
         }
         
         /* 安卓12风格三大金刚键 */
@@ -1054,18 +1029,9 @@
             position: relative;
             width: 48px;
             height: 48px;
-        }
-        
-        .back-button-nav::before {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border-left: 3px solid var(--on-surface);
-            border-bottom: 3px solid var(--on-surface);
-            transform: rotate(45deg);
-            left: 12px;
-            top: 12px;
+            background: var(--on-surface);
+            border-radius: 24px;
+            clip-path: polygon(30% 45%, 30% 55%, 60% 55%, 60% 65%, 70% 50%, 60% 35%, 60% 45%);
         }
         
         /* 主页键样式 - Android 12实心圆形 */
@@ -1074,9 +1040,6 @@
             height: 48px;
             border-radius: 50%;
             background: var(--on-surface);
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         /* 最近任务键样式 - Android 12实心方块 */
@@ -1084,17 +1047,46 @@
             position: relative;
             width: 48px;
             height: 48px;
+            background: var(--on-surface);
+            border-radius: 5px;
         }
         
-        .recent-button-nav::before {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: var(--on-surface);
-            border-radius: 3px;
-            top: 12px;
-            left: 12px;
+        /* iOS风格应用开启动画 */
+        .app-launch-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.8);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .app-launch-animation.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .app-launch-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .app-launch-icon i {
+            color: var(--on-primary);
+            font-size: 60px;
         }
         
         @keyframes gradientBG {
@@ -1126,6 +1118,13 @@
 <body>
     <!-- 泡泡背景 -->
     <div class="bubbles" id="bubbles"></div>
+    
+    <!-- iOS风格应用开启动画 -->
+    <div class="app-launch-animation" id="app-launch-animation">
+        <div class="app-launch-icon">
+            <i class="material-icons" id="launch-icon">apps</i>
+        </div>
+    </div>
     
     <!-- 顶部状态栏 -->
     <div class="status-bar">
@@ -1583,6 +1582,8 @@
         const cameraInput = document.getElementById('camera-input');
         const appContent = document.getElementById('app-content');
         const appTitle = document.getElementById('app-title');
+        const launchAnimation = document.getElementById('app-launch-animation');
+        const launchIcon = document.getElementById('launch-icon');
         
         // 按钮元素
         const navBack = document.getElementById('nav-back');
@@ -1664,9 +1665,21 @@
             
             // 应用图标点击
             document.querySelectorAll('.app-icon').forEach(icon => {
-                icon.addEventListener('click', () => {
+                icon.addEventListener('click', (e) => {
                     const app = icon.getAttribute('data-app');
-                    openApp(app);
+                    const iconElement = icon.querySelector('i');
+                    
+                    // 设置启动动画图标
+                    launchIcon.textContent = iconElement.textContent;
+                    
+                    // 显示启动动画
+                    launchAnimation.classList.add('active');
+                    
+                    // 打开应用
+                    setTimeout(() => {
+                        launchAnimation.classList.remove('active');
+                        openApp(app);
+                    }, 600);
                 });
             });
             
@@ -1775,7 +1788,9 @@
             }
             
             if (app === 'app-center') {
-                openPanel(appCenter);
+                appCenter.classList.add('open');
+                appCenter.style.display = 'flex';
+                currentPage = 'app-center';
                 return;
             }
             
@@ -1826,7 +1841,7 @@
             
             // 显示应用页面
             appPage.classList.add('open');
-            appPage.classList.add('show');
+            appPage.style.display = 'flex';
             currentPage = 'app-page';
         }
         
@@ -1835,7 +1850,7 @@
             appPage.classList.add('closing');
             setTimeout(() => {
                 appPage.classList.remove('open');
-                appPage.classList.remove('show');
+                appPage.style.display = 'none';
                 appPage.classList.remove('closing');
                 currentPage = 'main';
             }, 400);
@@ -1854,7 +1869,11 @@
                     closeApp();
                     break;
                 case 'app-center':
-                    closePanel(appCenter);
+                    appCenter.classList.remove('open');
+                    setTimeout(() => {
+                        appCenter.style.display = 'none';
+                        currentPage = 'main';
+                    }, 500);
                     break;
                 case 'multitask-view':
                     closePanel(multitaskView);
@@ -1872,6 +1891,7 @@
             // 关闭所有面板
             document.querySelectorAll('.settings-panel, .about-page, .app-page, .app-center, .multitask-view').forEach(panel => {
                 panel.classList.remove('show');
+                panel.style.display = 'none';
             });
             
             currentPage = 'main';
@@ -1880,7 +1900,17 @@
         
         // 显示多任务视图
         function showMultitaskView() {
-            openPanel(multitaskView);
+            multitaskView.classList.add('open');
+            multitaskView.style.display = 'flex';
+            currentPage = 'multitask-view';
+            
+            // 为多任务卡片添加动画
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, index * 100);
+            });
         }
         
         // 获取应用图标
