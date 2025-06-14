@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android web simulation</title>
+    <title>Dream OS 3.0 - 几何解锁系统</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Android 设计规范 */
+        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
@@ -17,9 +17,8 @@
         }
         
         :root {
-            /* 颜色系统 */
-            --primary: #6750A4; /* 主色调 */
-            --primary-variant: #7E57C2;
+            --primary: #7E57C2; /* 紫色主题 */
+            --primary-variant: #9575CD;
             --on-primary: #FFFFFF;
             --surface: #1C1B1F;
             --surface-container: #232029;
@@ -36,8 +35,8 @@
         }
 
         :root.light-theme {
-            --primary: #6750A4;
-            --primary-variant: #7E57C2;
+            --primary: #7E57C2;
+            --primary-variant: #9575CD;
             --on-primary: #FFFFFF;
             --surface: #FFFBFE;
             --surface-container: #F7F2FA;
@@ -110,7 +109,7 @@
             }
         }
         
-        /* 顶部状态栏 - 恢复原始设计 */
+        /* 顶部状态栏 - 恢复原始样式 */
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -124,6 +123,7 @@
             left: 0;
             width: 100%;
             z-index: 100;
+            border-radius: 0;
         }
         
         .battery-info {
@@ -191,7 +191,6 @@
             padding: 100px 24px 100px;
             position: relative;
             overflow-y: auto;
-            margin-top: 60px;
         }
         
         .welcome-container {
@@ -227,7 +226,7 @@
             justify-content: center;
             padding: 20px 0;
             background: var(--surface-container);
-            border-radius: 24px;
+            border-radius: 20px;
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: var(--transition);
@@ -326,35 +325,30 @@
             transform: translateY(0);
         }
         
-        /* 应用标题固定在左上角 */
-        .app-header {
+        .settings-header {
             display: flex;
             align-items: center;
             padding: 16px;
             background: var(--primary);
             color: var(--on-primary);
             box-shadow: var(--shadow);
-            position: fixed;
-            top: 60px;
-            left: 0;
+            position: sticky;
+            top: 0;
             z-index: 10;
-            width: auto;
-            max-width: 80%;
-            border-radius: 0 30px 30px 0;
         }
         
         .back-button {
             background: none;
             border: none;
             color: var(--on-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            margin-right: 12px;
+            margin-right: 16px;
             transition: background-color 0.2s;
             position: relative;
             overflow: hidden;
@@ -364,18 +358,13 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
         
-        .app-title {
-            font-size: 18px;
+        .settings-title {
+            font-size: 20px;
             font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
         }
         
         .settings-content {
             padding: 24px;
-            margin-top: 60px;
         }
         
         .setting-section {
@@ -471,12 +460,23 @@
             transform: translateY(0);
         }
         
+        .about-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
         .about-content {
             flex: 1;
             padding: 32px 24px;
             text-align: center;
             overflow-y: auto;
-            margin-top: 60px;
         }
         
         .device-icon {
@@ -642,7 +642,7 @@
             display: none;
             flex-direction: column;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.4s ease; /* 淡入淡出效果 */
         }
         
         .app-page.open {
@@ -650,8 +650,22 @@
             display: flex;
         }
         
-        .app-page.closing {
-            opacity: 0;
+        .app-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .app-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-left: 16px;
         }
         
         .app-content {
@@ -663,7 +677,6 @@
             justify-content: center;
             text-align: center;
             overflow-y: auto;
-            margin-top: 60px;
         }
         
         .app-icon-large {
@@ -1121,23 +1134,26 @@
             height: 56px;
             border-radius: 50%;
             background: var(--warning);
-            color: #000;
-            display: flex;
+            color: var(--on-primary);
+            display: none;
             align-items: center;
             justify-content: center;
             box-shadow: var(--elevated-shadow);
             cursor: pointer;
             z-index: 250;
             transition: all 0.3s ease;
-            display: none;
+        }
+        
+        .demo-mode-btn.show {
+            display: flex;
         }
         
         .demo-mode-btn:hover {
             transform: scale(1.1);
         }
         
-        .demo-mode-btn i {
-            font-size: 28px;
+        .demo-mode-btn:active {
+            transform: scale(0.95);
         }
         
         /* 演示模式容器 */
@@ -1147,136 +1163,148 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a0f2c, #0d081d);
+            background: var(--surface);
             z-index: 1000;
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
         
-        .demo-container.active {
+        .demo-container.show {
+            display: flex;
             opacity: 1;
+        }
+        
+        .demo-screen {
+            width: 100%;
+            height: 100%;
             display: flex;
-        }
-        
-        .demo-content {
-            text-align: center;
-            max-width: 800px;
-            padding: 20px;
-        }
-        
-        .demo-hello {
-            font-size: 100px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a6c1ee, #c2e9fb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease;
-        }
-        
-        .demo-welcome {
-            font-size: 48px;
-            color: white;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease 0.5s;
-        }
-        
-        .demo-geometric {
-            display: flex;
+            flex-direction: column;
             justify-content: center;
-            gap: 40px;
-            margin-bottom: 60px;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
         }
         
-        .demo-shape {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-            animation: floatShape 4s infinite ease-in-out;
+        .demo-art-text {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #a6c1ee, #fbc2eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: hue-rotate 6s infinite alternate;
+        }
+        
+        .demo-subtitle {
+            font-size: 32px;
+            color: var(--on-surface);
+            margin-bottom: 50px;
             opacity: 0;
-        }
-        
-        .demo-shape:nth-child(2) {
-            background: linear-gradient(45deg, #a6c1ee, #c2e9fb);
-            animation-delay: 0.5s;
-        }
-        
-        .demo-shape:nth-child(3) {
-            background: linear-gradient(45deg, #9575CD, #7E57C2);
+            animation: fadeIn 1s forwards;
             animation-delay: 1s;
         }
         
+        .geometric-animation {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .geo-shape {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation: pulse 2s infinite alternate;
+        }
+        
+        .shape1 {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 154, 158, 0.3);
+            animation-delay: 0s;
+        }
+        
+        .shape2 {
+            width: 150px;
+            height: 150px;
+            background: rgba(250, 208, 196, 0.4);
+            animation-delay: 0.2s;
+        }
+        
+        .shape3 {
+            width: 100px;
+            height: 100px;
+            background: rgba(166, 193, 238, 0.5);
+            animation-delay: 0.4s;
+        }
+        
         .demo-popup {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border-radius: 20px;
+            background: var(--primary);
+            color: var(--on-primary);
+            border-radius: 16px;
             padding: 20px;
-            max-width: 600px;
-            margin: 0 auto 60px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            margin: 20px auto;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s ease;
+            transform: translateY(20px);
+            animation: popup 0.5s forwards;
+            animation-delay: 5s;
         }
         
-        .demo-popup h3 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: #7E57C2;
-        }
-        
-        .demo-popup p {
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        
-        .demo-start {
-            font-size: 64px;
-            font-weight: bold;
-            color: white;
-            margin: 60px 0;
+        .demo-end {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--on-surface);
+            margin: 40px 0;
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease;
+            animation: fadeIn 1s forwards;
+            animation-delay: 8s;
         }
         
         .demo-controls {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
             display: flex;
             justify-content: center;
-            gap: 60px;
-            margin-top: 40px;
+            gap: 40px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 9s;
         }
         
-        .demo-restart {
-            width: 80px;
-            height: 80px;
+        .restart-demo {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--surface-container);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             opacity: 0;
-            transition: all 0.5s ease;
+            animation: fadeIn 1s forwards;
+            animation-delay: 9s;
         }
         
-        .demo-restart i {
-            font-size: 36px;
-            color: white;
-        }
-        
-        .demo-continue {
-            width: 100px;
-            height: 100px;
+        .end-demo {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: var(--primary);
             display: flex;
@@ -1284,14 +1312,11 @@
             justify-content: center;
             cursor: pointer;
             opacity: 0;
-            transition: all 0.5s ease;
+            animation: fadeIn 1s forwards;
+            animation-delay: 9s;
         }
         
-        .demo-continue i {
-            font-size: 48px;
-            color: white;
-        }
-        
+        /* 动画定义 */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -1304,97 +1329,259 @@
             100% { background-position: 0% 50%; }
         }
         
-        @keyframes floatShape {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-30px) rotate(10deg); }
+        @keyframes hue-rotate {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
         }
         
-        /* 开发者选项警告对话框 */
-        .dev-dialog {
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            from { transform: translate(-50%, -50%) scale(1); }
+            to { transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        @keyframes popup {
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 锁屏界面 */
+        .lock-screen {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--surface-container);
-            border-radius: 28px;
-            padding: 24px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c1b47, #1d1538, #0d0a1f);
             z-index: 1000;
-            width: 320px;
-            max-width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            display: none;
-        }
-        
-        .dev-dialog.show {
-            display: block;
-        }
-        
-        .dialog-header {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
-        .dialog-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background: rgba(255, 193, 7, 0.2);
+        .lock-screen.unlocked {
+            transform: translateY(-100%);
+        }
+        
+        .lock-container {
+            display: flex;
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .lock-left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .lock-time {
+            font-size: 100px;
+            font-weight: 300;
+            letter-spacing: -5px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .lock-date {
+            font-size: 28px;
+            margin-bottom: 50px;
+            opacity: 0.8;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .device-status {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(126, 87, 194, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        .dialog-icon i {
-            color: var(--warning);
-            font-size: 24px;
-        }
-        
-        .dialog-title {
-            font-size: 20px;
-            font-weight: 500;
-            color: var(--on-surface);
-        }
-        
-        .dialog-content {
-            margin-bottom: 24px;
-            color: var(--on-surface-variant);
-            line-height: 1.5;
-        }
-        
-        .dialog-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 16px;
-        }
-        
-        .dialog-button {
-            padding: 10px 24px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-        
-        .dialog-button.cancel {
-            background: transparent;
+        .status-icon i {
+            font-size: 30px;
             color: var(--primary);
         }
         
-        .dialog-button.confirm {
-            background: var(--primary);
-            color: var(--on-primary);
+        .status-label {
+            font-size: 16px;
+            opacity: 0.8;
+            color: rgba(255, 255, 255, 0.7);
         }
         
-        .dialog-button:hover {
+        .lock-right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+        
+        /* 几何解锁按钮 */
+        .geometric-unlock {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .geometric-core {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7E57C2, #5e35b1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(126, 87, 194, 0.5);
+            transition: all 0.4s ease;
+        }
+        
+        .geometric-core i {
+            font-size: 48px;
+            color: white;
+        }
+        
+        .shape {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+        
+        .shape-1 {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid #ff9a9e;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .shape-2 {
+            width: 220px;
+            height: 220px;
+            border-radius: 30%;
+            border: 3px solid #a6c1ee;
+            transform: rotate(45deg);
+            animation: rotateReverse 25s linear infinite;
+        }
+        
+        .shape-3 {
+            width: 260px;
+            height: 260px;
+            border: 3px solid #fad0c4;
+            border-radius: 40%;
+            transform: rotate(15deg);
+            animation: rotate 30s linear infinite;
+        }
+        
+        .shape-4 {
+            width: 280px;
+            height: 280px;
+            border: 3px solid #4ade80;
+            border-radius: 45%;
+            transform: rotate(75deg);
+            animation: rotateReverse 35s linear infinite;
+        }
+        
+        .geometric-unlock:hover .shape {
+            border-width: 4px;
             opacity: 0.9;
+        }
+        
+        .geometric-unlock:hover .shape-1 {
+            width: 190px;
+            height: 190px;
+        }
+        
+        .geometric-unlock:hover .shape-2 {
+            width: 230px;
+            height: 230px;
+        }
+        
+        .geometric-unlock:hover .shape-3 {
+            width: 270px;
+            height: 270px;
+        }
+        
+        .geometric-unlock:hover .shape-4 {
+            width: 290px;
+            height: 290px;
+        }
+        
+        .geometric-unlock:active .geometric-core {
+            transform: scale(0.9);
+            box-shadow: 0 0 10px rgba(126, 87, 194, 0.8);
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotateReverse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        
+        /* 解锁动画 */
+        @keyframes unlockAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .unlock-active {
+            animation: unlockAnimation 0.5s ease;
+        }
+        
+        .unlock-instruction {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .lock-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            opacity: 0.7;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
 <body class="color-theme-purple">
-    <!-- 锁屏界面 - 几何解锁版本 -->
+    <!-- 锁屏界面 -->
     <div class="lock-screen" id="lock-screen">
         <div class="lock-container">
             <div class="lock-left-panel">
@@ -1440,42 +1627,12 @@
         </div>
         
         <div class="lock-footer">
-            Dream UI 5.0 | 基带版本 25.6.13 | 设备型号 Dream-web2025
+            Dream OS 3.0 | UI 5.0 | 设备型号 Dream-web2025
         </div>
     </div>
     
     <!-- 泡泡背景 -->
     <div class="bubbles" id="bubbles"></div>
-    
-    <!-- 演示模式容器 -->
-    <div class="demo-container" id="demo-container">
-        <div class="demo-content">
-            <div class="demo-hello" id="demo-hello">你好</div>
-            <div class="demo-welcome" id="demo-welcome">欢迎来到 Android Web Simulation</div>
-            
-            <div class="demo-geometric">
-                <div class="demo-shape" id="demo-shape-1"></div>
-                <div class="demo-shape" id="demo-shape-2"></div>
-                <div class="demo-shape" id="demo-shape-3"></div>
-            </div>
-            
-            <div class="demo-popup" id="demo-popup">
-                <h3>几何动态体验</h3>
-                <p>这是一个完全由HTML5、CSS3和JavaScript创建的交互式几何界面体验。所有视觉效果都是实时生成的，没有使用任何外部图像资源。系统采用了最新的CSS渐变和动画技术，创造出流畅的几何变换体验。</p>
-            </div>
-            
-            <div class="demo-start" id="demo-start">让我们开始吧!</div>
-            
-            <div class="demo-controls">
-                <div class="demo-restart" id="demo-restart">
-                    <i class="material-icons">loop</i>
-                </div>
-                <div class="demo-continue" id="demo-continue">
-                    <i class="material-icons">arrow_forward</i>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <!-- 顶部状态栏 -->
     <div class="status-bar">
@@ -1530,11 +1687,11 @@
     
     <!-- 设置面板 -->
     <div class="settings-panel" id="settings-panel">
-        <div class="app-header">
+        <div class="settings-header">
             <button class="back-button" id="settings-back">
                 <i class="material-icons">arrow_back</i>
             </button>
-            <div class="app-title">设置</div>
+            <div class="settings-title">设置</div>
         </div>
         <div class="settings-content">
             <div class="setting-section">
@@ -1603,6 +1760,19 @@
                     </div>
                     <i class="material-icons setting-arrow">chevron_right</i>
                 </div>
+                <div class="setting-item" id="animation-setting">
+                    <div class="setting-icon">
+                        <i class="material-icons">animation</i>
+                    </div>
+                    <div class="setting-info">
+                        <div class="setting-title">应用开启动画</div>
+                        <div class="setting-subtitle">iOS风格动画效果</div>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="animation-toggle" checked>
+                        <span class="slider"></span>
+                    </div>
+                </div>
             </div>
             
             <div class="setting-section">
@@ -1623,11 +1793,11 @@
     
     <!-- 关于页面 -->
     <div class="about-page" id="about-page">
-        <div class="app-header">
+        <div class="about-header">
             <button class="back-button" id="about-back">
                 <i class="material-icons">arrow_back</i>
             </button>
-            <div class="app-title">关于设备</div>
+            <div class="settings-title">关于设备</div>
         </div>
         <div class="about-content">
             <div class="device-icon" id="android-version">
@@ -1679,20 +1849,19 @@
                     </label>
                 </div>
                 <div class="toggle-container">
-                    <div class="toggle-label">系统演示模式</div>
+                    <div class="toggle-label">设备主题颜色</div>
+                    <div class="color-picker">
+                        <div class="color-option purple active" data-color="purple"></div>
+                        <div class="color-option blue" data-color="blue"></div>
+                        <div class="color-option orange" data-color="orange"></div>
+                    </div>
+                </div>
+                <div class="toggle-container">
+                    <div class="toggle-label">演示模式</div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="demo-toggle">
                         <span class="slider"></span>
                     </label>
-                </div>
-                <div class="setting-item" id="close-dev-options">
-                    <div class="setting-icon">
-                        <i class="material-icons">close</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">关闭开发者选项</div>
-                        <div class="setting-subtitle">禁用开发者功能</div>
-                    </div>
                 </div>
             </div>
             
@@ -1920,20 +2089,32 @@
         <i class="material-icons">slideshow</i>
     </div>
     
-    <!-- 开发者选项警告对话框 -->
-    <div class="dev-dialog" id="dev-dialog">
-        <div class="dialog-header">
-            <div class="dialog-icon">
-                <i class="material-icons">warning</i>
+    <!-- 演示模式容器 -->
+    <div class="demo-container" id="demo-container">
+        <div class="demo-screen" id="demo-screen">
+            <div class="demo-art-text">你好</div>
+            <div class="demo-subtitle">欢迎来到Android web simulation</div>
+            
+            <div class="geometric-animation">
+                <div class="geo-shape shape1"></div>
+                <div class="geo-shape shape2"></div>
+                <div class="geo-shape shape3"></div>
             </div>
-            <div class="dialog-title">开发者选项警告</div>
-        </div>
-        <div class="dialog-content">
-            开启开发者选项可能会导致系统不稳定、应用崩溃或其他未知问题。此功能仅供开发人员使用，普通用户不建议开启。是否确定要开启开发者选项？
-        </div>
-        <div class="dialog-actions">
-            <button class="dialog-button cancel" id="dev-cancel">取消</button>
-            <button class="dialog-button confirm" id="dev-confirm">确定</button>
+            
+            <div class="demo-popup">
+                <p>这是一个动态演示界面，展示了Dream OS 3.0的强大功能和流畅动画效果。</p>
+                <p>所有动画均使用纯CSS实现，无需额外插件。</p>
+            </div>
+            
+            <div class="demo-end">让我们开始吧</div>
+            
+            <div class="restart-demo" id="restart-demo">
+                <i class="material-icons">replay</i>
+            </div>
+            
+            <div class="end-demo" id="end-demo">
+                <i class="material-icons">arrow_forward</i>
+            </div>
         </div>
     </div>
 
@@ -1966,62 +2147,39 @@
                 setTimeout(() => showPanel('about-page'), 100);
             });
             
-            // 关于页面返回按钮 - 直接返回设置主页
+            // 关于页面返回按钮
             document.getElementById('about-back').addEventListener('click', function() {
                 hidePanel('about-page');
                 setTimeout(() => showPanel('settings-panel'), 100);
             });
             
-            // 开发者选项警告对话框
-            const devDialog = document.getElementById('dev-dialog');
-            const devConfirm = document.getElementById('dev-confirm');
-            const devCancel = document.getElementById('dev-cancel');
-            
-            // UI版本区块点击事件 - 6次开启开发者选项
-            let tapCount = 0;
-            let lastTapTime = 0;
-            document.getElementById('ui-version-block').addEventListener('click', function() {
-                const now = Date.now();
-                if (now - lastTapTime > 500) { // 重置如果点击间隔超过500ms
-                    tapCount = 0;
-                }
-                
-                tapCount++;
-                lastTapTime = now;
-                
-                // 添加点击反馈效果
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 100);
-                
-                if(tapCount === 6) {
-                    // 显示警告对话框
-                    devDialog.classList.add('show');
+            // 演示模式开关
+            document.getElementById('demo-toggle').addEventListener('change', function() {
+                if(this.checked) {
+                    document.getElementById('demo-mode-btn').classList.add('show');
+                } else {
+                    document.getElementById('demo-mode-btn').classList.remove('show');
                 }
             });
             
-            // 确认开启开发者选项
-            devConfirm.addEventListener('click', function() {
-                document.getElementById('dev-options').classList.add('show');
-                document.querySelector('.developer-message').classList.add('show');
+            // 演示模式按钮
+            document.getElementById('demo-mode-btn').addEventListener('click', function() {
+                document.getElementById('demo-container').classList.add('show');
+                document.getElementById('floating-back').style.display = 'none';
                 
-                // 重置计数器
-                tapCount = 0;
-                devDialog.classList.remove('show');
+                // 重置演示动画
+                resetDemo();
             });
             
-            // 取消开启开发者选项
-            devCancel.addEventListener('click', function() {
-                devDialog.classList.remove('show');
-                tapCount = 0;
+            // 重新开始演示
+            document.getElementById('restart-demo').addEventListener('click', function() {
+                resetDemo();
             });
             
-            // 关闭开发者选项
-            document.getElementById('close-dev-options').addEventListener('click', function() {
-                document.getElementById('dev-options').classList.remove('show');
-                document.querySelector('.developer-message').classList.remove('show');
-                tapCount = 0;
+            // 结束演示
+            document.getElementById('end-demo').addEventListener('click', function() {
+                document.getElementById('demo-container').classList.remove('show');
+                document.getElementById('floating-back').style.display = 'flex';
             });
             
             // 主题颜色选择
@@ -2041,30 +2199,6 @@
                 });
             });
             
-            // 演示模式开关
-            document.getElementById('demo-toggle').addEventListener('change', function() {
-                if(this.checked) {
-                    document.getElementById('demo-mode-btn').style.display = 'flex';
-                } else {
-                    document.getElementById('demo-mode-btn').style.display = 'none';
-                }
-            });
-            
-            // 演示模式按钮事件
-            document.getElementById('demo-mode-btn').addEventListener('click', function() {
-                startDemoMode();
-            });
-            
-            // 演示模式控制按钮
-            document.getElementById('demo-restart').addEventListener('click', function() {
-                startDemoMode();
-            });
-            
-            document.getElementById('demo-continue').addEventListener('click', function() {
-                document.getElementById('demo-container').classList.remove('active');
-                document.getElementById('floating-back').style.display = 'flex';
-            });
-            
             // 应用页面事件
             const apps = {
                 'camera': 'camera-app',
@@ -2074,10 +2208,37 @@
                 'music': 'music-app'
             };
             
+            // 应用图标对应的启动图标
+            const appIcons = {
+                'camera': 'camera',
+                'messages': 'message',
+                'phone': 'call',
+                'gallery': 'photo_library',
+                'music': 'music_note'
+            };
+            
             // 打开应用
             Object.keys(apps).forEach(appId => {
-                document.getElementById(appId).addEventListener('click', function(e) {
-                    openApp(apps[appId]);
+                document.getElementById(appId).addEventListener('click', function() {
+                    // 检查动画开关是否开启
+                    const animationEnabled = document.getElementById('animation-toggle').checked;
+                    
+                    if (animationEnabled) {
+                        // 设置启动动画图标
+                        document.getElementById('launch-icon').textContent = appIcons[appId];
+                        
+                        // 显示启动动画
+                        const launchAnimation = document.getElementById('app-launch');
+                        launchAnimation.classList.add('active');
+                        
+                        setTimeout(() => {
+                            launchAnimation.classList.remove('active');
+                            openApp(apps[appId]);
+                        }, 600);
+                    } else {
+                        // 无动画直接打开应用
+                        openApp(apps[appId]);
+                    }
                 });
             });
             
@@ -2132,15 +2293,27 @@
             function closeApp(appId) {
                 const appPage = document.getElementById(appId);
                 
-                // 添加关闭动画
-                appPage.classList.add('closing');
-                setTimeout(() => {
-                    appPage.classList.remove('open', 'closing');
+                // 检查动画开关是否开启
+                const animationEnabled = document.getElementById('animation-toggle').checked;
+                
+                if (animationEnabled) {
+                    // 添加关闭动画
+                    appPage.classList.remove('open');
+                    
+                    setTimeout(() => {
+                        appPage.style.display = 'none';
+                        
+                        // 隐藏悬浮返回按钮
+                        document.getElementById('floating-back').style.display = 'none';
+                    }, 400);
+                } else {
+                    // 无动画直接关闭
+                    appPage.classList.remove('open');
                     appPage.style.display = 'none';
                     
                     // 隐藏悬浮返回按钮
                     document.getElementById('floating-back').style.display = 'none';
-                }, 400);
+                }
             }
             
             // 开发者选项中的主题切换
@@ -2150,6 +2323,89 @@
             
             // 添加水波纹效果
             addRippleEffect();
+            
+            // 电话应用功能
+            const phoneDisplay = document.getElementById('phone-display');
+            const callButton = document.getElementById('call-button');
+            
+            let phoneNumber = '';
+            
+            // 拨号按钮事件
+            document.querySelectorAll('.keypad-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const number = this.getAttribute('data-number');
+                    phoneNumber += number;
+                    phoneDisplay.textContent = phoneNumber;
+                    
+                    // 如果号码不为空，激活拨号按钮
+                    if(phoneNumber.length > 0) {
+                        callButton.classList.add('active');
+                    }
+                });
+            });
+            
+            // 信息应用功能
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const messageList = document.getElementById('message-list');
+            
+            // 发送消息
+            sendButton.addEventListener('click', function() {
+                const messageText = messageInput.value.trim();
+                if (messageText) {
+                    // 创建新消息
+                    const newMessage = document.createElement('div');
+                    newMessage.classList.add('message-item', 'self');
+                    newMessage.innerHTML = `
+                        <div class="message-avatar">我</div>
+                        <div class="message-content">
+                            <div class="message-sender">我</div>
+                            <div class="message-text">${messageText}</div>
+                        </div>
+                    `;
+                    
+                    // 添加到消息列表
+                    messageList.appendChild(newMessage);
+                    
+                    // 清空输入框
+                    messageInput.value = '';
+                    
+                    // 滚动到底部
+                    messageList.scrollTop = messageList.scrollHeight;
+                    
+                    // 模拟回复
+                    setTimeout(() => {
+                        const replies = [
+                            "好的，收到！",
+                            "明白了，谢谢！",
+                            "稍后回复你",
+                            "正在处理中...",
+                            "需要更多信息吗？"
+                        ];
+                        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                        
+                        const replyMessage = document.createElement('div');
+                        replyMessage.classList.add('message-item');
+                        replyMessage.innerHTML = `
+                            <div class="message-avatar">R</div>
+                            <div class="message-content">
+                                <div class="message-sender">回复助手</div>
+                                <div class="message-text">${randomReply}</div>
+                            </div>
+                        `;
+                        
+                        messageList.appendChild(replyMessage);
+                        messageList.scrollTop = messageList.scrollHeight;
+                    }, 1000);
+                }
+            });
+            
+            // 按回车发送消息
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
             
             // 几何解锁功能
             const unlockButton = document.getElementById('geometric-unlock');
@@ -2176,9 +2432,6 @@
             function unlockDevice() {
                 unlockButton.classList.add('unlock-active');
                 
-                // 添加震动效果
-                unlockButton.classList.add('shake');
-                
                 setTimeout(() => {
                     // 解锁设备
                     document.getElementById('lock-screen').classList.add('unlocked');
@@ -2186,55 +2439,45 @@
                     setTimeout(() => {
                         document.getElementById('lock-screen').style.display = 'none';
                     }, 1000);
-                }, 800);
+                }, 500);
             }
             
-            // 启动演示模式
-            function startDemoMode() {
-                // 隐藏返回按钮
-                document.getElementById('floating-back').style.display = 'none';
+            // 重置演示
+            function resetDemo() {
+                const demoElements = [
+                    document.querySelector('.demo-art-text'),
+                    document.querySelector('.demo-subtitle'),
+                    document.querySelector('.geometric-animation'),
+                    document.querySelector('.demo-popup'),
+                    document.querySelector('.demo-end'),
+                    document.querySelector('.restart-demo'),
+                    document.querySelector('.end-demo')
+                ];
                 
-                // 显示演示容器
-                const demoContainer = document.getElementById('demo-container');
-                demoContainer.classList.add('active');
-                
-                // 重置所有元素状态
-                document.querySelectorAll('.demo-hello, .demo-welcome, .demo-shape, .demo-popup, .demo-start, .demo-restart, .demo-continue').forEach(el => {
-                    el.style.opacity = '0';
+                // 重置所有元素的动画状态
+                demoElements.forEach(el => {
+                    if(el) {
+                        el.style.animation = 'none';
+                        el.style.opacity = '0';
+                        
+                        // 触发重绘
+                        void el.offsetWidth;
+                    }
                 });
                 
-                // 逐步显示演示内容
+                // 重新应用动画
                 setTimeout(() => {
-                    document.getElementById('demo-hello').style.opacity = '1';
-                    document.getElementById('demo-hello').style.transform = 'translateY(0)';
+                    if(demoElements[1]) demoElements[1].style.animation = 'fadeIn 1s forwards';
+                    if(demoElements[5]) demoElements[5].style.animation = 'fadeIn 1s forwards 9s';
+                    if(demoElements[6]) demoElements[6].style.animation = 'fadeIn 1s forwards 9s';
                     
                     setTimeout(() => {
-                        document.getElementById('demo-welcome').style.opacity = '1';
-                        document.getElementById('demo-welcome').style.transform = 'translateY(0)';
-                        
-                        setTimeout(() => {
-                            document.querySelectorAll('.demo-shape').forEach((shape, index) => {
-                                setTimeout(() => {
-                                    shape.style.opacity = '1';
-                                }, index * 300);
-                            });
-                            
-                            setTimeout(() => {
-                                document.getElementById('demo-popup').style.opacity = '1';
-                                document.getElementById('demo-popup').style.transform = 'scale(1)';
-                                
-                                setTimeout(() => {
-                                    document.getElementById('demo-start').style.opacity = '1';
-                                    document.getElementById('demo-start').style.transform = 'translateY(0)';
-                                    
-                                    setTimeout(() => {
-                                        document.getElementById('demo-restart').style.opacity = '1';
-                                        document.getElementById('demo-continue').style.opacity = '1';
-                                    }, 500);
-                                }, 1000);
-                            }, 1000);
-                        }, 1000);
-                    }, 1000);
+                        if(demoElements[3]) demoElements[3].style.animation = 'popup 0.5s forwards';
+                    }, 5000);
+                    
+                    setTimeout(() => {
+                        if(demoElements[4]) demoElements[4].style.animation = 'fadeIn 1s forwards';
+                    }, 8000);
                 }, 100);
             }
         });
@@ -2291,7 +2534,7 @@
         
         // 添加水波纹效果
         function addRippleEffect() {
-            document.querySelectorAll('.app-icon, .setting-item, .floating-back-btn, .camera-btn, .keypad-button, .call-button, .player-button, .send-button, .dialog-button, .demo-mode-btn').forEach(button => {
+            document.querySelectorAll('.app-icon, .setting-item, .floating-back-btn, .camera-btn, .keypad-button, .call-button, .player-button, .send-button, .demo-mode-btn').forEach(button => {
                 button.addEventListener('click', function(e) {
                     const rect = this.getBoundingClientRect();
                     const x = e.clientX - rect.left;
