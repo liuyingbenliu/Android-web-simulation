@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android web simulation</title>
+    <title>Android Web 模拟</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
@@ -17,7 +16,7 @@
         }
         
         :root {
-            --primary: #7E57C2; /* 紫色主题 */
+            --primary: #7E57C2;
             --primary-variant: #9575CD;
             --on-primary: #FFFFFF;
             --surface: #1C1B1F;
@@ -31,25 +30,8 @@
             --ripple: rgba(255, 255, 255, 0.1);
             --success: #4ade80;
             --error: #ff5252;
-            --warning: #FFC107;
         }
 
-        :root.light-theme {
-            --primary: #7E57C2;
-            --primary-variant: #9575CD;
-            --on-primary: #FFFFFF;
-            --surface: #FFFBFE;
-            --surface-container: #F7F2FA;
-            --on-surface: #1C1B1F;
-            --on-surface-variant: #49454F;
-            --outline: #79747E;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 4px 8px 3px rgba(0, 0, 0, 0.05);
-            --elevated-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 6px 10px 4px rgba(0, 0, 0, 0.05);
-            --ripple: rgba(0, 0, 0, 0.05);
-            --success: #22c55e;
-            --error: #ef4444;
-        }
-        
         body {
             background: linear-gradient(-45deg, #2c1b47, #1d1538, #0d0a1f, #0d1b2a);
             background-size: 400% 400%;
@@ -59,16 +41,8 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: background-color 0.5s ease;
         }
 
-        body.light-theme {
-            background: linear-gradient(-45deg, #f0e6ff, #e2d6ff, #d1c4e9, #c5b5e3);
-            background-size: 400% 400%;
-            animation: gradientLightBG 15s ease infinite;
-        }
-
-        /* 泡泡背景 */
         .bubbles {
             position: fixed;
             top: 0;
@@ -85,11 +59,6 @@
             background: rgba(255, 255, 255, 0.1);
             animation: float 15s infinite ease-in-out;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-        
-        .light-theme .bubble {
-            background: rgba(0, 0, 0, 0.05);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
         
         @keyframes float {
@@ -109,7 +78,6 @@
             }
         }
         
-        /* 顶部状态栏 - 长椭圆设计 */
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -143,10 +111,6 @@
             border-radius: 2px;
         }
         
-        .light-theme .battery-icon {
-            border: 1px solid rgba(0, 0, 0, 0.7);
-        }
-        
         .battery-level {
             position: absolute;
             height: 10px;
@@ -168,10 +132,6 @@
             border-radius: 0 2px 2px 0;
         }
         
-        .light-theme .battery-tip {
-            background: rgba(0, 0, 0, 0.7);
-        }
-        
         .time-display {
             font-size: 18px;
             font-weight: 500;
@@ -186,7 +146,6 @@
             font-weight: 500;
         }
         
-        /* 主内容区 */
         .content-container {
             flex: 1;
             padding: 100px 24px 100px;
@@ -211,7 +170,6 @@
             color: var(--on-surface-variant);
         }
         
-        /* 应用网格 */
         .app-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -238,17 +196,9 @@
             user-select: none;
         }
         
-        .light-theme .app-icon {
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
         .app-icon:hover {
             transform: translateY(-4px);
             box-shadow: var(--elevated-shadow);
-        }
-        
-        .app-icon:active {
-            transform: translateY(-2px);
         }
         
         .app-icon i {
@@ -286,7 +236,6 @@
             opacity: 1;
         }
         
-        /* 水波纹效果 */
         .ripple {
             position: absolute;
             border-radius: 50%;
@@ -303,476 +252,6 @@
             }
         }
         
-        /* 设置面板 */
-        .settings-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--surface);
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .settings-panel.show {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .settings-header {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: var(--primary);
-            color: var(--on-primary);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .back-button {
-            background: none;
-            border: none;
-            color: var(--on-primary);
-            width: 48px;
-            height: 48px;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-right: 16px;
-            transition: background-color 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .back-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .settings-title {
-            font-size: 20px;
-            font-weight: 500;
-        }
-        
-        .settings-content {
-            padding: 24px;
-        }
-        
-        .setting-section {
-            margin-bottom: 32px;
-        }
-        
-        .setting-section-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--on-surface-variant);
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .setting-item {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: var(--surface-container);
-            border-radius: 16px;
-            margin-bottom: 12px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        
-        .setting-item:hover {
-            background-color: rgba(126, 87, 194, 0.08);
-        }
-        
-        .light-theme .setting-item:hover {
-            background-color: rgba(126, 87, 194, 0.05);
-        }
-        
-        .setting-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background-color: rgba(126, 87, 194, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 16px;
-        }
-        
-        .setting-icon i {
-            color: var(--primary);
-            font-size: 20px;
-        }
-        
-        .setting-info {
-            flex: 1;
-        }
-        
-        .setting-title {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            color: var(--on-surface);
-        }
-        
-        .setting-subtitle {
-            font-size: 14px;
-            color: var(--on-surface-variant);
-        }
-        
-        .setting-arrow {
-            color: var(--on-surface-variant);
-        }
-        
-        /* 关于页面 */
-        .about-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--surface);
-            z-index: 150;
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .about-page.show {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .about-header {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: var(--primary);
-            color: var(--on-primary);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .about-content {
-            flex: 1;
-            padding: 32px 24px;
-            text-align: center;
-            overflow-y: auto;
-        }
-        
-        .device-icon {
-            width: 120px;
-            height: 120px;
-            background: rgba(126, 87, 194, 0.1);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-        
-        .device-icon:hover {
-            transform: scale(1.05);
-        }
-        
-        .device-icon i {
-            font-size: 60px;
-            color: var(--primary);
-        }
-        
-        .device-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--on-surface);
-        }
-        
-        .device-sim {
-            font-size: 16px;
-            color: var(--primary);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            max-width: 500px;
-            margin: 0 auto 32px;
-        }
-        
-        .info-card {
-            background: var(--surface-container);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: var(--shadow);
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .info-label {
-            font-size: 14px;
-            color: var(--on-surface-variant);
-            margin-bottom: 8px;
-        }
-        
-        .info-value {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--on-surface);
-        }
-        
-        .developer-message {
-            background: var(--primary);
-            color: var(--on-primary);
-            border-radius: 16px;
-            padding: 16px;
-            max-width: 500px;
-            margin: 0 auto;
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-        
-        .developer-message.show {
-            opacity: 1;
-        }
-        
-        /* 开发者选项 */
-        .developer-options {
-            display: none;
-        }
-        
-        .developer-options.show {
-            display: block;
-        }
-        
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 0;
-        }
-        
-        .toggle-label {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--on-surface);
-        }
-        
-        /* Material Design 开关样式 */
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 42px;
-            height: 24px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--outline);
-            transition: .4s;
-            border-radius: 24px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: var(--primary);
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(18px);
-        }
-        
-        /* 应用页面 */
-        .app-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--surface);
-            z-index: 200;
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .app-page.open {
-            opacity: 1;
-            display: flex;
-        }
-        
-        .app-page.closing {
-            opacity: 0;
-        }
-        
-        .app-header {
-            display: flex;
-            align-items: center;
-            padding: 16px;
-            background: var(--primary);
-            color: var(--on-primary);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .app-title {
-            font-size: 20px;
-            font-weight: 500;
-            margin-left: 16px;
-        }
-        
-        .app-content {
-            flex: 1;
-            padding: 32px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow-y: auto;
-        }
-        
-        .app-icon-large {
-            width: 100px;
-            height: 100px;
-            background: rgba(126, 87, 194, 0.1);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 32px;
-        }
-        
-        .app-icon-large i {
-            font-size: 48px;
-            color: var(--primary);
-        }
-        
-        .app-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--on-surface);
-        }
-        
-        .app-description {
-            font-size: 16px;
-            color: var(--on-surface-variant);
-            max-width: 500px;
-            line-height: 1.6;
-        }
-        
-        /* 相机预览 */
-        .camera-preview {
-            width: 100%;
-            max-width: 500px;
-            background: var(--surface-container);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 16px;
-        }
-        
-        .camera-view {
-            width: 100%;
-            height: 300px;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 18px;
-            font-weight: 500;
-            /* 丰富几何图案 */
-            background: 
-                radial-gradient(circle at 20% 35%, #ff9a9e 10%, transparent 10.5%),
-                radial-gradient(circle at 80% 45%, #fad0c4 8%, transparent 8.5%),
-                radial-gradient(circle at 30% 75%, #fbc2eb 12%, transparent 12.5%),
-                radial-gradient(circle at 70% 25%, #a6c1ee 15%, transparent 15.5%),
-                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .camera-controls {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-        
-        .camera-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 30px;
-            background: var(--primary);
-            color: var(--on-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-        
-        .camera-btn:hover {
-            transform: scale(1.05);
-            background: var(--primary-variant);
-        }
-        
-        .camera-btn i {
-            font-size: 24px;
-        }
-        
-        /* 锁屏界面 */
         .lockscreen {
             position: fixed;
             top: 0;
@@ -898,7 +377,6 @@
             opacity: 1;
         }
         
-        /* 多任务视图 */
         .multitasking-view {
             position: fixed;
             top: 0;
@@ -994,7 +472,6 @@
             color: var(--primary);
         }
         
-        /* 底部导航栏（三大金刚键） */
         .navigation-bar {
             position: fixed;
             bottom: 0;
@@ -1044,20 +521,44 @@
             background: var(--primary-variant);
         }
         
-        /* 动画 */
+        .web-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 800;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .web-view.active {
+            display: flex;
+        }
+        
+        .web-view-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--primary);
+            color: var(--on-primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .web-view-content {
+            flex: 1;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
         
-        @keyframes gradientLightBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* 响应式调整 */
         @media (max-width: 600px) {
             .status-bar {
                 width: 90%;
@@ -1116,6 +617,10 @@
         </div>
         
         <div class="app-grid">
+            <div class="app-icon" data-app="browser">
+                <i class="material-icons">public</i>
+                <span>浏览器</span>
+            </div>
             <div class="app-icon" data-app="camera">
                 <i class="material-icons">photo_camera</i>
                 <span>相机</span>
@@ -1131,10 +636,6 @@
             <div class="app-icon" data-app="phone">
                 <i class="material-icons">phone</i>
                 <span>电话</span>
-            </div>
-            <div class="app-icon" data-app="settings">
-                <i class="material-icons">settings</i>
-                <span>设置</span>
             </div>
             <div class="app-icon" data-app="maps">
                 <i class="material-icons">map</i>
@@ -1218,172 +719,15 @@
         </div>
     </div>
     
-    <!-- 应用页面 -->
-    <div class="app-page" id="camera-app">
-        <div class="app-header">
-            <div class="back-button">
+    <!-- Web视图 -->
+    <div class="web-view">
+        <div class="web-view-header">
+            <div class="back-button web-back">
                 <i class="material-icons">arrow_back</i>
             </div>
-            <div class="app-title">相机</div>
+            <div class="web-url">https://example.com</div>
         </div>
-        
-        <div class="app-content">
-            <div class="camera-preview">
-                <div class="camera-view">
-                    相机预览
-                </div>
-                <div class="camera-controls">
-                    <div class="camera-btn">
-                        <i class="material-icons">photo_camera</i>
-                    </div>
-                </div>
-            </div>
-            <div class="app-name">相机</div>
-            <p class="app-description">拍摄照片和视频，记录美好瞬间。</p>
-        </div>
-    </div>
-    
-    <!-- 设置页面 -->
-    <div class="settings-panel">
-        <div class="settings-header">
-            <div class="back-button">
-                <i class="material-icons">arrow_back</i>
-            </div>
-            <div class="settings-title">设置</div>
-        </div>
-        
-        <div class="settings-content">
-            <div class="setting-section">
-                <h3 class="setting-section-title">连接</h3>
-                
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">wifi</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">Wi-Fi</div>
-                        <div class="setting-subtitle">已连接至HomeNetwork</div>
-                    </div>
-                    <div class="setting-arrow">
-                        <i class="material-icons">chevron_right</i>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">bluetooth</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">蓝牙</div>
-                        <div class="setting-subtitle">已开启</div>
-                    </div>
-                    <div class="setting-arrow">
-                        <i class="material-icons">chevron_right</i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="setting-section">
-                <h3 class="setting-section-title">个性化</h3>
-                
-                <div class="setting-item" id="theme-toggle">
-                    <div class="setting-icon">
-                        <i class="material-icons">brightness_6</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">深色主题</div>
-                        <div class="setting-subtitle">切换浅色/深色模式</div>
-                    </div>
-                    <div class="toggle-container">
-                        <label class="toggle-switch">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="setting-item">
-                    <div class="setting-icon">
-                        <i class="material-icons">wallpaper</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">壁纸</div>
-                        <div class="setting-subtitle">更改主屏幕和锁屏壁纸</div>
-                    </div>
-                    <div class="setting-arrow">
-                        <i class="material-icons">chevron_right</i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="setting-section">
-                <h3 class="setting-section-title">关于设备</h3>
-                
-                <div class="setting-item" id="about-device">
-                    <div class="setting-icon">
-                        <i class="material-icons">info</i>
-                    </div>
-                    <div class="setting-info">
-                        <div class="setting-title">关于手机</div>
-                        <div class="setting-subtitle">Android版本、法律信息等</div>
-                    </div>
-                    <div class="setting-arrow">
-                        <i class="material-icons">chevron_right</i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 关于页面 -->
-    <div class="about-page">
-        <div class="about-header">
-            <div class="back-button">
-                <i class="material-icons">arrow_back</i>
-            </div>
-            <div class="settings-title">关于手机</div>
-        </div>
-        
-        <div class="about-content">
-            <div class="device-icon" id="android-version-tap">
-                <i class="material-icons">android</i>
-            </div>
-            <h2 class="device-name">Android Web</h2>
-            <p class="device-sim">模拟 Android 16 体验</p>
-            
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-label">型号</div>
-                    <div class="info-value">AND-WEB-SIM</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">Android 版本</div>
-                    <div class="info-value">16 Web</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">安全更新</div>
-                    <div class="info-value">2023-10-05</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-label">内核版本</div>
-                    <div class="info-value">5.15.110-web</div>
-                </div>
-            </div>
-            
-            <div class="developer-message">
-                <p>这是一个使用 HTML、CSS 和 JavaScript 模拟的 Android 界面，展示了现代 Web 技术的强大功能。</p>
-            </div>
-            
-            <div class="developer-options">
-                <div class="toggle-container">
-                    <span class="toggle-label">开发者选项</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
+        <iframe class="web-view-content" src="about:blank"></iframe>
     </div>
     
     <script>
@@ -1415,33 +759,9 @@
                 });
             });
             
-            // 设置页面切换
-            document.querySelector('.setting-item#theme-toggle').addEventListener('click', toggleTheme);
-            document.querySelector('.setting-item#about-device').addEventListener('click', function() {
-                document.querySelector('.about-page').classList.add('show');
-            });
-            
-            // 返回按钮事件
-            document.querySelectorAll('.back-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    const parentPanel = this.closest('.settings-panel, .about-page, .app-page');
-                    if (parentPanel) {
-                        parentPanel.classList.remove('show', 'open');
-                    }
-                });
-            });
-            
-            // Android版本点击事件
-            document.getElementById('android-version-tap').addEventListener('click', function() {
-                const message = document.querySelector('.developer-message');
-                const options = document.querySelector('.developer-options');
-                
-                message.classList.add('show');
-                options.classList.add('show');
-                
-                setTimeout(() => {
-                    message.classList.remove('show');
-                }, 5000);
+            // Web返回按钮
+            document.querySelector('.web-back').addEventListener('click', function() {
+                document.querySelector('.web-view').classList.remove('active');
             });
         });
         
@@ -1486,7 +806,7 @@
         
         // 添加水波纹效果
         function addRippleEffect() {
-            document.querySelectorAll('.app-icon, .back-button, .setting-item, .camera-btn, .nav-button').forEach(button => {
+            document.querySelectorAll('.app-icon, .nav-button').forEach(button => {
                 button.addEventListener('click', function(e) {
                     const ripple = document.createElement('div');
                     ripple.classList.add('ripple');
@@ -1508,30 +828,6 @@
                     }, 600);
                 });
             });
-        }
-        
-        // 切换主题
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-            
-            // 更新开关状态
-            const toggle = document.querySelector('.setting-item#theme-toggle .toggle-switch input');
-            toggle.checked = document.body.classList.contains('light-theme');
-        }
-        
-        // 打开应用
-        function openApp(app) {
-            if (app === 'settings') {
-                document.querySelector('.settings-panel').classList.add('show');
-            } else if (app === 'camera') {
-                document.getElementById('camera-app').classList.add('open');
-            } else {
-                // 模拟打开其他应用
-                alert(`打开 ${app} 应用`);
-            }
-            
-            // 添加到多任务视图
-            addToMultitasking(app);
         }
         
         // 初始化锁屏界面
@@ -1622,14 +918,55 @@
             });
         }
         
+        // 初始化导航按钮
+        function initNavigation() {
+            const backButton = document.querySelector('.back-button-nav');
+            const homeButton = document.querySelector('.home-button');
+            
+            backButton.addEventListener('click', () => {
+                // 关闭Web视图
+                document.querySelector('.web-view').classList.remove('active');
+            });
+            
+            homeButton.addEventListener('click', () => {
+                // 关闭所有视图
+                document.querySelector('.web-view').classList.remove('active');
+                document.querySelector('.multitasking-view').classList.remove('active');
+            });
+        }
+        
+        // 打开应用
+        function openApp(app) {
+            if (app === 'browser') {
+                // 打开浏览器
+                const webView = document.querySelector('.web-view');
+                const iframe = document.querySelector('.web-view-content');
+                
+                // 设置默认URL
+                iframe.src = 'https://www.baidu.com';
+                document.querySelector('.web-url').textContent = 'https://www.baidu.com';
+                
+                webView.classList.add('active');
+                
+                // 添加到多任务视图
+                addToMultitasking(app);
+            } else {
+                // 模拟打开其他应用
+                alert(`打开 ${app} 应用`);
+                
+                // 添加到多任务视图
+                addToMultitasking(app);
+            }
+        }
+        
         // 添加到多任务视图
         function addToMultitasking(app) {
             const appTitles = {
+                'browser': '浏览器',
                 'camera': '相机',
                 'gallery': '相册',
                 'messages': '信息',
                 'phone': '电话',
-                'settings': '设置',
                 'maps': '地图',
                 'music': '音乐',
                 'calculator': '计算器',
@@ -1637,11 +974,11 @@
             };
             
             const appIcons = {
+                'browser': 'public',
                 'camera': 'photo_camera',
                 'gallery': 'photo_library',
                 'messages': 'message',
                 'phone': 'phone',
-                'settings': 'settings',
                 'maps': 'map',
                 'music': 'music_note',
                 'calculator': 'calculate',
@@ -1683,34 +1020,6 @@
             if (content.children.length > 6) {
                 content.removeChild(content.lastChild);
             }
-        }
-        
-        // 初始化导航按钮
-        function initNavigation() {
-            const backButton = document.querySelector('.back-button-nav');
-            const homeButton = document.querySelector('.home-button');
-            
-            backButton.addEventListener('click', () => {
-                // 关闭当前打开的应用或面板
-                const openApp = document.querySelector('.app-page.open');
-                const openPanel = document.querySelector('.settings-panel.show, .about-page.show');
-                
-                if (openApp) {
-                    openApp.classList.remove('open');
-                } else if (openPanel) {
-                    openPanel.classList.remove('show');
-                }
-            });
-            
-            homeButton.addEventListener('click', () => {
-                // 关闭所有打开的应用和面板
-                document.querySelectorAll('.app-page.open, .settings-panel.show, .about-page.show').forEach(el => {
-                    el.classList.remove('open', 'show');
-                });
-                
-                // 隐藏多任务视图
-                document.querySelector('.multitasking-view').classList.remove('active');
-            });
         }
     </script>
 </body>
